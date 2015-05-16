@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+            <artifactId>teiid-test-parent</artifactId>
+            <groupId>org.jboss.teiid.test</groupId>
+            <version>8.11.0.Beta3-SNAPSHOT</version>
+        </parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>teiid-test-core</artifactId>
+
+	<packaging>jar</packaging>
+	<name>Teiid Test Core</name>
+	<description>Teiid Test Core</description>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-admin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-client</artifactId>
+		</dependency>
+		
+	</dependencies>
+
+
+</project>
