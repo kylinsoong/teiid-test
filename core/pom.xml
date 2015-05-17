@@ -31,6 +31,21 @@
 			<artifactId>teiid-client</artifactId>
 		</dependency>
 		
+		<dependency>
+            <groupId>org.jboss.narayana.jta</groupId>
+            <artifactId>narayana-jta</artifactId>
+        </dependency>
+		
+		<dependency>
+            <groupId>javax.resource</groupId>
+            <artifactId>connector-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+        </dependency>
+		
 	</dependencies>
 
 
