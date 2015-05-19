@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import org.teiid.test.util.TableRenderer.Column;
-
 /**
  * A <tt>TableRenderer</tt> can renderer table as a formated table output, The {@link #renderer}
  * method will output the formated table. Before execute the {@link #renderer} the{@link #addRow}
@@ -114,7 +112,7 @@ public class TableRenderer{
     }
     
     public TableRenderer(ColumnMetaData[] meta) {
-        this(meta, new PrintStreamOutputDevice(System.out));
+    	this(meta, new PrintStreamOutputDevice(System.out));
     }
 
     public void addRow(Column[] row) {
@@ -450,15 +448,14 @@ public class TableRenderer{
         		}
         		return row;
         	}
-
-			public static Column[] form(List<?> list) {
-				
-				Column[] row = new Column[list.size()];
-				for(int i = 0 ; i < list.size() ; i ++){
+        	
+        	public static Column[] form(List<?> list) {
+        		Column[] row = new Column[list.size()];
+        		for(int i = 0 ; i < list.size() ; i ++){
         			row[i] = new Column(String.valueOf(list.get(i)));
         		}
-				return row;
-			}
+        		return row;
+        	}
         }
     }
     
@@ -547,7 +544,7 @@ public class TableRenderer{
         	public static ColumnMetaData[] create(int align, String... items) {
         		ColumnMetaData[] metadata = new ColumnMetaData [items.length];
         		for(int i = 0 ; i < items.length ; i ++) {
-        			metadata[i] = new ColumnMetaData(items[i], align);
+        			metadata[i] = new ColumnMetaData(items[i], ColumnMetaData.ALIGN_CENTER);
         		}
         		return metadata;
         	}

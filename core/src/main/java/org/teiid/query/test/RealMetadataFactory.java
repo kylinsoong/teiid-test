@@ -107,7 +107,7 @@ public class RealMetadataFactory {
         createElement("MKT_ID", colaMarkets, "integer");
         createElement("NAME", colaMarkets, "string");
         createElement("SHAPE", colaMarkets, "geometry");
-
+        
         // Create physical groups
         Table bqt1SmallA = createPhysicalGroup("SmallA", bqt1); //$NON-NLS-1$
         Table bqt1SmallB = createPhysicalGroup("SmallB", bqt1); //$NON-NLS-1$
@@ -125,7 +125,7 @@ public class RealMetadataFactory {
         Table library = createPhysicalGroup("LOB_TESTING_ONE", lob); //$NON-NLS-1$
         
         Table bin = createPhysicalGroup("binary_test", lob); //$NON-NLS-1$
-        
+                
         // add direct query procedure
         ColumnSet<Procedure> nativeProcResults = createResultSet("bqt1.nativers", new String[] {"tuple"}, new String[] { DataTypeManager.DefaultDataTypes.OBJECT}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         ProcedureParameter nativeparam = createParameter("param", ParameterInfo.IN, DataTypeManager.DefaultDataTypes.STRING); //$NON-NLS-1$

@@ -20,6 +20,11 @@
                 <artifactId>teiid-test-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+	    <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid-examples</artifactId>
+		<version>${project.version}</version>
+            </dependency>
 	</dependencies>
     </dependencyManagement>
 <!--
@@ -69,6 +74,7 @@
     <modules>
 	<module>core</module>
 	<module>test-engine</module>
+	<module>perf</module>
     </modules>
 
 </project>

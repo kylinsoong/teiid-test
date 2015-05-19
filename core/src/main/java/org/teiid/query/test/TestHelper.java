@@ -1,6 +1,12 @@
 package org.teiid.query.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -63,6 +69,18 @@ public class TestHelper {
         }
         renderer.renderer();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static final <T extends Serializable> T helpSerialize(T object) throws IOException, ClassNotFoundException {
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(object);
+		oos.flush();
+		
+		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
+		return (T)ois.readObject();
+	}	
 
 
 }

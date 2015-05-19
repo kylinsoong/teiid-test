@@ -13,6 +13,14 @@ import org.teiid.query.test.RealMetadataFactory;
 public class TestRealMetadataFactory {
 	
 	@Test
+	public void testMetadataStore() {
+		
+		TransformationMetadata transformationMetadata = RealMetadataFactory.exampleBQTCached();
+		
+		System.out.println(transformationMetadata);
+	}
+	
+	@Test
 	public void testDatatype() {
 		
 		 Map<String, Datatype> map = RealMetadataFactory.getDataTypes();
