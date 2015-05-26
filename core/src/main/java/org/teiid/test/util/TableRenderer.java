@@ -115,6 +115,7 @@ public class TableRenderer{
     	this(meta, new PrintStreamOutputDevice(System.out));
     }
 
+
     public void addRow(Column[] row) {
         updateColumnWidths(row);
         addRowToCache(row);

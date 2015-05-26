@@ -97,6 +97,7 @@ public class JDBCUtils {
 		System.out.println("Query SQL: " + sql);
 		
 		long start = System.currentTimeMillis();
+		long end;
 		
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -104,7 +105,7 @@ public class JDBCUtils {
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			System.out.println("query time: " + (System.currentTimeMillis() - start));
+			end = System.currentTimeMillis();
 			int columns = rs.getMetaData().getColumnCount();
 			while(rs.next()) {
 				for (int i = 0 ; i < columns ; ++i) {
@@ -115,7 +116,7 @@ public class JDBCUtils {
 			close(rs, stmt);
 		}
 		
-		return System.currentTimeMillis() - start;
+		return end - start;
 	}
 
 	public static boolean executeUpdate(Connection conn, String sql) throws SQLException {

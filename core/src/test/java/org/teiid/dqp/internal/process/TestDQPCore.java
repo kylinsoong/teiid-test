@@ -263,7 +263,5 @@ public class TestDQPCore {
 		public ConnectorManager getConnectorManager(String connectorName) {
 			return new AutoGenDataService();
 		}
-		
-		
 	}
 }

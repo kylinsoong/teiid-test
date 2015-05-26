@@ -7,7 +7,7 @@ import javax.resource.spi.work.WorkException;
 import javax.resource.spi.work.WorkListener;
 import javax.resource.spi.work.WorkManager;
 
-import org.mockito.Mockito;
+//import org.mockito.Mockito;
 
 public class TestWorkManager implements WorkManager {
 	private Thread t;
@@ -45,29 +45,29 @@ public class TestWorkManager implements WorkManager {
 	}
 
 	void execute(final Work arg0, final WorkListener arg3, boolean join) throws WorkException {
-		if (arg3 != null) {
-			arg3.workAccepted(Mockito.mock(WorkEvent.class));
-			arg3.workStarted(Mockito.mock(WorkEvent.class));
-		}
-		
-		t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				arg0.run();
-				if (arg3 != null) {
-					arg3.workCompleted(Mockito.mock(WorkEvent.class));
-				}							
-			}
-		});
-		t.start();
-		if (join) {
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				throw new WorkException(e);
-			}
-		}
+//		if (arg3 != null) {
+//			arg3.workAccepted(Mockito.mock(WorkEvent.class));
+//			arg3.workStarted(Mockito.mock(WorkEvent.class));
+//		}
+//		
+//		t = new Thread(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				arg0.run();
+//				if (arg3 != null) {
+//					arg3.workCompleted(Mockito.mock(WorkEvent.class));
+//				}							
+//			}
+//		});
+//		t.start();
+//		if (join) {
+//			try {
+//				t.join();
+//			} catch (InterruptedException e) {
+//				throw new WorkException(e);
+//			}
+//		}
 	}
 		
 }

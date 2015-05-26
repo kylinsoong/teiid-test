@@ -3,8 +3,8 @@ package org.teiid.test;
 import static org.teiid.query.test.TestHelper.helpSerialize;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 import org.teiid.dqp.internal.process.DQPWorkContext;
@@ -32,28 +32,56 @@ public class TestDQPWorkContext {
 		System.out.println(context.getUserName());
 	}
 	
+	private static final AtomicInteger nextId = new AtomicInteger(0);
+    
+    private static final ThreadLocal<Integer> threadId = new ThreadLocal<Integer>(){
+
+        @Override
+        protected Integer initialValue() {
+            return nextId.getAndIncrement();
+        }};
+	
 	@Test
 	public void testThreadLocal() {
-		
-		List<Thread> list = new ArrayList<Thread>();
-		
-		for(int i = 0 ; i < 10 ; i ++) {
-			Thread thread = new Thread(new Runnable(){
+	    
+	    System.out.println(Thread.currentThread());
 
-				@Override
-				public void run() {
-					System.out.println(ThreadId.get());
-				}});
-			list.add(thread);
+		for(int i = 0 ; i < 3 ; i ++){
+		    System.out.println(threadId.get());
 		}
 		
-		for(Thread thread : list) {
-			thread.run();
-		}
+		threadId.set(10);
+		for(int i = 0 ; i < 3 ; i ++){
+            System.out.println(threadId.get());
+        }
 		
-		for(Thread thread : list) {
-			thread.interrupt();
-		}
+		threadId.remove();
+		for(int i = 0 ; i < 3 ; i ++){
+            System.out.println(threadId.get());
+        }
+		
+		new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                
+                System.out.println(Thread.currentThread());
+                                
+                for(int i = 0 ; i < 3 ; i ++){
+                    System.out.println(threadId.get());
+                }
+                
+                threadId.set(10);
+                for(int i = 0 ; i < 3 ; i ++){
+                    System.out.println(threadId.get());
+                }
+                
+                threadId.remove();
+                for(int i = 0 ; i < 3 ; i ++){
+                    System.out.println(threadId.get());
+                }
+            }}).start();
+		
 		
 	}
 	
