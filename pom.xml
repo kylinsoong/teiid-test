@@ -75,6 +75,7 @@
 	<module>core</module>
 	<module>test-engine</module>
 	<module>perf</module>
+	<module>embedded</module>
     </modules>
 
 </project>

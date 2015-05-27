@@ -20,10 +20,9 @@ import org.teiid.client.ResultsMessage;
 import org.teiid.common.buffer.BufferManagerFactory;
 import org.teiid.common.buffer.impl.BufferManagerImpl;
 import org.teiid.core.TeiidProcessingException;
-import org.teiid.dqp.internal.datamgr.ConnectorManager;
 import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository;
+import org.teiid.dqp.internal.datamgr.TestConnectorManagerRepository;
 import org.teiid.dqp.internal.process.AbstractWorkItem.ThreadState;
-import org.teiid.dqp.service.AutoGenDataService;
 import org.teiid.dqp.service.TestBufferService;
 import org.teiid.query.metadata.CompositeMetadataStore;
 import org.teiid.query.metadata.TransformationMetadata;
@@ -250,18 +249,4 @@ public class TestDQPCore {
         msg.setExecutionId(100);
         return msg;
     }
-	
-	private static class TestConnectorManagerRepository extends ConnectorManagerRepository {
-
-		private static final long serialVersionUID = 1151479052417494597L;
-
-		TestConnectorManagerRepository() {
-			super(true);
-		}
-
-		@Override
-		public ConnectorManager getConnectorManager(String connectorName) {
-			return new AutoGenDataService();
-		}
-	}
 }

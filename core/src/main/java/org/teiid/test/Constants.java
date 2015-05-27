@@ -1,4 +1,4 @@
-package org.jboss.teiid.test.perf;
+package org.teiid.test;
 
 public class Constants {
     
@@ -11,9 +11,9 @@ public class Constants {
     public static final String H2_JDBC_USER = "sa";
     public static final String H2_JDBC_PASS = "sa";
     
-    static final String COL_ID = "1234";
-    static final String COL_A = "abcdefghabcdefgh";
-    static final String COL_B = "abcdefghigklmnopqrstabcdefghigklmnopqrst";
-    static final String COL_C = "1234567890123456789012345678901234567890";
+    public static final String COL_ID = "1234";
+    public static final String COL_A = "abcdefghabcdefgh";
+    public static final String COL_B = "abcdefghigklmnopqrstabcdefghigklmnopqrst";
+    public static final String COL_C = "1234567890123456789012345678901234567890";
 
 }

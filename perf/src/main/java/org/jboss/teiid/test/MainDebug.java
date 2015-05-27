@@ -1,9 +1,9 @@
 package org.jboss.teiid.test;
 
-import static org.jboss.teiid.test.perf.Constants.H2_JDBC_DRIVER;
-import static org.jboss.teiid.test.perf.Constants.H2_JDBC_PASS;
-import static org.jboss.teiid.test.perf.Constants.H2_JDBC_URL;
-import static org.jboss.teiid.test.perf.Constants.H2_JDBC_USER;
+import static org.teiid.test.Constants.H2_JDBC_DRIVER;
+import static org.teiid.test.Constants.H2_JDBC_PASS;
+import static org.teiid.test.Constants.H2_JDBC_URL;
+import static org.teiid.test.Constants.H2_JDBC_USER;
 import static org.teiid.test.util.JDBCUtils.getDriverConnection;
 
 import java.sql.Connection;

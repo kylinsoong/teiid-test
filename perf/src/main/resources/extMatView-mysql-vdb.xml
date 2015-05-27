@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="MatViewMySQLVDB" version="1">
+	<description>Teiid Perf VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-mysql" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<model name="Test" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		CREATE VIEW PERFTESTEXTER_MATVIEW (
+		id long,
+		col_a varchar,
+		col_b varchar,
+		col_c varchar
+		) OPTIONS (
+			MATERIALIZED 'TRUE', 
+			UPDATABLE 'TRUE',
+			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
+			"teiid_rel:MATVIEW_TTL" 3600000,
+			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
+			"teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
+			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION'
+		)
+		AS
+		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;
+		]]>
+		</metadata>
+	</model>
+</vdb>

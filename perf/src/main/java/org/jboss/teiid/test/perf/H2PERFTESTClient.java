@@ -1,7 +1,7 @@
 package org.jboss.teiid.test.perf;
 
 import static org.teiid.test.util.JDBCUtils.getDriverConnection;
-import static org.jboss.teiid.test.perf.Constants.*;
+import static org.teiid.test.Constants.*;
 
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -123,12 +123,9 @@ public class H2PERFTESTClient {
                     } 
                 }
                 
-                
                 pstmt.executeBatch();
                 conn.commit();
                 conn.setAutoCommit(true);
-                
-                
                 
                 System.out.println(Thread.currentThread().getName() + " insert "  + size + " rows spend " +  + (System.currentTimeMillis() - start) + " ms");
             
