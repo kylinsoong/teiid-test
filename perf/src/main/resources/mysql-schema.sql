@@ -1,10 +1,27 @@
 DROP TABLE IF EXISTS PERFTEST;
 DROP TABLE IF EXISTS PERFTEST_MAT;
 DROP TABLE IF EXISTS PERFTEST_STAGING;
+DROP TABLE IF EXISTS status;
 
 CREATE TABLE PERFTEST(id INTEGER, col_a CHAR(16), col_b CHAR(40), col_c CHAR(40));
 CREATE TABLE PERFTEST_MAT(id INTEGER, col_a CHAR(16), col_b CHAR(40), col_c CHAR(40));
 CREATE TABLE PERFTEST_STAGING(id INTEGER, col_a CHAR(16), col_b CHAR(40), col_c CHAR(40));
+
+CREATE TABLE status
+(
+  VDBName varchar(50) not null,
+  VDBVersion integer not null,
+  SchemaName varchar(50) not null,
+  Name varchar(256) not null,
+  TargetSchemaName varchar(50),
+  TargetName varchar(256) not null,
+  Valid boolean not null,
+  LoadState varchar(25) not null,
+  Cardinality long,
+  Updated timestamp not null,
+  LoadNumber long not null,
+  PRIMARY KEY (VDBName, VDBVersion, SchemaName, Name)
+);
 
 
 DROP TABLE IF EXISTS ITEMS;

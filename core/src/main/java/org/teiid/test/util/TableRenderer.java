@@ -545,7 +545,7 @@ public class TableRenderer{
         	public static ColumnMetaData[] create(int align, String... items) {
         		ColumnMetaData[] metadata = new ColumnMetaData [items.length];
         		for(int i = 0 ; i < items.length ; i ++) {
-        			metadata[i] = new ColumnMetaData(items[i], ColumnMetaData.ALIGN_CENTER);
+        			metadata[i] = new ColumnMetaData(items[i], align);
         		}
         		return metadata;
         	}

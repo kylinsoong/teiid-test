@@ -1,4 +1,4 @@
-package org.jboss.teiid.test.perf;
+package org.teiid.test.perf;
 
 import static org.teiid.test.util.JDBCUtils.executeQueryCount;
 

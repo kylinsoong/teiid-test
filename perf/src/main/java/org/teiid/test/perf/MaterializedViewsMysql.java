@@ -1,12 +1,13 @@
-package org.jboss.teiid.test.perf;
+package org.teiid.test.perf;
 
-import static org.jboss.teiid.test.perf.Util.dumpResult;
-import static org.jboss.teiid.test.perf.Util.prompt;
+import static org.teiid.test.perf.Util.dumpResult;
+import static org.teiid.test.perf.Util.prompt;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.resource.ResourceException;
 import javax.sql.DataSource;
@@ -21,12 +22,14 @@ import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
-public class ExternalMaterializationMysql {
-    
+public class MaterializedViewsMysql {
+
     static EmbeddedServer server = null;
     static Connection conn = null;
     
     static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
+        
+        TestHelper.enableLogger(Level.FINER);
         
         server = new EmbeddedServer();
         
@@ -43,7 +46,7 @@ public class ExternalMaterializationMysql {
         config.setBufferDirectory("/home/kylin/tmp/buffer");
         server.start(config);
         
-        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("extMatView-mysql-vdb.xml"));
+        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("matView-mysql-vdb.xml"));
         
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:MatViewMySQLVDB", info);
@@ -74,20 +77,34 @@ public class ExternalMaterializationMysql {
                 
         teardown();
     }
-
-    public static void main(String[] args) throws Exception {
-        
-//        externalMaterialization();
-        
-        debug();
-    }
-
-    static void debug() throws VirtualDatabaseException, TranslatorException, ConnectorManagerException, IOException, SQLException, ResourceException {
-        
-        TestHelper.enableLogger();
+    
+    public static void internalMaterialization() throws Exception {
         
         startup();
         
+        long[] array = new long[10];    
+        String sql = "SELECT * FROM PERFTESTINTER_MATVIEW";
+        
+        
+        prompt(sql);
+       
+        for(int i = 0 ; i < 10 ; i ++) {
+            PerfEntity entity = Util.executeQueryCount(conn, sql);
+            array[i] = entity.getQueryTime();
+        }
+        
+        JDBCUtils.executeQuery(conn, "SELECT COUNT(*) FROM PERFTESTINTER_MATVIEW");
+        
+        dumpResult(array, sql);
+                
+        teardown();
     }
 
+    public static void main(String[] args) throws Exception {
+        
+        externalMaterialization();
+        
+        internalMaterialization();
+        
+    }
 }

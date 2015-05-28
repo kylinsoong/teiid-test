@@ -1,11 +1,11 @@
-package org.jboss.teiid.test.perf;
+package org.teiid.test.perf;
 
+import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_DRIVER;
+import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_PASS;
+import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_URL;
+import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_USER;
 import static org.teiid.test.util.JDBCUtils.getDriverConnection;
 import static org.teiid.test.util.JDBCUtils.executeUpdate;
-import static org.jboss.teiid.test.perf.MysqlPERFTESTClient.JDBC_DRIVER;
-import static org.jboss.teiid.test.perf.MysqlPERFTESTClient.JDBC_URL;
-import static org.jboss.teiid.test.perf.MysqlPERFTESTClient.JDBC_USER;
-import static org.jboss.teiid.test.perf.MysqlPERFTESTClient.JDBC_PASS;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

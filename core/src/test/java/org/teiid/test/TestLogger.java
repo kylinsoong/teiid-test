@@ -2,16 +2,29 @@ package org.teiid.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.teiid.logging.LogManager;
 import org.teiid.query.test.TestHelper;
 import org.teiid.test.logger.TeiidFormatter;
 
 public class TestLogger {
+	
+	@Test
+	public void testLoggerManager() {
+		TestHelper.enableLogger();
+		LogManager.logInfo("org.teiid.RUNTIME.VDBLifeCycleListener", "TEIID40118 VDB MatViewMySQLVDB.1 added to the repository - is reloading false");
+		Logger logger = Logger.getLogger("org.teiid.RUNTIME.VDBLifeCycleListener");
+		Level javaLevel = Level.FINE;
+		boolean isLoggable = logger.isLoggable(javaLevel);
+		assertTrue(isLoggable);
+		LogManager.logInfo("org.teiid.RUNTIME.VDBLifeCycleListener", "TEIID40118 VDB MatViewMySQLVDB.1 added to the repository - is reloading false");
+	}
     
     @Test
     public void testRootLogger(){

@@ -1,8 +1,8 @@
 package org.jboss.teiid.test;
 
-import org.jboss.teiid.test.perf.H2PERFTESTClient;
-import org.jboss.teiid.test.perf.MaterializedViews;
-import org.jboss.teiid.test.perf.ResultsCaching;
+import org.teiid.test.perf.H2PERFTESTClient;
+import org.teiid.test.perf.MaterializedViews;
+import org.teiid.test.perf.ResultsCaching;
 
 public class Main {
 

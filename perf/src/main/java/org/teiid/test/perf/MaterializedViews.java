@@ -1,11 +1,11 @@
-package org.jboss.teiid.test.perf;
+package org.teiid.test.perf;
 
 import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
-import static org.jboss.teiid.test.perf.Util.prompt;
-import static org.jboss.teiid.test.perf.Util.dumpResult;
+import static org.teiid.test.perf.Util.dumpResult;
+import static org.teiid.test.perf.Util.prompt;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,14 +26,14 @@ import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class ResultsCaching {
+public class MaterializedViews {
     
     static EmbeddedServer server = null;
     static Connection conn = null;
     
     static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
         
-        TestHelper.enableLogger(Level.INFO);
+        TestHelper.enableLogger(Level.FINER);
         
         server = new EmbeddedServer();
         
@@ -47,11 +47,10 @@ public class ResultsCaching {
         
         server.start(new EmbeddedConfiguration());
         
-        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("resultsCaching-h2-vdb.xml"));
+        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("matView-h2-vdb.xml"));
         
         Properties info = new Properties();
-//      info.setProperty("ResultSetCacheMode", "true");
-        conn = server.getDriver().connect("jdbc:teiid:ResultsCachingH2VDB", info);
+        conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
     }
     
     static void teardown() throws SQLException {
@@ -59,15 +58,12 @@ public class ResultsCaching {
         server.stop();
     }
     
-    static long[] array = new long[10]; 
-    static long[] arrayPerf = new long[10];
-    
-    static String sql = "SELECT * FROM PERFTESTVIEW";
-    static String sqlPerf = "/*+ cache */ SELECT * FROM PERFTESTVIEW";
-    
-    public static void query() throws Exception {
+    public static void externalMaterialization() throws Exception {
         
         startup();
+        
+        long[] array = new long[10];  
+        String sql = "SELECT * FROM PERFTESTEXTER_MATVIEW";
         
         prompt(sql);
        
@@ -75,67 +71,42 @@ public class ResultsCaching {
             PerfEntity entity = Util.executeQueryCount(conn, sql);
             array[i] = entity.getQueryTime();
         }
+        
+        JDBCUtils.executeQuery(conn, "SELECT COUNT(*) AS total_rows FROM PERFTESTEXTER_MATVIEW");
+        
+        dumpResult(array, sql);
                 
         teardown();
     }
     
-    public static void perfQuery() throws Exception {
+    public static void internalMaterialization() throws Exception {
         
         startup();
         
-        prompt(sqlPerf);
+        long[] array = new long[10];    
+        String sql = "/*+ cache */ SELECT * FROM PERFTESTINTER_MATVIEW";
+        
+        
+        prompt(sql);
        
         for(int i = 0 ; i < 10 ; i ++) {
-            PerfEntity entity = Util.executeQueryCount(conn, sqlPerf);
-            arrayPerf[i] = entity.getQueryTime();
+            PerfEntity entity = Util.executeQueryCount(conn, sql);
+            array[i] = entity.getQueryTime();
         }
-                
-        teardown();
-    }
-    
-    static long[] arrayProc1 = new long[10]; 
-    static long[] arrayProc2 = new long[10];
-    
-    static String sqlProc1 = "call PERFTPROCE1()";
-    static String sqlProc2 = "call PERFTPROCE2()";
-    
-    public static void callProcedure() throws VirtualDatabaseException, TranslatorException, ConnectorManagerException, IOException, SQLException, ResourceException {
-
-        startup();
         
-        prompt(sqlProc1);
+        JDBCUtils.executeQuery(conn, "SELECT COUNT(*) AS total_rows FROM PERFTESTINTER_MATVIEW");
         
-        for(int i = 0 ; i < 10 ; i ++) {
-            PerfEntity entity = Util.executeProcedureCount(conn, sqlProc1);
-            arrayProc1[i] = entity.getQueryTime();
-        }
-                
-        teardown();
-    }
-    
-    public static void callProcedurePerf() throws VirtualDatabaseException, TranslatorException, ConnectorManagerException, IOException, SQLException, ResourceException {
-
-        startup();
-        
-        prompt(sqlProc2);
-        
-        for(int i = 0 ; i < 10 ; i ++) {
-            PerfEntity entity = Util.executeProcedureCount(conn, sqlProc2);
-            arrayProc2[i] = entity.getQueryTime();
-        }
+        dumpResult(array, sql);
                 
         teardown();
     }
 
     public static void main(String[] args) throws Exception {
+
+        externalMaterialization();
         
-        query();
-        perfQuery();
-        dumpResult(array, arrayPerf, sql, sqlPerf);
+//        internalMaterialization();
         
-        callProcedure();
-        callProcedurePerf();
-        dumpResult(arrayProc1, arrayProc2, sqlProc1, sqlProc2);
     }
 
 }

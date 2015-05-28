@@ -28,6 +28,11 @@
             <groupId>org.jboss.teiid</groupId>
             <artifactId>teiid-examples</artifactId>
         </dependency>
+        
+        <dependency>
+        	<groupId>org.jboss.teiid.test</groupId>
+            <artifactId>teiid-test-core</artifactId>
+		</dependency>
 		
 
 <!--  
