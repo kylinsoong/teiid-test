@@ -2,6 +2,12 @@ package org.teiid.test;
 
 public interface DDL {
 	
+	public final static String SQL_MAT_STATUS_MYSQL = "execute SYSADMIN.matViewStatus('Test', 'PERFTESTEXTER_MATVIEW')";
+	
+	public final static String SQL_MAT_STATUS_H2 = "execute SYSADMIN.matViewStatus('Stocks', 'MatView')";
+	
+	public final static String SQL_MAT_LOAD_H2 = "execute SYSADMIN.loadMatView('Stocks','MatView')";
+	
 	public final static String EXTER_MAT_H2 = "CREATE VIEW PERFTESTEXTER_MATVIEW (\n" +
 												 "id varchar,\n" +
 												 "col_a varchar,\n" +

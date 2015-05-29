@@ -33,7 +33,7 @@ public class MaterializedViews {
     
     static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
         
-        TestHelper.enableLogger(Level.FINER);
+        TestHelper.enableLogger(Level.INFO);
         
         server = new EmbeddedServer();
         
@@ -62,6 +62,8 @@ public class MaterializedViews {
         
         startup();
         
+        Thread.currentThread().sleep(1000 * 30);
+        
         long[] array = new long[10];  
         String sql = "SELECT * FROM PERFTESTEXTER_MATVIEW";
         
@@ -83,6 +85,8 @@ public class MaterializedViews {
         
         startup();
         
+        
+        
         long[] array = new long[10];    
         String sql = "/*+ cache */ SELECT * FROM PERFTESTINTER_MATVIEW";
         
@@ -102,8 +106,12 @@ public class MaterializedViews {
     }
 
     public static void main(String[] args) throws Exception {
+        
+        startup();
+        
+        Thread.currentThread().sleep(Long.MAX_VALUE);
 
-        externalMaterialization();
+//        externalMaterialization();
         
 //        internalMaterialization();
         

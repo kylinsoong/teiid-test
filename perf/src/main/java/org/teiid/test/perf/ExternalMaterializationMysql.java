@@ -3,24 +3,20 @@ package org.teiid.test.perf;
 import static org.teiid.test.perf.Util.dumpResult;
 import static org.teiid.test.perf.Util.prompt;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.resource.ResourceException;
 import javax.sql.DataSource;
 
-import org.teiid.deployers.VirtualDatabaseException;
-import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository.ConnectorManagerException;
+
 import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.JDBCUtils;
-import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
 public class ExternalMaterializationMysql {
@@ -34,7 +30,7 @@ public class ExternalMaterializationMysql {
     
     static Logger logger = Logger.getLogger(ExternalMaterializationMysql.class.getName());
     
-    static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
+    static void startup() throws Exception {
               
         logger.info("Start");
         
@@ -51,6 +47,7 @@ public class ExternalMaterializationMysql {
         EmbeddedConfiguration config = new EmbeddedConfiguration();
         config.setUseDisk(true);
         config.setBufferDirectory("/home/kylin/tmp/buffer");
+        config.setTransactionManager(EmbeddedHelper.getTransactionManager());
         server.start(config);
         
         server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("extMatView-mysql-vdb.xml"));
@@ -87,16 +84,18 @@ public class ExternalMaterializationMysql {
         
         
         
-        externalMaterialization();
+//        externalMaterialization();
         
         debug();
     }
 
-    static void debug() throws VirtualDatabaseException, TranslatorException, ConnectorManagerException, IOException, SQLException, ResourceException {
+    static void debug() throws Exception {
         
         startup();
         
-        JDBCUtils.executeQuery(conn, "SELECT * FROM PERFTESTEXTER_MATVIEW");
+        Thread.currentThread().sleep(30 * 10000);
+        
+//        JDBCUtils.executeQuery(conn, "SELECT * FROM PERFTESTEXTER_MATVIEW");
         
     }
 

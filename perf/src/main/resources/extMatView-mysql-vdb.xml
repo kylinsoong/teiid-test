@@ -8,7 +8,7 @@
 		<source name="mysql-connector" translator-name="translator-mysql" connection-jndi-name="java:/accounts-ds" />
 	</model>
 	
-	<model name="Test" type="VIRTUAL">
+	<model name="PERFTESTModel" type="VIRTUAL">
 		<metadata type="DDL"><![CDATA[
 		CREATE VIEW PERFTESTEXTER_MATVIEW (
 		id long,
@@ -21,16 +21,42 @@
 			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
 			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
 			"teiid_rel:MATVIEW_STATUS_TABLE" 'Accounts.status',
-			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
 			"teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
 			"teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT" 'execute accounts.native(''ALTER TABLE PERFTEST_MAT RENAME TO PERFTEST_MAT_temp'');execute accounts.native(''ALTER TABLE PERFTEST_STAGING RENAME TO PERFTEST_MAT'');execute accounts.native(''ALTER TABLE PERFTEST_MAT_temp RENAME TO PERFTEST_STAGING'');',
-			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
 			"teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
-			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION'
+			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
+			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
+			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION',
+			"teiid_rel:MATVIEW_TTL" 20000
 		)
 		AS
 		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;
 		]]>
+		<!-- 
+		CREATE VIEW PERFTESTEXTER_MATVIEW (
+		id long,
+		col_a varchar,
+		col_b varchar,
+		col_c varchar
+		) OPTIONS (
+			MATERIALIZED 'TRUE', 
+			UPDATABLE 'TRUE',
+			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
+			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
+			"teiid_rel:MATVIEW_STATUS_TABLE" 'Accounts.status',
+			"teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
+			"teiid_rel:MATVIEW_LOAD_SCRIPT" 'SELECT Count(*) FROM PERFTEST;',
+			"teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT" 'execute accounts.native(''ALTER TABLE PERFTEST_MAT RENAME TO PERFTEST_MAT_temp'');execute accounts.native(''ALTER TABLE PERFTEST_STAGING RENAME TO PERFTEST_MAT'');execute accounts.native(''ALTER TABLE PERFTEST_MAT_temp RENAME TO PERFTEST_STAGING'');',
+			"teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
+			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
+			"teiid_rel:ON_VDB_START_SCRIPT" 'SELECT Count(*) FROM PERFTEST;',
+			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
+			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION',
+			"teiid_rel:MATVIEW_TTL" 10000
+		)
+		AS
+		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;
+		 -->
 		<!-- 
 			
 			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true',
@@ -58,6 +84,7 @@
 		AS
 		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;
 		  -->
+		  
 		</metadata>
 	</model>
 </vdb>

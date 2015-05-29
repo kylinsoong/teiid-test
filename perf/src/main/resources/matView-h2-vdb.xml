@@ -19,12 +19,13 @@
 			MATERIALIZED 'TRUE', 
 			UPDATABLE 'TRUE',
 			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
-			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
-			"teiid_rel:MATVIEW_STATUS_TABLE" 'Accounts.status',
-			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
-			"teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
+			"teiid_rel:MATVIEW_TTL" 20000,
+            "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
 			"teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT" 'execute Accounts.native(''ALTER TABLE PERFTEST_MAT RENAME TO PERFTEST_MAT_temp'');execute Accounts.native(''ALTER TABLE PERFTEST_STAGING RENAME TO PERFTEST_MAT'');execute Accounts.native(''ALTER TABLE PERFTEST_MAT_temp RENAME TO PERFTEST_STAGING'');',
 			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
+			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
+			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
+			"teiid_rel:MATVIEW_STATUS_TABLE" 'Accounts.status',
 			"teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
 			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION'
 		)
