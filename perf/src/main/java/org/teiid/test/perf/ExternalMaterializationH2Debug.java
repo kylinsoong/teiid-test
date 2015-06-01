@@ -1,34 +1,114 @@
 package org.teiid.test.perf;
 
-import java.sql.Connection;
+import static org.teiid.test.Constants.H2_JDBC_DRIVER;
+import static org.teiid.test.Constants.H2_JDBC_PASS;
+import static org.teiid.test.Constants.H2_JDBC_URL;
+import static org.teiid.test.Constants.H2_JDBC_USER;
+import static org.teiid.test.util.JDBCUtils.execute;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+
+import javax.resource.ResourceException;
+import javax.sql.DataSource;
+
+import org.h2.tools.RunScript;
+import org.teiid.example.EmbeddedHelper;
 import org.teiid.example.util.JDBCUtils;
+import org.teiid.query.test.TestHelper;
+import org.teiid.runtime.EmbeddedConfiguration;
+import org.teiid.runtime.EmbeddedServer;
+import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
 public class ExternalMaterializationH2Debug {
+    
+    static EmbeddedServer server = null;
+    static Connection conn = null;
+    
+    static void startup() throws Exception {
+        
+        TestHelper.enableLogger(Level.INFO);
+        
+        DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
+        insertSampleData(ds.getConnection());
+        
+        server = new EmbeddedServer();
+        
+        H2ExecutionFactory factory = new H2ExecutionFactory();
+        factory.start();
+        factory.setSupportsDirectQueryProcedure(true);
+        server.addTranslator("translator-h2", factory);
+        
+        server.addConnectionFactory("java:/accounts-ds", ds);
+        
+        EmbeddedConfiguration config = new EmbeddedConfiguration();
+        config.setTransactionManager(EmbeddedHelper.getTransactionManager());
+        server.start(config);
+                
+        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/mat-h2-vdb-debug.xml"));
+        
+        Properties info = new Properties();
+        conn = server.getDriver().connect("jdbc:teiid:MatVDB", info);
+        
+        
+    }
+    
+    private static void insertSampleData(Connection connection) throws SQLException, FileNotFoundException {
+        RunScript.execute(connection, new InputStreamReader(new FileInputStream("src/main/resources/mat/schema.sql")));
+        
+    }
+    
+    static void teardown() throws SQLException {
+        JDBCUtils.close(conn);
+        server.stop();
+    }
+
 
     public static void main(String[] args) throws Exception {
         
-        ExternalMaterializationH2.startup();
+        startTimer();
         
-        Connection conn = ExternalMaterializationH2.conn;
+        startup();
         
-        JDBCUtils.execute(conn, "SELECT Name FROM VirtualDatabases", false);
-        JDBCUtils.execute(conn, "SELECT convert(Version, integer) FROM VirtualDatabases", false);
-        JDBCUtils.execute(conn, "SELECT UID FROM Sys.Tables WHERE VDBName = 'MatVDB' AND SchemaName = 'Stocks' AND Name = 'MatView'", false);
-        JDBCUtils.execute(conn, "SELECT IsMaterialized FROM SYS.Tables WHERE UID = 'tid:6021235fbeea-95513c05-00000001'", false);
-        JDBCUtils.execute(conn, "SELECT \"Value\" from SYS.Properties WHERE UID = 'tid:6021235fbeea-95513c05-00000001' AND Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE'", false);
-        JDBCUtils.execute(conn, "SELECT \"Value\" from SYS.Properties WHERE UID = 'tid:6021235fbeea-95513c05-00000001' AND Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_ONERROR_ACTION'", false);
+        execute(conn, "execute SYSADMIN.loadMatView('Stocks','MatView')", false);
         
-        String sql = "SELECT TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber, THROW_EXCEPTION FROM status  WHERE VDBName = 'MatVDB' AND VDBVersion = 1 AND schemaName = 'Stocks' AND Name = 'MatView'";
+        teardown();
+    }
 
-        JDBCUtils.execute(conn, sql, false);
+    private static void startTimer() throws ResourceException, SQLException {
+
+        DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
+        Timer time = new Timer("Query", true);
+        TimerTask task = new QueryJob(ds.getConnection());   
+        time.schedule(task, 2000, 5000);
+    }
+    
+    private static class QueryJob extends TimerTask {
         
-        //        JDBCUtils.execute(conn, "SELECT IsMaterialized FROM SYS.Tables WHERE UID = 'tid:6021235fbeea-95513c05-00000001'", false);
-//        JDBCUtils.execute(conn, "SELECT IsMaterialized FROM SYS.Tables WHERE UID = 'tid:6021235fbeea-95513c05-00000001'", false);
-//        JDBCUtils.execute(conn, "SELECT UID, IsMaterialized FROM SYS.Tables", false);
+        Connection conn;
         
-        
-//        ExternalMaterializationH2.teardown();
+        QueryJob(Connection conn) {
+            this.conn = conn;
+        }
+
+        @Override
+        public void run() {
+            try {
+                execute(conn, "select * from Product", false);
+                execute(conn, "select * from h2_test_mat", false);
+                execute(conn, "select * from mat_test_staging", false);
+                execute(conn, "select * from status", false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

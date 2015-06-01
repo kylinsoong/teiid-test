@@ -49,11 +49,13 @@ public class ExternalMaterializationH2 {
         EmbeddedConfiguration config = new EmbeddedConfiguration();
         config.setTransactionManager(EmbeddedHelper.getTransactionManager());
         server.start(config);
-        
+                
         server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/mat-h2-vdb.xml"));
         
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:MatVDB", info);
+        
+        
     }
     
     private static void insertSampleData(Connection connection) throws SQLException, FileNotFoundException {

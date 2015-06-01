@@ -72,6 +72,30 @@ public class JDBCUtils {
 		}
 	}
 	
+	public static void execute(Connection connection, String sql, boolean closeConn) throws Exception {
+	    
+	    System.out.println("SQL: " + sql); //$NON-NLS-1$ 
+        
+        Statement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = connection.createStatement();
+            boolean hasResults = stmt.execute(sql);
+            if (hasResults) {
+                rs = stmt.getResultSet();
+                new ResultSetRenderer(rs).renderer();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs, stmt);
+            if(closeConn)
+                close(connection);
+        }   
+        System.out.println();
+    }
+	
 
 	public static void executeQuery(Connection conn, String sql) throws SQLException {
 		

@@ -27,7 +27,7 @@
 			"teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.PERFTEST_STAGING',
 			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
 			"teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION',
-			"teiid_rel:MATVIEW_TTL" 20000
+			"teiid_rel:MATVIEW_TTL" -1
 		)
 		AS
 		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;

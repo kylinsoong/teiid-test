@@ -2,6 +2,8 @@ package org.teiid.test.perf;
 
 import static org.teiid.test.perf.Util.dumpResult;
 import static org.teiid.test.perf.Util.prompt;
+import static org.teiid.test.util.JDBCUtils.executeQuery;
+import static org.teiid.test.util.JDBCUtils.executeUpdate;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
-
 
 import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.test.TestHelper;
@@ -22,7 +23,7 @@ import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 public class ExternalMaterializationMysql {
     
     static {
-        TestHelper.enableLogger(Level.INFO);
+        TestHelper.enableLogger(/*Level.INFO*/);
     }
     
     static EmbeddedServer server = null;
@@ -45,58 +46,62 @@ public class ExternalMaterializationMysql {
         server.addConnectionFactory("java:/accounts-ds", ds);
         
         EmbeddedConfiguration config = new EmbeddedConfiguration();
-        config.setUseDisk(true);
-        config.setBufferDirectory("/home/kylin/tmp/buffer");
         config.setTransactionManager(EmbeddedHelper.getTransactionManager());
         server.start(config);
         
-        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("extMatView-mysql-vdb.xml"));
+        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/mat-mysql-vdb.xml"));
         
         Properties info = new Properties();
-        conn = server.getDriver().connect("jdbc:teiid:MatViewMySQLVDB", info);
+        conn = server.getDriver().connect("jdbc:teiid:MatVDB", info);
     }
     
     static void teardown() throws SQLException {
         JDBCUtils.close(conn);
         server.stop();
     }
-    
-    public static void externalMaterialization() throws Exception {
-        
-        startup();
-        
-        long[] array = new long[10];  
-        String sql = "SELECT * FROM PERFTESTEXTER_MATVIEW";
-        
-        prompt(sql);
-       
-        for(int i = 0 ; i < 10 ; i ++) {
-            PerfEntity entity = Util.executeQueryCount(conn, sql);
-            array[i] = entity.getQueryTime();
-        }
-                
-        dumpResult(array, sql);
-                
-        teardown();
-    }
+  
 
     public static void main(String[] args) throws Exception {
         
-        
-        
-//        externalMaterialization();
-        
-        debug();
-    }
-
-    static void debug() throws Exception {
-        
         startup();
         
-        Thread.currentThread().sleep(30 * 10000);
+        executeQuery(conn, "select * from Product");
+        executeQuery(conn, "select * from h2_test_mat");
+        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from status");
+        executeQuery(conn, "select * from MatView");
         
-//        JDBCUtils.executeQuery(conn, "SELECT * FROM PERFTESTEXTER_MATVIEW");
+        Thread.currentThread().sleep(30 * 1000);
         
+        executeQuery(conn, "select * from Product");
+        executeQuery(conn, "select * from h2_test_mat");
+        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from status");
+        executeQuery(conn, "select * from MatView");
+        
+        executeUpdate(conn, "INSERT INTO PRODUCT (ID,SYMBOL,COMPANY_NAME) VALUES(2000,'RHT','Red Hat Inc')");
+        
+        Thread.currentThread().sleep(30 * 1000);
+        
+        executeQuery(conn, "select * from Product");
+        executeQuery(conn, "select * from h2_test_mat");
+        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from status");
+        executeQuery(conn, "select * from MatView");
+        
+        executeUpdate(conn, "DELETE FROM PRODUCT  WHERE ID = 2000");
+        
+        Thread.currentThread().sleep(30 * 1000);
+        
+        executeQuery(conn, "select * from Product");
+        executeQuery(conn, "select * from h2_test_mat");
+        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from status");
+        executeQuery(conn, "select * from MatView");
+        
+        teardown();
     }
+
+   
 
 }

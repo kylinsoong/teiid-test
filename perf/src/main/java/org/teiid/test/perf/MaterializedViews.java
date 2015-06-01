@@ -6,11 +6,14 @@ import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
 import static org.teiid.test.perf.Util.dumpResult;
 import static org.teiid.test.perf.Util.prompt;
+import static org.teiid.test.util.JDBCUtils.execute;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 
 import javax.resource.ResourceException;
@@ -31,7 +34,7 @@ public class MaterializedViews {
     static EmbeddedServer server = null;
     static Connection conn = null;
     
-    static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
+    static void startup() throws Exception {
         
         TestHelper.enableLogger(Level.INFO);
         
@@ -45,7 +48,9 @@ public class MaterializedViews {
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         server.addConnectionFactory("java:/accounts-ds", ds);
         
-        server.start(new EmbeddedConfiguration());
+        EmbeddedConfiguration config = new EmbeddedConfiguration();
+        config.setTransactionManager(EmbeddedHelper.getTransactionManager());
+        server.start(config);
         
         server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("matView-h2-vdb.xml"));
         
@@ -107,14 +112,51 @@ public class MaterializedViews {
 
     public static void main(String[] args) throws Exception {
         
+        startTimer();
+        
         startup();
         
-        Thread.currentThread().sleep(Long.MAX_VALUE);
+        execute(conn, "execute SYSADMIN.loadMatView('TestMat','PERFTESTEXTERMATVIEW')", false);
+        
+        execute(conn, "select count(*) from PERFTESTEXTERMATVIEW", false);
+        
+        teardown();
+        
 
 //        externalMaterialization();
         
 //        internalMaterialization();
         
     }
+    
+    private static void startTimer() throws ResourceException, SQLException {
+
+        DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
+        Timer time = new Timer("Query", true);
+        TimerTask task = new QueryJob(ds.getConnection());   
+        time.schedule(task, 2000, 5000);
+    }
+    
+    private static class QueryJob extends TimerTask {
+        
+        Connection conn;
+        
+        QueryJob(Connection conn) {
+            this.conn = conn;
+        }
+
+        @Override
+        public void run() {
+            try {
+                execute(conn, "select count(*) from PERFTEST", false);
+                execute(conn, "select count(*) from PERFTEST_MAT", false);
+                execute(conn, "select count(*) from PERFTEST_STAGING", false);
+                execute(conn, "select * from status", false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }

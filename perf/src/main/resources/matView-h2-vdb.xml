@@ -8,9 +8,9 @@
 		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
 	</model>
 	
-	<model name="Test" type="VIRTUAL">
+	<model name="TestMat" type="VIRTUAL">
 		<metadata type="DDL"><![CDATA[
-		CREATE VIEW PERFTESTEXTER_MATVIEW (
+		CREATE VIEW PERFTESTEXTERMATVIEW (
 		id varchar,
 		col_a varchar,
 		col_b varchar,
@@ -19,7 +19,6 @@
 			MATERIALIZED 'TRUE', 
 			UPDATABLE 'TRUE',
 			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
-			"teiid_rel:MATVIEW_TTL" 20000,
             "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
 			"teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT" 'execute Accounts.native(''ALTER TABLE PERFTEST_MAT RENAME TO PERFTEST_MAT_temp'');execute Accounts.native(''ALTER TABLE PERFTEST_STAGING RENAME TO PERFTEST_MAT'');execute Accounts.native(''ALTER TABLE PERFTEST_MAT_temp RENAME TO PERFTEST_STAGING'');',
 			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
