@@ -1,11 +1,4 @@
-package org.teiid.test.perf;
-
-import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_DRIVER;
-import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_PASS;
-import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_URL;
-import static org.teiid.test.perf.MysqlPERFTESTClient.JDBC_USER;
-import static org.teiid.test.util.JDBCUtils.getDriverConnection;
-import static org.teiid.test.util.JDBCUtils.executeUpdate;
+package org.teiid.test;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -50,40 +43,6 @@ public class Util {
 		
 		return entity;
 	}
-	
-
-	public static void persitResult(PerfEntity entity) throws Exception {
-		
-		Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
-		conn.setAutoCommit(false);
-
-		try {
-			String sql = "SELECT id FROM QUERYSQL WHERE content = '" + entity.getSql() + "'";
-			int id = querySQLID(conn, sql);
-			String queryTimeSQL = "INSERT INTO PERFRESULT (value, item_id, querysql_id) VALUES (" + entity.getQueryTime() + ", 1, " + id + ")";
-			String deserializeTimeSQL = "INSERT INTO PERFRESULT (value, item_id, querysql_id) VALUES (" + entity.getDeserializeTime() + ", 2, " + id + ")";
-			executeUpdate(conn, queryTimeSQL);
-			executeUpdate(conn, deserializeTimeSQL);
-			conn.commit();
-		} catch (Exception e) {
-			conn.rollback();
-			e.printStackTrace();
-		} finally {
-			JDBCUtils.close(conn);
-		}
-		
-	}
-
-
-	private static int querySQLID(Connection conn, String sql) throws SQLException {
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
-		int id = -1;
-		while(rs.next()) {
-			id = rs.getInt(1);
-		}
-		return id;
-	}
 
 
     public static PerfEntity executeProcedureCount(Connection conn, String sql) throws SQLException {
@@ -118,14 +77,32 @@ public class Util {
         return entity;
     }
     
-    protected static void prompt(String prompt) {
-        System.out.println("\n\tExecute '" + prompt + "' 10 times, this may need some times");
+    public static void promptSQL(String sql) {
+        System.out.println("\n\tExecute '" + sql + "' 10 times, this may need some times");
         System.out.println();
+    }
+    
+    public static void print(String msg) {
+        System.out.println(msg);
+    }
+    
+    public static void prompt(String msg){
+        System.out.println("\n\t" + msg + "\n");
+    }
+    
+    @SuppressWarnings("static-access")
+    public static void sleep(String msg, long time){
+        prompt(msg);
+        try {
+            Thread.currentThread().sleep(time);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
     
 
     
-    protected static void dumpResult(long[] array, long[] arrayPerf, String sql, String sqlPerf) {
+    public static void dumpResult(long[] array, long[] arrayPerf, String sql, String sqlPerf) {
         
         TableRenderer render = new TableRenderer(ColumnMetaData.Factory.create(sql, sqlPerf));
         for(int i = 0 ; i < 10 ; i ++) {
@@ -135,7 +112,7 @@ public class Util {
         render.renderer();
     }
     
-    protected static void dumpResult(long[] array, String sql) {
+    public static void dumpResult(long[] array, String sql) {
         
         TableRenderer render = new TableRenderer(ColumnMetaData.Factory.create(sql));
         for(int i = 0 ; i < 10 ; i ++) {

@@ -1,4 +1,4 @@
-package org.jboss.teiid.test;
+package org.teiid.test.perf;
 
 import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;

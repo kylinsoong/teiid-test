@@ -1,7 +1,7 @@
 package org.teiid.test.perf;
 
-import static org.teiid.test.perf.Util.dumpResult;
-import static org.teiid.test.perf.Util.prompt;
+import static org.teiid.test.Util.dumpResult;
+import static org.teiid.test.Util.promptSQL;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,6 +18,8 @@ import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
+import org.teiid.test.PerfEntity;
+import org.teiid.test.Util;
 import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
@@ -64,7 +66,7 @@ public class MaterializedViewsMysql {
         long[] array = new long[10];  
         String sql = "SELECT * FROM PERFTESTEXTER_MATVIEW";
         
-        prompt(sql);
+        promptSQL(sql);
        
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeQueryCount(conn, sql);
@@ -86,7 +88,7 @@ public class MaterializedViewsMysql {
         String sql = "SELECT * FROM PERFTESTINTER_MATVIEW";
         
         
-        prompt(sql);
+        promptSQL(sql);
        
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeQueryCount(conn, sql);

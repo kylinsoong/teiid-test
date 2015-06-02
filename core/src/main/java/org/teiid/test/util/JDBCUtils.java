@@ -30,6 +30,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.HashSet;
+import java.util.Set;
 
 public class JDBCUtils {
 	
@@ -114,6 +116,27 @@ public class JDBCUtils {
 		
 		System.out.println();
 		
+	}
+	
+	public static Set<String> query(Connection conn, String sql) throws Exception {
+	    
+	    Set<String> list = new HashSet<String>();
+	    
+	    Statement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } finally {
+            close(rs, stmt);
+        }
+	    
+	    return list;
+	    
 	}
 	
 	public static long executeQueryCount(Connection conn, String sql) throws SQLException {

@@ -1,4 +1,4 @@
-package com.jboss.teiid;
+package com.teiid.test.serialization;
 
 import java.io.File;
 import java.io.FileInputStream;

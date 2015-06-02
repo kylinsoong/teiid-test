@@ -1,4 +1,4 @@
-package org.teiid.test.perf;
+package org.teiid.test;
 
 import java.io.Serializable;
 

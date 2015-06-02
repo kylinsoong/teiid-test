@@ -19,6 +19,7 @@
 			MATERIALIZED 'TRUE', 
 			UPDATABLE 'TRUE',
 			MATERIALIZED_TABLE 'Accounts.PERFTEST_MAT', 
+			"teiid_rel:MATVIEW_TTL" 20000,
             "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute Accounts.native(''truncate table PERFTEST_STAGING'');',
 			"teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT" 'execute Accounts.native(''ALTER TABLE PERFTEST_MAT RENAME TO PERFTEST_MAT_temp'');execute Accounts.native(''ALTER TABLE PERFTEST_STAGING RENAME TO PERFTEST_MAT'');execute Accounts.native(''ALTER TABLE PERFTEST_MAT_temp RENAME TO PERFTEST_STAGING'');',
 			"teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''PERFTESTEXTER_MATVIEW'' AND schemaname = ''Test''',
@@ -31,7 +32,7 @@
 		AS
 		SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A;
 		
-		CREATE VIEW PERFTESTINTER_MATVIEW (
+		CREATE VIEW PERFTESTINTERMATVIEW (
 		id varchar,
 		col_a varchar,
 		col_b varchar,

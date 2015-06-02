@@ -18,6 +18,8 @@ import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
+import org.teiid.test.PerfEntity;
+import org.teiid.test.Util;
 import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;

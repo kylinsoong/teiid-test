@@ -16,13 +16,20 @@ public class H2PERFTESTClient {
     static final String INSERT_SQL = "insert into PERFTEST values(?, ?, ?, ?)";
     
     public static void insert(long row) throws Exception {
-        insert(row, H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
+        insert(row, H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS, true);
     }
     
-    public static void insert(long row, String driver, String url, String user, String pass) throws Exception {
+    public static void insert(long row, boolean reset) throws Exception {
+        insert(row, H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS, reset);
+    }
+    
+    public static void insert(long row, String driver, String url, String user, String pass, boolean reset) throws Exception {
         
         Connection conn = getDriverConnection(driver, url, user, pass);
-        executeSchema(conn);
+        
+        if(reset){
+            executeSchema(conn);
+        }
         
         System.out.print(Thread.currentThread().getName() + " thread inserting ");
         

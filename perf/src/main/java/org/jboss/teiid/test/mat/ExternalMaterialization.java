@@ -1,36 +1,37 @@
-package org.teiid.test.perf;
+package org.jboss.teiid.test.mat;
 
 import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
+import static org.teiid.test.Util.sleep;
 import static org.teiid.test.util.JDBCUtils.execute;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 
-import javax.resource.ResourceException;
 import javax.sql.DataSource;
 
 import org.h2.tools.RunScript;
 import org.teiid.example.EmbeddedHelper;
-import org.teiid.example.util.JDBCUtils;
 import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
+import org.teiid.test.Util;
+import org.teiid.test.perf.ResultsCachingMysql;
+import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class ExternalMaterializationH2Debug {
+public class ExternalMaterialization {
     
     static EmbeddedServer server = null;
     static Connection conn = null;
+    
+    static final String MSG = "wait for loadMatView() finish refresh external materialized table";
     
     static void startup() throws Exception {
         
@@ -52,17 +53,15 @@ public class ExternalMaterializationH2Debug {
         config.setTransactionManager(EmbeddedHelper.getTransactionManager());
         server.start(config);
                 
-        server.deployVDB(ExternalMaterializationH2Debug.class.getClassLoader().getResourceAsStream("mat/mat-h2-vdb-debug.xml"));
+        server.deployVDB(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/mat-h2-vdb.xml"));
         
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:MatVDB", info);
         
-        
     }
     
     private static void insertSampleData(Connection connection) throws SQLException, FileNotFoundException {
-        RunScript.execute(connection, new InputStreamReader(new FileInputStream("src/main/resources/mat/schema.sql")));
-        
+        RunScript.execute(connection, new InputStreamReader(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/schema.sql")));
     }
     
     static void teardown() throws SQLException {
@@ -70,45 +69,29 @@ public class ExternalMaterializationH2Debug {
         server.stop();
     }
 
-
     public static void main(String[] args) throws Exception {
-        
-        startTimer();
-        
+
         startup();
         
-        execute(conn, "execute SYSADMIN.loadMatView('Stocks','MatView')", false);
+        sleep(MSG, 5000L);
+        
+        execute(conn, "select * from MatView", false);
+        
+        execute(conn, "INSERT INTO PRODUCT (ID,SYMBOL,COMPANY_NAME) VALUES(2000,'RHT','Red Hat Inc')", false);
+        
+        sleep(MSG, 20000L);
+        
+        execute(conn, "select * from MatView", false);
+        
+        execute(conn, "DELETE FROM PRODUCT  WHERE ID = 2000", false);
+        
+        sleep(MSG, 20000L);
+        
+        execute(conn, "select * from MatView", false);
         
         teardown();
-    }
-
-    private static void startTimer() throws ResourceException, SQLException {
-
-        DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
-        Timer time = new Timer("Query", true);
-        TimerTask task = new QueryJob(ds.getConnection());   
-        time.schedule(task, 2000, 5000);
-    }
-    
-    private static class QueryJob extends TimerTask {
         
-        Connection conn;
-        
-        QueryJob(Connection conn) {
-            this.conn = conn;
-        }
-
-        @Override
-        public void run() {
-            try {
-                execute(conn, "select * from Product", false);
-                execute(conn, "select * from h2_test_mat", false);
-                execute(conn, "select * from mat_test_staging", false);
-                execute(conn, "select * from status", false);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        Util.print("\n");
     }
 
 }

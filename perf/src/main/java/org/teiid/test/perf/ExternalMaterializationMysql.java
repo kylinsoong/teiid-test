@@ -1,7 +1,5 @@
 package org.teiid.test.perf;
 
-import static org.teiid.test.perf.Util.dumpResult;
-import static org.teiid.test.perf.Util.prompt;
 import static org.teiid.test.util.JDBCUtils.executeQuery;
 import static org.teiid.test.util.JDBCUtils.executeUpdate;
 
@@ -23,7 +21,7 @@ import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 public class ExternalMaterializationMysql {
     
     static {
-        TestHelper.enableLogger(/*Level.INFO*/);
+        TestHelper.enableLogger(Level.INFO);
     }
     
     static EmbeddedServer server = null;
@@ -61,21 +59,22 @@ public class ExternalMaterializationMysql {
     }
   
 
+    @SuppressWarnings("static-access")
     public static void main(String[] args) throws Exception {
         
         startup();
         
         executeQuery(conn, "select * from Product");
-        executeQuery(conn, "select * from h2_test_mat");
-        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from test_mat");
+        executeQuery(conn, "select * from test_mat_staging");
         executeQuery(conn, "select * from status");
         executeQuery(conn, "select * from MatView");
         
         Thread.currentThread().sleep(30 * 1000);
         
         executeQuery(conn, "select * from Product");
-        executeQuery(conn, "select * from h2_test_mat");
-        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from test_mat");
+        executeQuery(conn, "select * from test_mat_staging");
         executeQuery(conn, "select * from status");
         executeQuery(conn, "select * from MatView");
         
@@ -84,8 +83,8 @@ public class ExternalMaterializationMysql {
         Thread.currentThread().sleep(30 * 1000);
         
         executeQuery(conn, "select * from Product");
-        executeQuery(conn, "select * from h2_test_mat");
-        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from test_mat");
+        executeQuery(conn, "select * from test_mat_staging");
         executeQuery(conn, "select * from status");
         executeQuery(conn, "select * from MatView");
         
@@ -94,8 +93,8 @@ public class ExternalMaterializationMysql {
         Thread.currentThread().sleep(30 * 1000);
         
         executeQuery(conn, "select * from Product");
-        executeQuery(conn, "select * from h2_test_mat");
-        executeQuery(conn, "select * from mat_test_staging");
+        executeQuery(conn, "select * from test_mat");
+        executeQuery(conn, "select * from test_mat_staging");
         executeQuery(conn, "select * from status");
         executeQuery(conn, "select * from MatView");
         

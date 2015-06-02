@@ -40,33 +40,21 @@
             <artifactId>teiid-examples</artifactId>
         </dependency>
 		
-
-<!--  
-		<dependency>
-			<groupId>org.jboss.teiid</groupId>
-			<artifactId>teiid-runtime</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.teiid</groupId>
-			<artifactId>teiid-admin</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.teiid</groupId>
-			<artifactId>teiid-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.teiid.connectors</groupId>
-			<artifactId>translator-jdbc</artifactId>
-		</dependency>
-		
-		
-		<dependency>
-        	<groupId>org.jboss.teiid.test</groupId>
-            <artifactId>teiid-test-core</artifactId>
-		</dependency>
-		-->
-
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+            	<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>org.teiid.test.CachingMain</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

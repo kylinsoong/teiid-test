@@ -25,7 +25,7 @@
          <!--
             This connector is defined to reference the H2 localDS" 
           -->
-        <source name="mysql-connector" translator-name="translator-mysql" connection-jndi-name="java:/accounts-ds"/>
+        <source name="h2-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds"/>
     </model>
     
     
@@ -34,19 +34,12 @@
                 
         
         CREATE VIEW MatView	 (
-            product_id long,
+            product_id integer,
             symbol string
-        )OPTIONS (MATERIALIZED 'TRUE', UPDATABLE 'TRUE',         
-               MATERIALIZED_TABLE 'Accounts.test_mat', 
-               "teiid_rel:MATVIEW_TTL" 20000,
-               "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute accounts.native(''truncate table test_mat_staging'');',
-               "teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT"  'execute accounts.native(''ALTER TABLE test_mat RENAME TO test_mat_temp'');execute accounts.native(''ALTER TABLE test_mat_staging RENAME TO test_mat'');execute accounts.native(''ALTER TABLE test_mat_temp RENAME TO test_mat_staging'');', 
-               "teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''MatView'' AND schemaname = ''Stocks''',
-               "teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.test_mat_staging',
-               "teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
-               "teiid_rel:MATVIEW_STATUS_TABLE" 'status', 
-               "teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
-               "teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION')
+        )OPTIONS ("teiid_rel:MATVIEW_TTL" 3600000,
+			"teiid_rel:MATVIEW_PREFER_MEMORY" 'true',
+			"teiid_rel:MATVIEW_UPDATABLE" 'true',
+			"teiid_rel:MATVIEW_SCOPE" 'vdb')
         AS 
 	SELECT  A.ID, A.symbol FROM  Accounts.PRODUCT AS A;
 

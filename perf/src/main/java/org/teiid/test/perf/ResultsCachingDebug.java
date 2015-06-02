@@ -4,8 +4,8 @@ import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
-import static org.teiid.test.perf.Util.dumpResult;
-import static org.teiid.test.perf.Util.prompt;
+import static org.teiid.test.Util.dumpResult;
+import static org.teiid.test.Util.promptSQL;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,11 +22,13 @@ import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
+import org.teiid.test.PerfEntity;
+import org.teiid.test.Util;
 import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class ResultsCaching {
+public class ResultsCachingDebug {
     
     static EmbeddedServer server = null;
     static Connection conn = null;
@@ -69,7 +71,7 @@ public class ResultsCaching {
         
         startup();
         
-        prompt(sql);
+        promptSQL(sql);
        
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeQueryCount(conn, sql);
@@ -83,7 +85,7 @@ public class ResultsCaching {
         
         startup();
         
-        prompt(sqlPerf);
+        promptSQL(sqlPerf);
        
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeQueryCount(conn, sqlPerf);
@@ -103,7 +105,7 @@ public class ResultsCaching {
 
         startup();
         
-        prompt(sqlProc1);
+        promptSQL(sqlProc1);
         
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeProcedureCount(conn, sqlProc1);
@@ -117,7 +119,7 @@ public class ResultsCaching {
 
         startup();
         
-        prompt(sqlProc2);
+        promptSQL(sqlProc2);
         
         for(int i = 0 ; i < 10 ; i ++) {
             PerfEntity entity = Util.executeProcedureCount(conn, sqlProc2);

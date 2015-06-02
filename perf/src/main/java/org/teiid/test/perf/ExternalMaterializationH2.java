@@ -4,10 +4,10 @@ import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
+import static org.teiid.test.util.JDBCUtils.execute;
 import static org.teiid.test.util.JDBCUtils.executeQuery;
 import static org.teiid.test.util.JDBCUtils.executeUpdate;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -59,7 +59,8 @@ public class ExternalMaterializationH2 {
     }
     
     private static void insertSampleData(Connection connection) throws SQLException, FileNotFoundException {
-        RunScript.execute(connection, new InputStreamReader(new FileInputStream("src/main/resources/mat/schema.sql")));
+//        RunScript.execute(connection, new InputStreamReader(new FileInputStream("src/main/resources/mat/schema.sql")));
+        RunScript.execute(connection, new InputStreamReader(ResultsCachingMysql.class.getClassLoader().getResourceAsStream("mat/schema.sql")));
         
     }
     
@@ -72,6 +73,8 @@ public class ExternalMaterializationH2 {
     public static void main(String[] args) throws Exception {
         
         startup();
+        
+        execute(conn, "SELECT VDBName, SchemaName, Name, Type, NameInSource, IsPhysical, SupportsUpdates FROM Sys.Tables", false);
                 
         executeQuery(conn, "select * from Product");
         executeQuery(conn, "select * from h2_test_mat");
