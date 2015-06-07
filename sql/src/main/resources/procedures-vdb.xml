@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="ProceduresVDB" version="1">
+	<description>Teiid Virtual Procedures VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<model name="TestProcedures" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		CREATE VIRTUAL PROCEDURE testVirtualProcedure_1 (IN schemaName string NOT NULL) RETURNS TABLE (TargetSchemaName varchar(50), TargetName varchar(50), Valid boolean, LoadState varchar(25), Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25)) 
+		AS
+		BEGIN
+			DECLARE string vdbName = 'VDB_1';
+			DECLARE integer vdbVersion = 1;
+			
+			DECLARE string statusTable = 'STATUS';
+			DECLARE string action = 'THROW_EXCEPTION';
+			
+			EXECUTE IMMEDIATE 'SELECT TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber, VARIABLES.action FROM ' || VARIABLES.statusTable AS TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25) USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName;
+		END
+		
+		SET NAMESPACE 'http://teiid.org/rest' AS REST;
+		
+		CREATE VIRTUAL PROCEDURE testVirtualProcedure_2() RETURNS TABLE (xml_out string) OPTIONS (UPDATECOUNT 0, "REST:METHOD" 'GET', "REST:URI" 'g2')
+        AS
+        BEGIN
+           SELECT '{ "age":100, "name":test,messages:["msg1","msg2","msg3"]}' as xml_out;
+        END
+
+		]]>
+		</metadata>
+	</model>
+</vdb>

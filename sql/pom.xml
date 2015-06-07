@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+            <artifactId>teiid-test-parent</artifactId>
+            <groupId>org.jboss.teiid.test</groupId>
+            <version>1.0.0-SNAPSHOT</version>
+        </parent>	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>teiid-test-sql</artifactId>
+
+	<packaging>jar</packaging>
+	<name>Teiid Test SQL</name>
+	<description>Teiid Test SQL</description>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.examples</groupId>
+			<artifactId>teiid-examples-common</artifactId>
+		</dependency>
+        
+        <dependency>
+        	<groupId>org.jboss.teiid.test</groupId>
+            <artifactId>teiid-test-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-jdbc</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-ws</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>connector-ws</artifactId>
+			<classifier>lib</classifier>
+		</dependency>
+		
+
+<!--  
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-admin</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-jdbc</artifactId>
+		</dependency>
+		
+		
+		<dependency>
+        	<groupId>org.jboss.teiid.test</groupId>
+            <artifactId>teiid-test-core</artifactId>
+		</dependency>
+		-->
+
+	</dependencies>
+
+</project>

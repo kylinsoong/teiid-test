@@ -79,6 +79,7 @@
 	<module>engine</module>
 	<module>perf</module>
 	<module>embedded</module>
+	<module>sql</module>
     </modules>
 
 </project>
