@@ -3,14 +3,14 @@
 	<parent>
             <artifactId>teiid-test-parent</artifactId>
             <groupId>org.jboss.teiid.test</groupId>
-            <version>8.11.0.Beta3-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </parent>	
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>teiid-test-embedded</artifactId>
 
 	<packaging>jar</packaging>
-	<name>Teiid Test Performance Tools</name>
-	<description>Teiid Test Performance Tools</description>
+	<name>Teiid Test Embedded</name>
+	<description>Teiid Test Embedded</description>
 
 
 	<dependencies>
@@ -25,13 +25,18 @@
 		</dependency>
 		
 		<dependency>
-            <groupId>org.jboss.teiid</groupId>
-            <artifactId>teiid-examples</artifactId>
-        </dependency>
+			<groupId>org.jboss.teiid.examples</groupId>
+			<artifactId>teiid-examples-common</artifactId>
+		</dependency>
         
         <dependency>
         	<groupId>org.jboss.teiid.test</groupId>
             <artifactId>teiid-test-core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-jdbc</artifactId>
 		</dependency>
 		
 

@@ -20,8 +20,6 @@ import org.teiid.translator.ExecutionFactory;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
-import bitronix.tm.resource.jdbc.PoolingDataSource;
-
 /*
  * CREATE TABLE SERIALTEST(id BIGINT, col_a CHAR(8), col_b CHAR(12), col_c CHAR(12));
  * 
@@ -40,7 +38,6 @@ public class SerializationCaculation {
 		System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "bitronix.tm.jndi.BitronixInitialContextFactory");
 	}
 	
-	static PoolingDataSource pds = null;
 	static EmbeddedServer server = null;
 	static Connection conn = null;
 	
@@ -49,7 +46,6 @@ public class SerializationCaculation {
 	}
 
 	public void init() throws Exception {
-		setupDataSource();
 		init("translator-mysql", new MySQL5ExecutionFactory());
 		server.start(new EmbeddedConfiguration());
 		server.deployVDB(new FileInputStream(new File("mysql-vdb.xml")));
@@ -63,21 +59,6 @@ public class SerializationCaculation {
 		server.addTranslator(name, factory);
 	}
 
-	private void setupDataSource() {
-		if (null != pds)
-			return;
-		
-		pds = new PoolingDataSource();
-		pds.setUniqueName("java:/accounts-ds");
-		pds.setClassName("bitronix.tm.resource.jdbc.lrc.LrcXADataSource");
-		pds.setMaxPoolSize(5);
-		pds.setAllowLocalTransactions(true);
-		pds.getDriverProperties().put("user", "jdv_user");
-		pds.getDriverProperties().put("password", "jdv_pass");
-		pds.getDriverProperties().put("url", "jdbc:mysql://localhost:3306/customer");
-		pds.getDriverProperties().put("driverClassName", "com.mysql.jdbc.Driver");
-		pds.init();
-	}
 	
 	static Integer[] array = new Integer[] {5, 50, 500, 5000, 50000, 500000, 5000000};
 	

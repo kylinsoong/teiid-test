@@ -3,7 +3,7 @@
 	<parent>
             <artifactId>teiid-test-parent</artifactId>
             <groupId>org.jboss.teiid.test</groupId>
-            <version>8.11.0.Beta3-SNAPSHOT</version>
+            <version>1.0.0-SNAPSHOT</version>
         </parent>	
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>teiid-test-perf</artifactId>
@@ -24,22 +24,20 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 		
-		
-		<dependency>
-			<groupId>org.codehaus.btm</groupId>
-			<artifactId>btm</artifactId>
-		</dependency>
-		
 		<dependency>
         	<groupId>org.jboss.teiid.test</groupId>
             <artifactId>teiid-test-core</artifactId>
 		</dependency>
 		
-		<dependency>
-            <groupId>org.jboss.teiid</groupId>
-            <artifactId>teiid-examples</artifactId>
-        </dependency>
+	<dependency>
+			<groupId>org.jboss.teiid.examples</groupId>
+			<artifactId>teiid-examples-common</artifactId>
+		</dependency>	
 		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-jdbc</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<build>
