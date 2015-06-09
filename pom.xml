@@ -14,21 +14,27 @@
     <description>A project help developers quick dive into Teiid codebase</description>
 
     <properties>
+    	<version.net.sourceforge.saxon>9.5.1-6</version.net.sourceforge.saxon>
     </properties>
 
     <dependencyManagement>
-	<dependencies>
-	    <dependency>
+	    <dependencies>
+	        <dependency>
                 <groupId>org.jboss.teiid.test</groupId>
                 <artifactId>teiid-test-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-	    <dependency>
+	        <dependency>
                 <groupId>org.jboss.teiid.examples</groupId>
                 <artifactId>teiid-examples-common</artifactId>
-		<version>${project.version}</version>
+		        <version>${project.version}</version>
             </dependency>
-	</dependencies>
+            <dependency>
+                <groupId>net.sf.saxon</groupId>
+                <artifactId>Saxon-HE</artifactId>
+                <version>${version.net.sourceforge.saxon}</version>
+            </dependency>
+	    </dependencies>	    
     </dependencyManagement>
 <!--
     <dependencies>
@@ -80,6 +86,7 @@
 	<module>perf</module>
 	<module>embedded</module>
 	<module>sql</module>
+	<module>tmp</module>
     </modules>
 
 </project>

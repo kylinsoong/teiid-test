@@ -13,10 +13,7 @@ import org.teiid.translator.ws.WSExecutionFactory;
 
 @SuppressWarnings("nls")
 public class GenericSoap {
-	
-	static final String GET_ALL = "<GetAllStateInfo xmlns=\"http://www.teiid.org/stateService/\"/>";
-	static final String GET_ONE = "<GetStateInfo xmlns=\"http://www.teiid.org/stateService/\"><stateCode xmlns=\"\">CA</stateCode></GetStateInfo>";
-	
+		
 	public static void main(String[] args) throws Exception {
 		EmbeddedServer es = new EmbeddedServer();
 		
@@ -34,9 +31,11 @@ public class GenericSoap {
 		
 		Connection c = es.getDriver().connect("jdbc:teiid:StateServiceVDB", null);
 		
-		execute(c, "EXEC testVirtualProcedure()", false);
 		
-		c.close();
+		execute(c, "EXEC GetStateInfo('CA', 'http://localhost:8080/StateService/stateService/StateServiceImpl?WSDL')", false);
+		
+		execute(c, "EXEC GetAllStateInfo('http://localhost:8080/StateService/stateService/StateServiceImpl?WSDL')", true);
+				
 		es.stop();
 	}
 	

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="ProceduresVDB" version="1">
+	<description>Teiid Virtual Procedures VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<model name="Tmp" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		
+		]]>
+		</metadata>
+	</model>
+</vdb>
