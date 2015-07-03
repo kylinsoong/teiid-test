@@ -59,6 +59,8 @@ public class TestHelper {
             logger.addHandler(handler);
             logger.setUseParentHandlers(false);
         }
+        
+        Logger.getGlobal();
     }
 	
 	public static TransactionManager getTransactionManager() throws CoreEnvironmentBeanException{

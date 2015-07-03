@@ -39,6 +39,13 @@ public interface DDL {
 												 "AS\n" +
 												 "SELECT A.id, A.col_a, A.col_b, A.col_c FROM Accounts.PERFTEST AS A\n";
 	
+	public final static String PRODUCT_VIEW_H2 = "CREATE VIEW PRODUCTView (\n" +
+												 "    product_id integer,\n" +
+												 "    symbol string\n" +
+												 ")\n" +
+												 "AS\n" +
+												 "SELECT  A.ID, A.symbol FROM  Accounts.PRODUCT AS A\n";
+	
 	
 
 }
