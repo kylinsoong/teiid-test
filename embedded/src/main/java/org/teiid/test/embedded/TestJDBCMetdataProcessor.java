@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-
 import javax.resource.ResourceException;
 
 import org.teiid.adminapi.impl.ModelMetaData;
@@ -17,6 +16,7 @@ import org.teiid.adminapi.impl.VDBMetaData;
 import org.teiid.example.EmbeddedHelper;
 import org.teiid.metadata.Datatype;
 import org.teiid.metadata.MetadataFactory;
+import org.teiid.metadata.Procedure;
 import org.teiid.metadata.Table;
 import org.teiid.query.metadata.SystemMetadata;
 import org.teiid.query.parser.QueryParser;
@@ -56,12 +56,32 @@ public class TestJDBCMetdataProcessor {
 		JDBCMetdataProcessor processor = new JDBCMetdataProcessor();
 		processor.process(factory, conn);
 		
-		Map<String, Table> map = factory.getSchema().getTables();
+		dumpTables(factory.getSchema().getTables());
+		dumpProcedures(factory.getSchema().getProcedures());
+	}
+
+	private static void dumpProcedures(Map<String, Procedure> procedures) {
 		
-		dumpTables(map);
+		System.out.println(procedures);
+		
+		for(Procedure proc : procedures.values()) {
+			System.out.println(proc);
+		}
+		
 	}
 
 	private static void dumpTables(Map<String, Table> map) {
+		ColumnMetaData[] meta = ColumnMetaData.Factory.create(ColumnMetaData.ALIGN_LEFT, "Name", "TableType", "Materialized");
+		TableRenderer renderer = new TableRenderer(meta);
+		for(Table table : map.values()) {
+			Column[] row = Column.Factory.create(table.getName(),  table.getTableType().toString(), table.isMaterialized() + "");
+			renderer.addRow(row);
+		}
+		renderer.renderer();
+		
+	}
+
+	static void dumpTables_(Map<String, Table> map) {
 
 		ColumnMetaData[] meta = ColumnMetaData.Factory.create(ColumnMetaData.ALIGN_LEFT, "UUID", "Name", "FullName", "TableType", "UpdatePlan", "SQLString", "SourceName", "Materialized", "SelectTransformation", "Properties");
 		TableRenderer renderer = new TableRenderer(meta);

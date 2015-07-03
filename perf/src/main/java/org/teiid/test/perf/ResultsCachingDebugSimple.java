@@ -31,7 +31,6 @@ public class ResultsCachingDebugSimple {
 	    
 	    static void startup() throws Exception {
 	              
-	        logger.info("Start"); 
 	        server = new EmbeddedServer();
 	        
 	        H2ExecutionFactory factory = new H2ExecutionFactory();

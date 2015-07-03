@@ -60,7 +60,7 @@ public class TestHelper {
             logger.setUseParentHandlers(false);
         }
         
-        Logger.getGlobal();
+        Logger.getLogger("org.teiid");
     }
 	
 	public static TransactionManager getTransactionManager() throws CoreEnvironmentBeanException{
