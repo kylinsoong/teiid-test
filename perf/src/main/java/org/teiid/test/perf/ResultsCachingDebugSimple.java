@@ -10,13 +10,12 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.sql.DataSource;
 
 import org.h2.tools.RunScript;
 import org.teiid.example.EmbeddedHelper;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.JDBCUtils;
@@ -26,10 +25,8 @@ public class ResultsCachingDebugSimple {
 	
 	static EmbeddedServer server = null;
 	    static Connection conn = null;
-	    
-	    static Logger logger = Logger.getLogger(ResultsCachingDebugSimple.class.getName());
-	    
-	    static void startup() throws Exception {
+	    	    
+	    public static void startup() throws Exception {
 	              
 	        server = new EmbeddedServer();
 	        
@@ -61,9 +58,11 @@ public class ResultsCachingDebugSimple {
 
     public static void main(String[] args) throws Exception {
     	
-    	TestHelper.enableLogger();
+//    	EmbeddedHelper.configureLogManager("src/main/resources/teiid-logging.properties");
+    	EmbeddedHelper.enableLogger(Level.ALL, "org.teiid.BUFFER_MGR", "org.teiid.PROCESSOR");
 
-    	query(5);
+    	query(1);
+    	
     }
 
 	private static void query(int time) throws Exception {
@@ -71,6 +70,7 @@ public class ResultsCachingDebugSimple {
 		startup();
     	
         String sql = "/*+ cache */ SELECT * FROM PRODUCTView";
+//		String sql = "SELECT * FROM PRODUCTView";
         
         for(int i = 0 ; i < time ; i ++) {
         	JDBCUtils.executeQuery(conn, sql);

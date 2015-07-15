@@ -146,7 +146,8 @@ public class H2PERFTESTClient {
 
     public static void main(String[] args) throws Exception {
         
-        H2PERFTESTClient.insert(MB);
+//        H2PERFTESTClient.insert(MB);
+        H2PERFTESTClient.insert(10000);
     }
 
 }
