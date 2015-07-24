@@ -58,7 +58,9 @@ public class ResultsCachingDebugBuffer {
 		
 		startup();
 		
-		JDBCUtils.executeQuery(conn, "/*+ cache */ SELECT * FROM PERFTESTVIEW");
+		for(int i = 0 ; i < 3 ; i ++) {
+			JDBCUtils.executeQuery(conn, "/*+ cache */ SELECT * FROM PERFTESTVIEW");
+		}
 		
 		teardown();
 

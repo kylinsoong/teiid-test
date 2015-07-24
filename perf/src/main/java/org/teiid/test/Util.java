@@ -61,7 +61,7 @@ public class Util {
                 
                 int columns = rs.getMetaData().getColumnCount();
                 for (int row = 1; rs.next(); row++) {
-                    System.out.print(row + ": ");
+//                    System.out.print(row + ": ");
                     for (int i = 0; i < columns; i++) {
                        
                         rs.getObject(i + 1);

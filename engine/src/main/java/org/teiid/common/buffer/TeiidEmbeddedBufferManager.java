@@ -57,7 +57,13 @@ public class TeiidEmbeddedBufferManager {
 		distributeTupleBuffer(buffer, bs.getBufferManager());
 		
 		
-//		System.out.println(buffer.getId());
+		System.out.println("HeapCacheMemoryInUseKB: " + ((BufferServiceImpl) bs).getHeapCacheMemoryInUseKB());
+		System.out.println("HeapMemoryInUseByActivePlansKB: " + ((BufferServiceImpl) bs).getHeapMemoryInUseByActivePlansKB());
+		System.out.println("DiskWriteCount: " + ((BufferServiceImpl) bs).getDiskWriteCount());
+		System.out.println("DiskReadCount: " + ((BufferServiceImpl) bs).getDiskReadCount());
+		System.out.println("CacheReadCount: " + ((BufferServiceImpl) bs).getCacheReadCount());
+		System.out.println("CacheWriteCount: " + ((BufferServiceImpl) bs).getCacheWriteCount());
+		System.out.println("DiskBufferSpaceMB: " + ((BufferServiceImpl) bs).getUsedDiskBufferSpaceMB());
 		
 	}
 
@@ -109,6 +115,7 @@ public class TeiidEmbeddedBufferManager {
 		BufferServiceImpl bufferService = new BufferServiceImpl();
 		EmbeddedConfiguration config = new EmbeddedConfiguration();
 		config.setBufferDirectory("/home/kylin/tmp/buffer");
+		config.setProcessorBatchSize(256);
 		setBufferManagerProperties(bufferService, config);
 		
 		bufferService.start();
