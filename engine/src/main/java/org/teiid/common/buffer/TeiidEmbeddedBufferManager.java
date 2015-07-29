@@ -25,6 +25,7 @@ import org.teiid.services.BufferServiceImpl;
  *
  */
 public class TeiidEmbeddedBufferManager {
+	
 
 	public static void main(String[] args) throws TeiidComponentException {
 		
@@ -39,6 +40,7 @@ public class TeiidEmbeddedBufferManager {
 		 * 2. TupleBuffer be created in BatchCollector's constructor method
 		 */
 		TupleBuffer buffer = getTupleBuffer(bs.getBufferManager());
+		
 		
 		/**
 		 * 3. Reserving buffer in QueryProcessor's init() method 
@@ -55,6 +57,12 @@ public class TeiidEmbeddedBufferManager {
 		 */
 		
 		distributeTupleBuffer(buffer, bs.getBufferManager());
+		
+		System.out.println(buffer.getBatchSize());
+		System.out.println(buffer.getSchema());
+		System.out.println(buffer.getManagedRowCount());
+		
+		System.out.println();
 		
 		
 		System.out.println("HeapCacheMemoryInUseKB: " + ((BufferServiceImpl) bs).getHeapCacheMemoryInUseKB());
@@ -115,7 +123,7 @@ public class TeiidEmbeddedBufferManager {
 		BufferServiceImpl bufferService = new BufferServiceImpl();
 		EmbeddedConfiguration config = new EmbeddedConfiguration();
 		config.setBufferDirectory("/home/kylin/tmp/buffer");
-		config.setProcessorBatchSize(256);
+		config.setProcessorBatchSize(1);
 		setBufferManagerProperties(bufferService, config);
 		
 		bufferService.start();

@@ -72,6 +72,7 @@ public class BufferManagerPerfDumpTable {
         config.setUseDisk(true);
 		config.setBufferDirectory("/home/kylin/tmp/buffer");
 		config.setProcessorBatchSize(2);
+		config.setTimeSliceInMilli(Integer.MAX_VALUE);
 		
         server.start(config);
         
@@ -140,7 +141,8 @@ public class BufferManagerPerfDumpTable {
 
 	public static void main(String[] args) throws VirtualDatabaseException, TranslatorException, ConnectorManagerException, IOException, SQLException, ResourceException {
 
-		EmbeddedHelper.enableLogger(Level.ALL, "org.teiid.BUFFER_MGR");
+		//"org.teiid.BUFFER_MGR"
+		EmbeddedHelper.enableLogger(Level.ALL);
 		
 		BufferManagerPerfDumpTable debug = new BufferManagerPerfDumpTable();
 		
@@ -168,8 +170,8 @@ public class BufferManagerPerfDumpTable {
 						
 						int columns = rs.getMetaData().getColumnCount();
 						while(rs.next()) {
-							System.out.println(rs.getInt(1));
-							for (int i = 1 ; i < columns ; ++i) {
+//							System.out.println(rs.getInt(1));
+							for (int i = 0 ; i < columns ; ++i) {
 								rs.getObject(i+1);
 							}
 						}
