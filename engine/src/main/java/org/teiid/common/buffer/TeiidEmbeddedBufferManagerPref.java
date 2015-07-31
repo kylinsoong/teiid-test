@@ -9,24 +9,42 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 
+import org.teiid.common.buffer.impl.BufferManagerImpl;
 import org.teiid.core.TeiidComponentException;
 import org.teiid.dqp.service.BufferService;
 import org.teiid.example.EmbeddedHelper;
 import org.teiid.services.BufferServiceImpl;
 
 public class TeiidEmbeddedBufferManagerPref {
+	
+	static final int SIZE = 3000;
 
 	public static void main(String[] args) throws TeiidComponentException, InterruptedException {
 
-		EmbeddedHelper.enableLogger(Level.INFO);
+		EmbeddedHelper.enableLogger(Level.ALL);
 		
 		BufferService bs = getBufferService();
 		
 		TupleBuffer buffer = getTupleBuffer(bs.getBufferManager());
 		
-		for(int i = 0 ; i < 2 ; i ++) {
+		for(int i = 0 ; i < SIZE ; i ++) {
 			TupleBatch batch = createBatch(buffer.getBatchSize());
 			buffer.addTupleBatch(batch, true);
+		}
+		
+		Thread.sleep(1000);
+		
+		BufferManagerImpl bm = (BufferManagerImpl) bs.getBufferManager();
+		System.out.println(bm.getActiveBatchBytes());
+		System.out.println(bm.getBatchesAdded());
+		System.out.println(bm.getMemoryCacheEntries());
+		
+		Thread.sleep(1000);
+		
+		int begin = 1;
+		for(int i = 0 ; i < SIZE ; i ++) {
+			TupleBatch batch = buffer.getBatch(begin);
+			begin += buffer.getBatchSize();
 		}
 		
 		Thread.sleep(1000);
@@ -38,6 +56,7 @@ public class TeiidEmbeddedBufferManagerPref {
 		System.out.println("CacheReadCount: " + ((BufferServiceImpl) bs).getCacheReadCount());
 		System.out.println("CacheWriteCount: " + ((BufferServiceImpl) bs).getCacheWriteCount());
 		System.out.println("DiskBufferSpaceMB: " + ((BufferServiceImpl) bs).getUsedDiskBufferSpaceMB());
+		
 	}
 
 	final static Random r = new Random();
@@ -57,10 +76,9 @@ public class TeiidEmbeddedBufferManagerPref {
 		return batch;
 	}
 	
-	static byte[] buf = new byte[1024 * 200];
+	static byte[] buf = new byte[1024 * 1024 * 1];
 	
 	private static String formString(int size) {
-		
 		
 		r.nextBytes(buf);
 		return new String(buf);
