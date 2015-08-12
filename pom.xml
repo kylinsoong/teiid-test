@@ -86,6 +86,8 @@
 	<module>perf</module>
 	<module>embedded</module>
 	<module>sql</module>
+	<module>client</module>
+	<module>jira</module>
 	<module>tmp</module>
     </modules>
 

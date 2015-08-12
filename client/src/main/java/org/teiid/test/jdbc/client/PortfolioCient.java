@@ -1,4 +1,4 @@
-package org.test.jdbc.client;
+package org.teiid.test.jdbc.client;
 
 import static org.teiid.example.util.JDBCUtils.getDriverConnection;
 import static org.teiid.example.util.JDBCUtils.execute;
