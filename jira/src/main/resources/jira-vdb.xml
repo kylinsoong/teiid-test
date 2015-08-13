@@ -3,6 +3,8 @@
     <model name="JIRA">
         <source name="local" translator-name="translator-hbase" connection-jndi-name="java:/hbaseDS"/>
         <metadata type="DDL"><![CDATA[
+CREATE FOREIGN TABLE smalla (IntKey integer OPTIONS (nameinsource 'intkey'), StringKey string OPTIONS (nameinsource 'stringkey')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', nameinsource 'smalla');
+
 CREATE FOREIGN TABLE smalla1 (IntKey integer PRIMARY KEY OPTIONS (nameinsource 'intkey'), BooleanKey boolean OPTIONS (nameinsource 'booleankey')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', nameinsource 'smalla1');
 
 CREATE FOREIGN TABLE smalla4 (IntKey integer PRIMARY KEY OPTIONS (nameinsource 'intkey'), c1 date OPTIONS (nameinsource 'column1'), c2 time OPTIONS (nameinsource 'column2'), c3 timestamp OPTIONS (nameinsource 'column3')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', nameinsource 'smalla4');

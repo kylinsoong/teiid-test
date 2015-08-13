@@ -5,11 +5,12 @@ import static org.teiid.example.util.JDBCUtils.execute;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.resource.ResourceException;
 import javax.sql.DataSource;
 
-import org.h2.util.JdbcUtils;
 import org.teiid.example.EmbeddedHelper;
 import org.teiid.example.util.JDBCUtils;
 
@@ -25,14 +26,191 @@ public class PhoenixClient {
 		
 //		smalla1();
 		
-		smalla4();
+//		smalla();
+		
+//		smalla_1();
+		
+//		smalla_2();
+		
+//		smalla2();
+		
+//		smalla2_1();
+		
+//		smalla2_2();
+		
+//		smalla2_3();
+		
+//		smalla2_4();
+		
+		smalla2_5();
+		
+//		smalla_3();
+		
+//		smalla_4();
+		
+//		smalla4();
 		
 //		smalla5();
 		
 //		test();
+		
+//		test1();
 
 	}
 	
+	static void smalla2_5() throws SQLException, ResourceException {
+		
+		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		Connection conn = ds.getConnection();
+		System.out.println(conn);
+		System.out.println(conn.getAutoCommit());
+		conn.setAutoCommit(true);
+		close(conn);
+	}
+
+	static void smalla2_4() throws Exception {
+
+		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS, "phoenix.connection.autoCommit=true");
+		Connection conn = ds.getConnection();
+		System.out.println(conn);
+		System.out.println(conn.getAutoCommit());
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		execute(conn, "UPSERT INTO smalla VALUES(8, '88')", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		close(conn);
+	}
+
+	static void smalla2_3() throws Exception {
+
+		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		Connection conn = ds.getConnection();
+		System.out.println(conn.getAutoCommit());
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		conn.setAutoCommit(true);
+		execute(conn, "UPSERT INTO smalla VALUES(6, '66')", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		close(conn);
+	}
+
+	static void smalla2_2() throws Exception {
+
+		Connection c2 = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		System.out.println(c2.getAutoCommit());
+		
+		execute(c2, "SELECT * FROM smalla", false);
+		
+		execute(c2, "UPSERT INTO smalla VALUES(7, '77')", false);
+
+		execute(c2, "SELECT * FROM smalla", false);
+		
+		close(c2);
+	}
+
+	static void smalla2_1() throws Exception {
+
+		Connection c1 = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		System.out.println(c1.getAutoCommit());
+		
+		execute(c1, "SELECT * FROM smalla", false);
+		
+		c1.setAutoCommit(true);
+		execute(c1, "UPSERT INTO smalla VALUES(6, '66')", false);
+
+		execute(c1, "SELECT * FROM smalla", false);
+		
+		close(c1);
+	}
+
+	static void smalla_4() throws Exception {
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		conn.setAutoCommit(true);
+		execute(conn, "UPSERT INTO smalla(stringkey) VALUES('66')", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		close(conn);
+	}
+
+	static void smalla_3() throws Exception {
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		conn.setAutoCommit(true);
+		String sql = "UPSERT INTO smalla (stringkey, intkey) SELECT '1234', smalla.intkey FROM smalla WHERE smalla.stringkey = 'xxx'";
+		execute(conn, sql, false);
+		execute(conn, "SELECT * FROM smalla", false);
+		close(conn);
+	}
+
+	static void smalla_2() throws Exception {
+
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		execute(conn, "SELECT * FROM smalla", false);
+		conn.setAutoCommit(true);
+		execute(conn, "UPSERT INTO smalla (stringkey, intkey) SELECT 'xxx', smalla.intkey FROM smalla WHERE smalla.stringkey IS NULL", false);
+		execute(conn, "SELECT * FROM smalla", false);
+		execute(conn, "SELECT * FROM smalla", false);
+		close(conn);
+	}
+
+	static void smalla_1() throws Exception {
+
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		
+		execute(conn, "CREATE TABLE IF NOT EXISTS  smalla(intkey integer primary key,stringkey varchar(10))", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		conn.setAutoCommit(true);
+		
+		execute(conn, "UPSERT INTO  smalla(intkey) VALUES(1)", false);
+		execute(conn, "UPSERT INTO  smalla(intkey) VALUES(2)", false);
+		execute(conn, "UPSERT INTO  smalla(intkey) VALUES(3)", false);
+		execute(conn, "UPSERT INTO  smalla(intkey) VALUES(4)", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		close(conn);
+	}
+
+	static void test1() throws Exception {
+
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		
+		boolean isAutoCommit = conn.getAutoCommit();
+		System.out.println(isAutoCommit);
+		
+		close(conn);
+	}
+
+	static void smalla() throws Exception {
+		
+		Connection conn = JDBCUtils.getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		
+		execute(conn, "CREATE TABLE IF NOT EXISTS  smalla(intkey integer primary key,stringkey varchar(10))", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		conn.setAutoCommit(true);
+		
+		execute(conn, "UPSERT INTO  smalla VALUES(5, '5')", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		execute(conn, "UPSERT INTO  smalla VALUES(5, '55')", false);
+		
+		execute(conn, "SELECT * FROM smalla", false);
+		
+		close(conn);
+		
+	}
+
 	static void test() throws Exception {
 		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
 		Connection conn = ds.getConnection();
@@ -73,11 +251,11 @@ public class PhoenixClient {
 		close(conn);
 	}
 	
-	/**
-	 * TEIID-3622
-	 */
+	
 	static void smalla2() throws Exception {
-		
+		Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+		System.out.println(conn.getAutoCommit());
+		close(conn);
 	}
 	
 	/**
@@ -96,7 +274,7 @@ public class PhoenixClient {
 		
 		execute(conn, "CREATE TABLE IF NOT EXISTS  smalla4(intkey integer primary key, column1 date, column2 time, column3 timestamp)", false);
 		
-		execute(conn, "UPSERT INTO smalla4 VALUES (10, TO_DATE('2000-01-02 03:04:05'), TO_TIME('2000-01-02 03:04:05'), TO_TIMESTAMP('2000-01-02 03:04:05'))", false);
+		execute(conn, "UPSERT INTO smalla4 VALUES (10, DATE '2000-01-02 03:04:05', TIME '2000-01-02 03:04:05', TIMESTAMP '2000-01-02 03:04:05')", false);
 	}
 	
 	/**
