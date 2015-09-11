@@ -42,7 +42,7 @@ public class PhoenixClient {
 		
 //		smalla2_4();
 		
-		smalla2_5();
+//		smalla2_5();
 		
 //		smalla_3();
 		
@@ -55,9 +55,19 @@ public class PhoenixClient {
 //		test();
 		
 //		test1();
+		
+		test2();
 
 	}
 	
+	static void test2() throws Exception {
+
+		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS, "phoenix.connection.autoCommit=true");
+		Connection conn = ds.getConnection();
+		
+		execute(conn, "UPSERT INTO smalla(stringkey) VALUES('66')", true);
+	}
+
 	static void smalla2_5() throws SQLException, ResourceException {
 		
 		DataSource ds = EmbeddedHelper.newDataSource(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
