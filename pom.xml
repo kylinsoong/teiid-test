@@ -15,11 +15,13 @@
 
     <properties>
     	<version.net.sourceforge.saxon>9.5.1-6</version.net.sourceforge.saxon>
+	<version.teiid>8.12.0.Beta4-SNAPSHOT</version.teiid>
     </properties>
 
     <dependencyManagement>
-	    <dependencies>
-	        <dependency>
+	    
+        <dependencies>
+	    <dependency>
                 <groupId>org.jboss.teiid.test</groupId>
                 <artifactId>teiid-test-core</artifactId>
                 <version>${project.version}</version>
@@ -27,14 +29,19 @@
 	        <dependency>
                 <groupId>org.jboss.teiid.examples</groupId>
                 <artifactId>teiid-examples-common</artifactId>
-		        <version>${project.version}</version>
+		<version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.saxon</groupId>
                 <artifactId>Saxon-HE</artifactId>
                 <version>${version.net.sourceforge.saxon}</version>
             </dependency>
-	    </dependencies>	    
+	    <dependency>
+		<groupId>org.jboss.teiid.connectors</groupId>
+		<artifactId>connector-ws</artifactId>
+		<version>${version.teiid}</version>
+	    </dependency>
+        </dependencies>	    
     </dependencyManagement>
 <!--
     <dependencies>
