@@ -15,7 +15,7 @@
 
     <properties>
     	<version.net.sourceforge.saxon>9.5.1-6</version.net.sourceforge.saxon>
-	<version.teiid>8.12.0.Beta4-SNAPSHOT</version.teiid>
+	<version.teiid>8.12.0.CR2-SNAPSHOT</version.teiid>
     </properties>
 
     <dependencyManagement>
