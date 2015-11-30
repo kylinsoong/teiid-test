@@ -11,7 +11,22 @@
     -->
     <property name="UseConnectorMetadata" value="true" />
 
-
+    <!-- 
+      Each model represents a access to one or more sources.
+      The name of the model will be used as a top level schema name
+      for all of the metadata imported from the connector.
+    
+      NOTE: Multiple models, with different import settings, can be bound to 
+      the same connector binding and will be treated as the same source at
+      runtime. 
+    --> 
+    <model name="MarketData">
+        <!-- 
+            Each source represents a translator and data source. There are 
+            pre-defined translators, or you can create one.
+        -->
+        <source name="text-connector" translator-name="file" connection-jndi-name="java:/marketdata-file"/>
+    </model>
 
     <model name="Accounts">
         <!-- 
@@ -33,12 +48,26 @@
     <model name="Stocks" type="VIRTUAL">
         <metadata type="DDL"><![CDATA[
                 
+        CREATE VIEW StockPrices (
+            symbol string,
+            price bigdecimal
+            )
+            AS  
+               SELECT SP.symbol, SP.price
+                FROM (EXEC MarketData.getTextFiles('*.txt')) AS f, 
+                    TEXTTABLE(f.file COLUMNS symbol string, price bigdecimal HEADER) AS SP;
+        
         
         CREATE VIEW Stock (
             product_id integer,
+            symbol string,
+            price bigdecimal,
             company_name   varchar(256)
             )
-            AS SELECT A.ID, A.COMPANY_NAME FROM Accounts.PRODUCT AS A;
+            AS
+                SELECT  A.ID, S.symbol, S.price, A.COMPANY_NAME
+                    FROM StockPrices AS S, Accounts.PRODUCT AS A
+                    WHERE S.symbol = A.SYMBOL;
 
                  
         ]]> </metadata>

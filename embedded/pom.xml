@@ -25,8 +25,12 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.jboss.teiid.examples</groupId>
-			<artifactId>teiid-examples-common</artifactId>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-runtime</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.teiid</groupId>
+			<artifactId>teiid-admin</artifactId>
 		</dependency>
         
         <dependency>
@@ -38,6 +42,18 @@
 			<groupId>org.jboss.teiid.connectors</groupId>
 			<artifactId>translator-jdbc</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>translator-file</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.teiid.connectors</groupId>
+			<artifactId>connector-file</artifactId>
+			<classifier>lib</classifier>
+		</dependency>
+		
 		
 
 <!--  
