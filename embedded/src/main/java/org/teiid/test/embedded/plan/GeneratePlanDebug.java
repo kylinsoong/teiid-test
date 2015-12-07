@@ -48,10 +48,14 @@ import org.teiid.query.metadata.TempMetadataAdapter;
 import org.teiid.query.metadata.TransformationMetadata;
 import org.teiid.query.metadata.VDBResources;
 import org.teiid.query.optimizer.capabilities.CapabilitiesFinder;
+import org.teiid.query.optimizer.relational.OptimizerRule;
+import org.teiid.query.optimizer.relational.RuleStack;
 import org.teiid.query.optimizer.relational.plantree.NodeConstants;
 import org.teiid.query.optimizer.relational.plantree.NodeEditor;
 import org.teiid.query.optimizer.relational.plantree.NodeFactory;
 import org.teiid.query.optimizer.relational.plantree.PlanNode;
+import org.teiid.query.optimizer.relational.rules.RuleAssignOutputElements;
+import org.teiid.query.optimizer.relational.rules.RuleConstants;
 import org.teiid.query.parser.ParseInfo;
 import org.teiid.query.parser.QueryParser;
 import org.teiid.query.resolver.QueryResolver;
@@ -152,7 +156,28 @@ public class GeneratePlanDebug {
         
         List<Expression> topCols = Util.deepClone(command.getProjectedSymbols(), Expression.class);
         
-//        System.out.println(analysisRecord.getDebugLog());
+        RuleStack rules = new RuleStack();
+        rules.push(RuleConstants.COLLAPSE_SOURCE);
+        rules.push(RuleConstants.PLAN_SORTS);
+        rules.push(RuleConstants.CALCULATE_COST);
+        rules.push(new RuleAssignOutputElements(true));
+        rules.push(RuleConstants.RAISE_ACCESS);
+        rules.push(RuleConstants.PLACE_ACCESS);
+        
+        while(!rules.isEmpty()){
+            analysisRecord.println("\n============================================================================");
+  
+            OptimizerRule rule = rules.pop();
+            analysisRecord.println("EXECUTING " + rule);
+            
+            plan = rule.execute(plan, metadata, capabilitiesFinder, rules, analysisRecord, context);
+            
+            analysisRecord.println("\nAFTER: \n" + plan.nodeToString(true));
+        }
+        
+        System.out.println(plan);
+        
+        System.out.println(analysisRecord.getDebugLog());
     }
 
     private static Set<GroupSymbol> getGroupSymbols(PlanNode plan) {
