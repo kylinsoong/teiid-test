@@ -35,6 +35,11 @@
                 <artifactId>Saxon-HE</artifactId>
                 <version>${version.net.sourceforge.saxon}</version>
             </dependency>
+	    <dependency>
+                <groupId>org.jboss.teiid</groupId>
+                <artifactId>teiid-jboss-integration</artifactId>
+                <version>${version.teiid}</version>
+            </dependency>
         </dependencies>	    
     </dependencyManagement>
 <!--

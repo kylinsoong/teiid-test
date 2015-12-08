@@ -22,9 +22,9 @@ public class PortfolioCient {
 
 		Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
 		
-		execute(conn, sql_sheet1, false);
-		execute(conn, sql_StockPrices, false);
-		execute(conn, sql_PRODUCT, false);
+//		execute(conn, sql_sheet1, false);
+//		execute(conn, sql_StockPrices, false);
+//		execute(conn, sql_PRODUCT, false);
 		execute(conn, sql_Stock, true);
 		
 	}
