@@ -12,7 +12,7 @@ public class Application {
 
 	public static Set<File> getJarFiles() {
 		
-		File[] files = new File(HibernateInitializerTest.DIR_LIB).listFiles();
+		File[] files = new File(HibernateInitializerH2.DIR_LIB).listFiles();
 		
 		Set<File> set = new HashSet<File>();
 		for(File file : files) {
