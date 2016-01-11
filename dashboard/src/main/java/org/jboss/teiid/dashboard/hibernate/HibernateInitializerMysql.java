@@ -6,6 +6,7 @@ import static org.jboss.teiid.dashboard.hibernate.HibernateInitializerH2.verifyH
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -52,35 +53,35 @@ public class HibernateInitializerMysql {
         
         ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder().applySettings(hbmConfig.getProperties());
         ServiceRegistry serviceRegistry = serviceRegistryBuilder.buildServiceRegistry();
-        SessionFactory factory = hbmConfig.buildSessionFactory(serviceRegistry);
+        SessionFactory sessionFactory = hbmConfig.buildSessionFactory(serviceRegistry);
         
         verifyHibernateConfig();
         
         Work work = new Work(){
 
             public void execute(Connection connection) throws SQLException {
-                Statement statement = null;
+                Statement stmt = null;
+                ResultSet rs = null;
                 try {
-                    statement = connection.createStatement();
-                    
-                    System.out.println(statement);
-                    
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    stmt = connection.createStatement();
+                    rs = stmt.executeQuery("SELECT 1");
+                    //TODO--
                 } finally {
-                    if (statement != null) {
-                        statement.close();
-                    }
+                    if (stmt != null) 
+                        stmt.close();
+                    
+                    if(rs != null)
+                        rs.close();
                 }
                 
             }};
-        Session session = factory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.doWork(work);
         session.flush();
         
         
-        System.out.println(factory);
+        System.out.println(sessionFactory);
     }
 
 }
