@@ -24,11 +24,9 @@ package org.teiid.test.embedded.plan;
 
 import static org.teiid.example.util.JDBCUtils.close;
 
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 
@@ -37,7 +35,6 @@ import javax.sql.DataSource;
 import org.h2.tools.RunScript;
 import org.teiid.client.plan.PlanNode;
 import org.teiid.example.EmbeddedHelper;
-import org.teiid.example.util.JDBCUtils;
 import org.teiid.jdbc.TeiidStatement;
 import org.teiid.resource.adapter.file.FileManagedConnectionFactory;
 import org.teiid.runtime.EmbeddedConfiguration;
@@ -48,7 +45,7 @@ import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 @SuppressWarnings("nls")
 public class TeiidEmbeddedPortfolioPlan {
     
-    static String SQL_1 = "select * from Product";
+    static String SQL_1 = "select ID, SYMBOL, COMPANY_NAME from Product";
     static String SQL_2 = "call MarketData.getTextFiles('*.txt')";
     static String SQL_3 = "select * from StockPrices";
     static String SQL_4 = "select * from Stock";
@@ -59,7 +56,7 @@ public class TeiidEmbeddedPortfolioPlan {
 	    EmbeddedHelper.enableLogger(Level.ALL);
 				
 	    DataSource ds = EmbeddedHelper.newDataSource("org.h2.Driver", "jdbc:h2:mem://localhost/~/account", "sa", "sa");
-        initSamplesData(ds);
+	    RunScript.execute(ds.getConnection(), new InputStreamReader(TeiidEmbeddedPortfolioPlan.class.getClassLoader().getResourceAsStream("data/customer-schema.sql")));
         
         EmbeddedServer server = new EmbeddedServer();
         
@@ -97,7 +94,7 @@ public class TeiidEmbeddedPortfolioPlan {
         
         stmt.execute("set showplan on");
         
-        ResultSet rs = stmt.executeQuery(SQL_1);
+        ResultSet rs = stmt.executeQuery(SQL_2);
         
         TeiidStatement tstmt = stmt.unwrap(TeiidStatement.class);
         PlanNode queryPlan = tstmt.getPlanDescription();
@@ -105,13 +102,5 @@ public class TeiidEmbeddedPortfolioPlan {
         
         close(rs, stmt, conn);
 	}
-
-
-	private static void initSamplesData(DataSource ds) throws FileNotFoundException, SQLException {
-		RunScript.execute(ds.getConnection(), new InputStreamReader(TeiidEmbeddedPortfolioPlan.class.getClassLoader().getResourceAsStream("data/customer-schema.sql")));
-	}
-
-
-	
 
 }

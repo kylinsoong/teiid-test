@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 
 import org.h2.tools.RunScript;
 import org.teiid.example.EmbeddedHelper;
-import org.teiid.example.util.JDBCUtils;
 import org.teiid.resource.adapter.file.FileManagedConnectionFactory;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
