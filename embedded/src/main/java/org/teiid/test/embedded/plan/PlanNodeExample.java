@@ -1,7 +1,6 @@
 package org.teiid.test.embedded.plan;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -12,8 +11,6 @@ import org.teiid.query.optimizer.relational.plantree.NodeFactory;
 import org.teiid.query.optimizer.relational.plantree.PlanNode;
 import org.teiid.query.optimizer.relational.plantree.NodeConstants.Info;
 import org.teiid.query.sql.lang.Select;
-import org.teiid.query.sql.lang.SubqueryContainer;
-import org.teiid.query.sql.lang.WithQueryCommand;
 import org.teiid.query.sql.symbol.ElementSymbol;
 import org.teiid.query.sql.symbol.Expression;
 import org.teiid.query.sql.symbol.GroupSymbol;

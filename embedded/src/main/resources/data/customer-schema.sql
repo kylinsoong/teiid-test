@@ -48,6 +48,24 @@ CREATE TABLE HOLDINGS
    CONSTRAINT PRODUCT_FK FOREIGN KEY (PRODUCT_ID) REFERENCES PRODUCT (ID)
 );
 
+CREATE TABLE Departments
+(
+   dept_id integer,
+   dept_name varchar(32),
+   CONSTRAINT Departments_PK PRIMARY KEY(dept_id)
+);
+
+CREATE TABLE Employees
+(
+   id integer,
+   title varchar(32),
+   firstname varchar(32),
+   lastname varchar(32),
+   birthday timestamp,
+   dept_id integer,
+   CONSTRAINT Employees_PK PRIMARY KEY(id),
+   CONSTRAINT Departments_FK FOREIGN KEY (dept_id) REFERENCES Departments (dept_id)
+);
 
 
 INSERT INTO CUSTOMER (SSN,FIRSTNAME,LASTNAME,ST_ADDRESS,APT_NUMBER,CITY,STATE,ZIPCODE,PHONE) VALUES ('CST01002','Joseph','Smith','1234 Main Street','Apartment 56','New York','New York','10174','(646)555-1776');
@@ -153,5 +171,16 @@ INSERT INTO HOLDINGS (ACCOUNT_ID,PRODUCT_ID,PURCHASE_DATE,SHARES_COUNT) VALUES (
 INSERT INTO HOLDINGS (ACCOUNT_ID,PRODUCT_ID,PURCHASE_DATE,SHARES_COUNT) VALUES (20020036,1012,'2002-03-22 00:00:00.000',54);
 INSERT INTO HOLDINGS (ACCOUNT_ID,PRODUCT_ID,PURCHASE_DATE,SHARES_COUNT) VALUES (20020036,1010,'2002-03-26 00:00:00.000',189);
 INSERT INTO HOLDINGS (ACCOUNT_ID,PRODUCT_ID,PURCHASE_DATE,SHARES_COUNT) VALUES (19980005,1010,'2002-04-01 00:00:00.000',26);
+
+INSERT INTO Departments (dept_id,dept_name) VALUES (101, 'Engineering');
+INSERT INTO Departments (dept_id,dept_name) VALUES (102, 'Manager');
+INSERT INTO Departments (dept_id,dept_name) VALUES (103, 'HR');
+INSERT INTO Departments (dept_id,dept_name) VALUES (104, 'GSS');
+
+INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES (1, 'Software Engineer', 'Kylin', 'Soong', '1985-12-14 00:00:00.000', 101);
+INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES (2, 'CEO', 'Steve', 'Jobs', '1963-07-24 00:00:00.000', 102);
+INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES (3, 'Senior Manager', 'Tom', 'Jackson', '1961-09-11 00:00:00.000', 102);
+INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES (4, 'Talent Recruiter', 'Marry', 'Wang', '1990-03-12 00:00:00.000', 103);
+INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES (5, 'Support Engineer', 'Bill', 'Swift', '1987-10-04 00:00:00.000', 104);
 
 

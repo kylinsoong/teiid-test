@@ -45,12 +45,15 @@ import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 @SuppressWarnings("nls")
 public class TeiidEmbeddedPortfolioPlan {
     
-    static String SQL_1 = "select ID, SYMBOL, COMPANY_NAME from Product";
-    static String SQL_2 = "call MarketData.getTextFiles('*.txt')";
-    static String SQL_3 = "select * from StockPrices";
-    static String SQL_4 = "select * from Stock";
+    static String SQL_1 = "SELECT A.ID, A.SYMBOL, A.COMPANY_NAME from Accounts.Product AS A";
+    static String SQL_1_1 = "SELECT ID, SYMBOL, COMPANY_NAME from Product WHERE ID < 1008";
+    static String SQL_2 = "EXEC MarketData.getTextFiles('*.txt')";
+    static String SQL_3 = "SELECT * from StockPrices";
+    static String SQL_4 = "SELECT * from Stock";
     static String SQL_5 = "SELECT * FROM PRODUCT p INNER JOIN HOLDINGS h ON p.ID = h.PRODUCT_ID JOIN ACCOUNT a ON h.ACCOUNT_ID = a.ACCOUNT_ID";
-		
+	static String SQL_6 = "SELECT e.title, e.lastname FROM Employees AS e JOIN Departments AS d ON e.dept_id = d.dept_id WHERE year(e.birthday) >= 1970 AND d.dept_name = 'Engineering'";	
+    
+    
 	public static void main(String[] args) throws Exception {
 	    
 	    EmbeddedHelper.enableLogger(Level.ALL);
@@ -92,9 +95,9 @@ public class TeiidEmbeddedPortfolioPlan {
         
         Statement stmt = conn.createStatement();
         
-        stmt.execute("set showplan on");
+        stmt.execute("set showplan debug");
         
-        ResultSet rs = stmt.executeQuery(SQL_2);
+        ResultSet rs = stmt.executeQuery(SQL_1);
         
         TeiidStatement tstmt = stmt.unwrap(TeiidStatement.class);
         PlanNode queryPlan = tstmt.getPlanDescription();
