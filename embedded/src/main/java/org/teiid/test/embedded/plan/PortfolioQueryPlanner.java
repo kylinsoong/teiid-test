@@ -1,6 +1,11 @@
 package org.teiid.test.embedded.plan;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.teiid.core.types.DataTypeManager;
 import org.teiid.metadata.Schema;
@@ -12,7 +17,9 @@ import org.teiid.query.optimizer.relational.plantree.PlanNode;
 import org.teiid.query.optimizer.relational.plantree.NodeConstants.Info;
 import org.teiid.query.sql.LanguageObject.Util;
 import org.teiid.query.sql.lang.From;
+import org.teiid.query.sql.lang.FromClause;
 import org.teiid.query.sql.lang.Query;
+import org.teiid.query.sql.lang.QueryCommand;
 import org.teiid.query.sql.lang.Select;
 import org.teiid.query.sql.lang.SourceHint;
 import org.teiid.query.sql.lang.UnaryFromClause;
@@ -62,18 +69,148 @@ public class PortfolioQueryPlanner {
         plan = execute_raiseAccess(plan);
         
         // 4. EXECUTING AssignOutputElements
+        plan = execute_assignOutputElements(plan);
         
         // 5. EXECUTING CalculateCost
+        plan = execute_calculateCost(plan);
         
         // 6. EXECUTING PlanSorts
+        plan = execute_planSorts(plan);
         
         // 7. EXECUTING CollapseSource
+        plan = execute_collapseSource(plan);
         
         // 8. CONVERTING PLAN TREE TO PROCESS TREE
         
         List<Expression> topCols = Util.deepClone(command.getProjectedSymbols(), Expression.class);
         
+//        println(plan);
+    }
+
+    private static PlanNode execute_collapseSource(PlanNode plan) {
+        
+        prompt("EXECUTING CollapseSource");
+        
+        PlanNode accessNode = NodeEditor.findAllNodes(plan, NodeConstants.Types.ACCESS).get(0);
+        
+        Query query = new Query();
+        Select select = new Select();
+        List<Expression> columns = (List<Expression>)accessNode.getProperty(NodeConstants.Info.OUTPUT_COLS);
+        select.addSymbols(columns);
+        query.setSelect(select);
+        query.setFrom(new From());
+        
+        PlanNode node = plan.getChildren().get(0).getChildren().get(0);
+        GroupSymbol symbol = node.getGroups().iterator().next();
+        query.getFrom().addGroup(symbol);
+        
+        From from = query.getFrom();
+        List<FromClause> clauses = from.getClauses();
+        FromClause rootClause = clauses.get(0);
+        
+        from.setClauses(new ArrayList<FromClause>());
+        query.getFrom().addClause(rootClause);
+        
+        QueryCommand queryCommand = query;
+        queryCommand.setSourceHint((SourceHint) accessNode.getProperty(Info.SOURCE_HINT));
+        queryCommand.getProjectedQuery().setSourceHint((SourceHint) accessNode.getProperty(Info.SOURCE_HINT));
+        
+        accessNode.setProperty(NodeConstants.Info.ATOMIC_REQUEST, command);
+        accessNode.removeAllChildren();
+        
+        println(plan.nodeToString(true));
+        
+        return plan;
+    }
+
+    private static PlanNode execute_planSorts(PlanNode plan) {
+        
+        prompt("EXECUTING PlanSorts");
+        
+        // to set 'modified' to false;
+        plan.nodeToString(true);
+        
+        println(plan.nodeToString(true));
+        
+        return plan;
+    }
+
+    private static PlanNode execute_calculateCost(PlanNode plan) {
+        
+        prompt("EXECUTING CalculateCost");
+        
+        PlanNode node = plan.getChildren().get(0);
+        node = node.getChildren().get(0);
+        
+        float cost = -1.0f;
+        
+        GroupSymbol group = node.getGroups().iterator().next();
+        
+        List<? extends Expression> outputCols = (List<Expression>)node.getProperty(Info.OUTPUT_COLS);
+        
+        ColStats colStats = new ColStats();
+        for (Expression expr : outputCols) {
+            ElementSymbol es = (ElementSymbol)expr;
+            float[] vals = new float[2];
+            vals[0] = cost;
+            vals[1] = cost;
+            colStats.put(es, vals);
+        }
+        
+        node.setProperty(Info.EST_COL_STATS, colStats);
+        node.setProperty(NodeConstants.Info.EST_CARDINALITY, cost);
+        node.getParent().setProperty(Info.EST_CARDINALITY, cost);
+        node.getParent().getParent().setProperty(Info.EST_CARDINALITY, cost);
+        
         println(plan);
+        
+        return plan;
+    }
+    
+    private static class ColStats extends LinkedHashMap<Expression, float[]> {
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append('{');
+            
+            int j = 0;
+            for (Iterator<Entry<Expression, float[]>> i = this.entrySet().iterator(); i.hasNext();) {
+                Entry<Expression, float[]> e = i.next();
+                sb.append(e.getKey());
+                sb.append('=');
+                sb.append(Arrays.toString(e.getValue()));
+                j++;
+                if (i.hasNext()) {
+                    sb.append(", "); //$NON-NLS-1$
+                    if (j > 3) {
+                        sb.append("..."); //$NON-NLS-1$
+                        break;
+                    }
+                }
+            }
+            return sb.append('}').toString();
+        }
+    }
+
+    private static PlanNode execute_assignOutputElements(PlanNode plan) {
+        
+        prompt("EXECUTING AssignOutputElements");
+        
+        PlanNode projectNode = NodeEditor.findNodePreOrder(plan, NodeConstants.Types.PROJECT);
+        List<Expression> projectCols = (List<Expression>)projectNode.getProperty(NodeConstants.Info.PROJECT_COLS);
+        
+        plan.setProperty(NodeConstants.Info.OUTPUT_COLS, projectCols);
+        
+        PlanNode root = plan.getLastChild();
+        root.setProperty(NodeConstants.Info.OUTPUT_COLS, projectCols);
+        root.setProperty(NodeConstants.Info.PROJECT_COLS, projectCols);
+        
+        root = root.getLastChild();
+        root.setProperty(NodeConstants.Info.OUTPUT_COLS, projectCols);
+        
+        println(plan);
+        
+        return plan;
     }
 
     private static PlanNode execute_raiseAccess(PlanNode rootNode) {
