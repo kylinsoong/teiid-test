@@ -5,17 +5,23 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.teiid.core.types.DataTypeManager;
 import org.teiid.metadata.Schema;
 import org.teiid.metadata.Table;
+import org.teiid.query.optimizer.relational.AliasGenerator;
 import org.teiid.query.optimizer.relational.plantree.NodeConstants;
 import org.teiid.query.optimizer.relational.plantree.NodeEditor;
 import org.teiid.query.optimizer.relational.plantree.NodeFactory;
 import org.teiid.query.optimizer.relational.plantree.PlanNode;
 import org.teiid.query.optimizer.relational.plantree.NodeConstants.Info;
+import org.teiid.query.processor.relational.AccessNode;
+import org.teiid.query.processor.relational.RelationalNode;
+import org.teiid.query.processor.relational.RelationalPlan;
 import org.teiid.query.sql.LanguageObject.Util;
+import org.teiid.query.sql.lang.Command;
 import org.teiid.query.sql.lang.From;
 import org.teiid.query.sql.lang.FromClause;
 import org.teiid.query.sql.lang.Query;
@@ -81,10 +87,59 @@ public class PortfolioQueryPlanner {
         plan = execute_collapseSource(plan);
         
         // 8. CONVERTING PLAN TREE TO PROCESS TREE
+        RelationalPlan result = logic_plan_to_processor_plan(plan);
         
         List<Expression> topCols = Util.deepClone(command.getProjectedSymbols(), Expression.class);
+        result.setOutputElements(topCols);
         
-//        println(plan);
+        prompt("OPTIMIZATION COMPLETE");
+        
+        println("PROCESSOR PLAN: " + result);
+        
+        println(result.getDescriptionProperties());
+    }
+
+    private static RelationalPlan logic_plan_to_processor_plan(PlanNode node) {
+        
+        prompt("CONVERTING PLAN TREE TO PROCESS TREE");
+        
+        Command command = (Command) node.getProperty(NodeConstants.Info.ATOMIC_REQUEST);
+        Object modelID = node.getProperty(NodeConstants.Info.MODEL_ID);
+        
+        AccessNode aNode = new AccessNode(1);
+        RelationalNode processNode = aNode;
+        
+        aNode.setModelName("Accounts");
+        aNode.setModelId(modelID);
+        aNode.setConformedTo((Set<Object>) node.getProperty(Info.CONFORMED_SOURCES));
+        
+        AliasGenerator visitor = new AliasGenerator(true, false);
+        command.acceptVisitor(visitor);
+        
+        aNode.setShouldEvaluateExpressions(false);
+        aNode.setCommand(command);
+        
+        aNode.minimizeProject(command);
+        
+        List cols = (List) node.getProperty(NodeConstants.Info.OUTPUT_COLS);
+        processNode.setElements(cols);
+        
+        Number estimateNodeCardinality = (Number) node.getProperty(NodeConstants.Info.EST_CARDINALITY);
+        processNode.setEstimateNodeCardinality(estimateNodeCardinality);
+        Number estimateNodeSetSize = (Number) node.getProperty(NodeConstants.Info.EST_SET_SIZE);
+        processNode.setEstimateNodeSetSize(estimateNodeSetSize);
+        Number estimateDepAccessCardinality = (Number) node.getProperty(NodeConstants.Info.EST_DEP_CARDINALITY);
+        processNode.setEstimateDepAccessCardinality(estimateDepAccessCardinality);
+        Number estimateDepJoinCost = (Number) node.getProperty(NodeConstants.Info.EST_DEP_JOIN_COST);
+        processNode.setEstimateDepJoinCost(estimateDepJoinCost);
+        Number estimateJoinCost = (Number) node.getProperty(NodeConstants.Info.EST_JOIN_COST);
+        processNode.setEstimateJoinCost(estimateJoinCost);
+        
+        println("PROCESS PLAN = " + processNode);
+        
+        RelationalPlan processPlan = new RelationalPlan(processNode);
+        
+        return processPlan;
     }
 
     private static PlanNode execute_collapseSource(PlanNode plan) {
@@ -295,7 +350,7 @@ public class PortfolioQueryPlanner {
         println("----------------------------------------------------------------------------------------------");
         println("\n\t" + string + "\n");
         try {
-            Thread.sleep(200);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
