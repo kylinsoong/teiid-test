@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="cancelLongRunningQueries" version="1">
+
+    <description>The Portfolio Dynamic VDB</description>
+    
+    <property name="UseConnectorMetadata" value="true" />
+
+    <model name="csv1">
+        <source name="csv-1" translator-name="file" connection-jndi-name="java:/csv1-file"/>
+    </model>
+    
+    <model name="csv2">
+        <source name="csv-2" translator-name="file" connection-jndi-name="java:/csv2-file"/>
+    </model>
+    
+    
+    <model name="ViewModel" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+                
+        CREATE VIEW csv1 (
+            c1 string,
+            c2 string,
+            c3 string,
+            c4 string,
+            c5 string,
+            c6 string,
+            c7 string,
+            c8 string,
+            c9 string,
+            c10 string,
+            c11 string,
+            c12 string,
+            c13 string,
+            c14 string,
+            c15 string,
+            c16 string,
+            c17 string,
+            c18 string,
+            c19 string,
+            c20 string
+            )
+            AS  
+               SELECT A."1", A."2", A."3", A."4", A."5", A."6", A."7", A."8", A."9", A."10", A."11", A."12", A."13", A."14", A."15", A."16", A."17", A."18", A."19", A."20"
+            FROM
+	           (EXEC csv1.getTextFiles('file1.csv')) AS f, TEXTTABLE(file COLUMNS "1" string, "2" string, "3" string, "4" string, "5" string, "6" string, "7" string, "8" string, "9" string, "10" string, "11" string, "12" string, "13" string, "14" string, "15" string, "16" string, "17" string, "18" string, "19" string, "20" string  HEADER) AS A;
+	           
+	           
+	   CREATE VIEW csv2 (
+            c1 string,
+            c2 string,
+            c3 string,
+            c4 string,
+            c5 string,
+            c6 string,
+            c7 string,
+            c8 string,
+            c9 string,
+            c10 string,
+            c11 string,
+            c12 string,
+            c13 string,
+            c14 string,
+            c15 string,
+            c16 string,
+            c17 string,
+            c18 string,
+            c19 string,
+            c20 string
+            )
+            AS  
+               SELECT A."1", A."2", A."3", A."4", A."5", A."6", A."7", A."8", A."9", A."10", A."11", A."12", A."13", A."14", A."15", A."16", A."17", A."18", A."19", A."20"
+            FROM
+	           (EXEC csv2.getTextFiles('file2.csv')) AS f, TEXTTABLE(file COLUMNS "1" string, "2" string, "3" string, "4" string, "5" string, "6" string, "7" string, "8" string, "9" string, "10" string, "11" string, "12" string, "13" string, "14" string, "15" string, "16" string, "17" string, "18" string, "19" string, "20" string  HEADER) AS A;           
+               
+        CREATE VIEW combinedcsv (
+            c1 string,
+            c2 string,
+            c3 string,
+            c4 string,
+            c5 string,
+            c6 string,
+            c7 string,
+            c8 string,
+            c9 string,
+            c10 string,
+            c11 string,
+            c12 string,
+            c13 string,
+            c14 string,
+            c15 string,
+            c16 string,
+            c17 string,
+            c18 string,
+            c19 string,
+            c20 string
+            )
+            AS  
+               SELECT * FROM ViewModel.csv1 AS a UNION ALL SELECT * FROM ViewModel.csv2 AS b;
+               
+        ]]> </metadata>
+    </model>
+
+
+
+</vdb>

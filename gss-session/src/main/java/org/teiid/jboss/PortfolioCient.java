@@ -1,7 +1,7 @@
-package org.teiid.test.jdbc.client;
+package org.teiid.jboss;
 
-import static org.teiid.example.util.JDBCUtils.getDriverConnection;
-import static org.teiid.example.util.JDBCUtils.execute;
+import static org.teiid.jboss.JDBCUtils.getDriverConnection;
+import static org.teiid.jboss.JDBCUtils.execute;
 
 import java.sql.Connection;
 
@@ -26,6 +26,7 @@ public class PortfolioCient {
 		execute(conn, sql_sheet1, false);
 		execute(conn, sql_PersonalHoldings, false);
 		execute(conn, sql_StockPrices, false);
+		execute(conn, sql_PRODUCT, false);
 		execute(conn, sql_PRODUCT, false);
 		execute(conn, sql_Stock, true);
 		

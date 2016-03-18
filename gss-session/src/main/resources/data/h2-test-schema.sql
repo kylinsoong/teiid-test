@@ -24,8 +24,6 @@ CREATE TABLE g1
    e3 boolean
 );
 
-
-
 CREATE TABLE g2
 (
    e1 varchar(32),
@@ -88,14 +86,6 @@ INSERT INTO Employees (id, title, firstname, lastname, birthday, dept_id) VALUES
 //INSERT INTO g1 (e1, e2, e3, e4, e5, e6) VALUES (5, 2, 3, 8, 2, 3);
 //INSERT INTO g1 (e1, e2, e3, e4, e5, e6) VALUES (6, 3, 8, 4, 1, 9);
 //INSERT INTO g1 (e1, e2, e3, e4, e5, e6) VALUES (7, 3, 1, 7, 9, 5);
-
-INSERT INTO A (x, y) VALUES (1, 1);
-INSERT INTO A (x, y) VALUES (2, 2);
-
-INSERT INTO B (x, y) VALUES (1, 1);
-INSERT INTO B (x, y) VALUES (2, 2);
-INSERT INTO B (x, y) VALUES (3, 3);
-INSERT INTO B (x, y) VALUES (4, 4);
 
 INSERT INTO Customers (CustomerID, CustomerName, ContactName, Country) VALUES (1, 'Alfreds Futterkiste', 'Maria Anders', 'Germany');
 INSERT INTO Customers (CustomerID, CustomerName, ContactName, Country) VALUES (2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'Mexico');
