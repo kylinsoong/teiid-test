@@ -1,4 +1,4 @@
-package org.teiid.test;
+package org.teiid.test.util;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -6,8 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.teiid.example.util.JDBCUtils;
-import org.teiid.test.util.TableRenderer;
+import org.teiid.test.PerfEntity;
 import org.teiid.test.util.TableRenderer.Column;
 import org.teiid.test.util.TableRenderer.ColumnMetaData;
 

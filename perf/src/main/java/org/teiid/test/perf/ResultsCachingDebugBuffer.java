@@ -10,11 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.sql.DataSource;
 
-import org.teiid.example.EmbeddedHelper;
+import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.JDBCUtils;

@@ -11,16 +11,15 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
-import org.teiid.example.EmbeddedHelper;
-import org.teiid.example.util.JDBCUtils;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
+import org.teiid.test.util.EmbeddedHelper;
+import org.teiid.test.util.JDBCUtils;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
 public class ExternalMaterializationMysqlDebug {
     static {
-        TestHelper.enableLogger(Level.INFO);
+        EmbeddedHelper.enableLogger(Level.INFO);
     }
     
     static EmbeddedServer server = null;

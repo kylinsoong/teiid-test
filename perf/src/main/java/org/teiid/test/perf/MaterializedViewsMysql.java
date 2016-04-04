@@ -1,7 +1,7 @@
 package org.teiid.test.perf;
 
-import static org.teiid.test.Util.dumpResult;
-import static org.teiid.test.Util.promptSQL;
+import static org.teiid.test.util.Util.dumpResult;
+import static org.teiid.test.util.Util.promptSQL;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,13 +14,12 @@ import javax.sql.DataSource;
 
 import org.teiid.deployers.VirtualDatabaseException;
 import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository.ConnectorManagerException;
-import org.teiid.example.EmbeddedHelper;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.PerfEntity;
-import org.teiid.test.Util;
+import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.test.util.JDBCUtils;
+import org.teiid.test.util.Util;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
@@ -31,7 +30,7 @@ public class MaterializedViewsMysql {
     
     static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
         
-        TestHelper.enableLogger(Level.FINER);
+        EmbeddedHelper.enableLogger(Level.FINER);
         
         server = new EmbeddedServer();
         

@@ -4,8 +4,8 @@ import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
-import static org.teiid.test.Util.dumpResult;
-import static org.teiid.test.Util.promptSQL;
+import static org.teiid.test.util.Util.dumpResult;
+import static org.teiid.test.util.Util.promptSQL;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,13 +18,12 @@ import javax.sql.DataSource;
 
 import org.teiid.deployers.VirtualDatabaseException;
 import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository.ConnectorManagerException;
-import org.teiid.example.EmbeddedHelper;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.PerfEntity;
-import org.teiid.test.Util;
+import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.test.util.JDBCUtils;
+import org.teiid.test.util.Util;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
@@ -35,7 +34,7 @@ public class ResultsCachingDebug {
     
     static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
         
-        TestHelper.enableLogger(Level.INFO);
+        EmbeddedHelper.enableLogger(Level.INFO);
         
         server = new EmbeddedServer();
         

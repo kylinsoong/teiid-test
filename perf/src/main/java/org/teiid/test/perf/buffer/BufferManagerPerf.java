@@ -20,12 +20,12 @@ import org.teiid.adminapi.Admin;
 import org.teiid.adminapi.EngineStatistics;
 import org.teiid.deployers.VirtualDatabaseException;
 import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository.ConnectorManagerException;
-import org.teiid.example.EmbeddedHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.PerfEntity;
-import org.teiid.test.Util;
 import org.teiid.test.perf.ResultsCachingMysql;
+import org.teiid.test.util.EmbeddedHelper;
+import org.teiid.test.util.Util;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 

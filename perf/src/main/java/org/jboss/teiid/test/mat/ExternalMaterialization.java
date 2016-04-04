@@ -4,8 +4,8 @@ import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
-import static org.teiid.test.Util.sleep;
 import static org.teiid.test.util.JDBCUtils.execute;
+import static org.teiid.test.util.Util.sleep;
 
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -17,13 +17,12 @@ import java.util.logging.Level;
 import javax.sql.DataSource;
 
 import org.h2.tools.RunScript;
-import org.teiid.example.EmbeddedHelper;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
-import org.teiid.test.Util;
 import org.teiid.test.perf.ResultsCachingMysql;
+import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.test.util.JDBCUtils;
+import org.teiid.test.util.Util;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
 public class ExternalMaterialization {
@@ -35,7 +34,7 @@ public class ExternalMaterialization {
     
     static void startup() throws Exception {
         
-        TestHelper.enableLogger(Level.INFO);
+        EmbeddedHelper.enableLogger(Level.INFO);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         insertSampleData(ds.getConnection());

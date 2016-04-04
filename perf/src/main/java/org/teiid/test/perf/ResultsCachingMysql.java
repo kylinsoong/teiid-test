@@ -6,21 +6,19 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.resource.ResourceException;
 import javax.sql.DataSource;
 
-import org.teiid.adminapi.Admin;
-import org.teiid.adminapi.AdminException;
 import org.teiid.deployers.VirtualDatabaseException;
 import org.teiid.dqp.internal.datamgr.ConnectorManagerRepository.ConnectorManagerException;
-import org.teiid.example.EmbeddedHelper;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.PerfEntity;
-import org.teiid.test.Util;
+import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.test.util.JDBCUtils;
+import org.teiid.test.util.Util;
 import org.teiid.translator.TranslatorException;
 import org.teiid.translator.jdbc.mysql.MySQL5ExecutionFactory;
 
@@ -44,7 +42,7 @@ public class ResultsCachingMysql {
 	
 	static void startup() throws TranslatorException, VirtualDatabaseException, ConnectorManagerException, IOException, SQLException, ResourceException {
 
-	    TestHelper.enableLogger();
+	    EmbeddedHelper.enableLogger(Level.FINER);
 	    
 		server = new EmbeddedServer();
 		

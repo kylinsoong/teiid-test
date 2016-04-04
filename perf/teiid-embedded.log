@@ -1,4 +1,0 @@
-2015-07-15 16:37:53,757 DEBUG [org.jboss.logging] (main) Logging Provider: org.jboss.logging.JBossLogManagerProvider
-2015-07-15 16:37:57,847 FINER [org.teiid.BUFFER_MGR] (main) Creating TupleBuffer: 0 [Test.PRODUCTView.product_id, Test.PRODUCTView.symbol] [class java.lang.Integer, class java.lang.String] batch size 1024 of type PROCESSOR
-2015-07-15 16:37:57,871 FINER [org.teiid.BUFFER_MGR] (main) ss7/ufc6thLM.0.0.0 Blocking on source query ss7/ufc6thLM.0.0.0
-2015-07-15 16:37:57,871 FINER [org.teiid.BUFFER_MGR] (main) ss7/ufc6thLM.0 Blocking on source request(s).

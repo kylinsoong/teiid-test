@@ -4,6 +4,7 @@ import org.jboss.teiid.test.mat.ExternalMaterialization;
 import org.jboss.teiid.test.rsCaching.ResultsCaching;
 import org.jboss.teiid.test.rsCaching.TranslatorResultsCaching;
 import org.teiid.test.util.TableRenderer;
+import org.teiid.test.util.Util;
 import org.teiid.test.util.TableRenderer.Column;
 import org.teiid.test.util.TableRenderer.ColumnMetaData;
 

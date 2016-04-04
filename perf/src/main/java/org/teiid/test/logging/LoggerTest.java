@@ -2,8 +2,8 @@ package org.teiid.test.logging;
 
 import java.util.logging.Level;
 
-import org.teiid.example.EmbeddedHelper;
 import org.teiid.test.perf.ResultsCachingDebugSimple;
+import org.teiid.test.util.EmbeddedHelper;
 
 public class LoggerTest {
 

@@ -13,11 +13,12 @@ public class PortfolioInterMaterializeClient {
     private static final String JDBC_PASS = "password1!";
     
     static String sql_mat = "SELECT * FROM stockPricesInterMatView";
+    static String sql_status = "select * from sysadmin.matviews";
 
     public static void main(String[] args) throws Exception {
 
         Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
-        execute(conn, sql_mat, true);
+        execute(conn, sql_status, true);
     }
 
 }
