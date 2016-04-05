@@ -14,7 +14,7 @@ public class VDBRepositoryTest {
         
         SystemMetadata.getInstance().getSystemStore();
 
-        new VDBRepository();
+//        new VDBRepository();
     }
 
 }

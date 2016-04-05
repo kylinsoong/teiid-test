@@ -26,7 +26,18 @@ public class ExternalMaterialization {
     
     static EmbeddedServer server = null;
     static Connection conn = null;
-
+    
+    static final String SQL_matViewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesMatView')";
+ 
+    static final String SQL_matViewStatus_ = "EXEC matViewStatus_('StocksMatModel', 'stockPricesMatView')";
+    
+    static final String SQL_GET_UID = "SELECT UID FROM Sys.Tables WHERE VDBName = 'PortfolioMaterialize' AND SchemaName = 'StocksMatModel' AND Name = 'stockPricesMatView'";
+    static final String SQL_MAT_TABLE = "SELECT \"Value\" from SYS.Properties WHERE UID = 'tid:5cb132cf1822-0f07a905-00000001' AND Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE'";
+    
+    static final String SQL_SYS_Properties = "SELECT * FROM SYS.Properties";
+    static final String SQL_SYS_Tables = "SELECT * FROM SYS.Tables";
+    
+    
     public static void main(String[] args) throws Exception {
 
         EmbeddedHelper.enableLogger(Level.INFO);
@@ -64,12 +75,25 @@ public class ExternalMaterialization {
 //        execute(conn, "select * from Stock", false);
 //        execute(conn, "select * from stockPricesMatView", false);
         
-        for(;;){
-            execute(conn, "select * from sysadmin.matviews WHERE Name = 'stockPricesMatView'", false);
-            execute(conn, "select * from Accounts.status", false);
-            Thread.sleep(60000);
-            
-        }
+//        execute(conn, SQL_GET_UID, false);
+//        execute(conn, SQL_MAT_TABLE, false);
+//        
+//        execute(conn, SQL_SYS_Properties, false);
+//        execute(conn, SQL_SYS_Tables, false);
+        
+        Thread.sleep(5000);
+//        
+        execute(conn, SQL_matViewStatus, false);
+        
+//        execute(conn, SQL_matViewStatus_, false);
+
+        
+//        for(;;){
+//            execute(conn, "select * from sysadmin.matviews WHERE Name = 'stockPricesMatView'", false);
+//            execute(conn, "select * from Accounts.status", false);
+//            Thread.sleep(60000);
+//            
+//        }
     }
 
 }

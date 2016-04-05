@@ -1,7 +1,7 @@
 package org.teiid.test.jdbc.client;
 
-import static org.teiid.example.util.JDBCUtils.execute;
-import static org.teiid.example.util.JDBCUtils.getDriverConnection;
+import static org.teiid.test.jdbc.client.JDBCUtils.execute;
+import static org.teiid.test.jdbc.client.JDBCUtils.getDriverConnection;
 
 import java.sql.Connection;
 
