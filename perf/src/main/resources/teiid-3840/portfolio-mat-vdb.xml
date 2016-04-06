@@ -99,39 +99,26 @@
                 </metadata>
         </model>
         
+        
         <model name="TmpModel" type="VIRTUAL">
                 <metadata type="DDL"><![CDATA[
-CREATE VIRTUAL PROCEDURE matViewStatus_(IN schemaName string NOT NULL, IN viewName string NOT NULL) RETURNS TABLE (TargetSchemaName varchar(50), TargetName varchar(50), Valid boolean, LoadState varchar(25), Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25)) AS
+CREATE VIRTUAL PROCEDURE matViewsStatus_() RETURNS TABLE (VDBName varchar(255), SchemaName varchar(255), Name varchar(255), TargetSchemaName varchar(255), TargetName varchar(255), Valid boolean, LoadState varchar(255), Updated timestamp, Cardinality long) AS
 BEGIN
         DECLARE string vdbName = (SELECT Name FROM VirtualDatabases);
         DECLARE integer vdbVersion = (SELECT convert(Version, integer) FROM VirtualDatabases);
-        DECLARE string uid = (SELECT UID FROM Sys.Tables WHERE VDBName = VARIABLES.vdbName AND SchemaName = matViewStatus_.schemaName AND Name = matViewStatus_.viewName);
-
-        IF (uid IS NULL)
-        BEGIN
-                RAISE SQLEXCEPTION 'The view not found';
-        END
-
-        DECLARE boolean isMaterialized = (SELECT IsMaterialized FROM SYS.Tables WHERE UID = VARIABLES.uid);
-
-        IF (NOT isMaterialized)
-        BEGIN
-                RAISE SQLEXCEPTION 'The view is not declared as Materialized View in Metadata';
-        END
-
-        DECLARE string statusTable = (SELECT "Value" from SYS.Properties WHERE UID = VARIABLES.uid AND Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE');
-        DECLARE string action = (SELECT "Value" from SYS.Properties WHERE UID = VARIABLES.uid AND Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_ONERROR_ACTION');
-        DECLARE string crit = ' WHERE VDBName = DVARS.vdbName AND VDBVersion = DVARS.vdbVersion AND schemaName = DVARS.schemaName AND Name = DVARS.viewName';
-	    DECLARE string defaultAction = 'THROW_EXCEPTION';
-        DECLARE long defaultLoadNumber = -1;
         
-	    IF (statusTable IS NULL)
-        BEGIN
-            EXECUTE IMMEDIATE 'SELECT TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, VARIABLES.defaultLoadNumber, VARIABLES.defaultAction FROM SYSADMIN.MatViews' AS TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25) USING vdbName = VARIABLES.vdbName, schemaName = matViewStatus_.schemaName;
-        END ELSE
-        BEGIN
-	        EXECUTE IMMEDIATE 'SELECT TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber, VARIABLES.action FROM ' || VARIABLES.statusTable || crit AS TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25) USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = matViewStatus_.schemaName, viewName = matViewStatus_.viewName;
-        END
+        /*
+          In current design, status table on the physical database, and used in any one of the source models
+        */
+		DECLARE string statusTable = (SELECT "Value" from SYS.Properties WHERE Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE' LIMIT 1);
+		
+		IF (statusTable IS NULL)
+		BEGIN
+		    EXECUTE IMMEDIATE 'SELECT VDBName, SchemaName, Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality FROM SYSADMIN.MatViews' AS VDBName string, SchemaName string, Name string, TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long USING vdbName = VARIABLES.vdbName;
+		END ELSE
+		BEGIN
+		   EXECUTE IMMEDIATE 'SELECT VDBName, SchemaName, Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality FROM ' || VARIABLES.statusTable AS VDBName string, SchemaName string, Name string, TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion;
+		END
 END
         ]]>
                 </metadata>

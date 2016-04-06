@@ -28,6 +28,7 @@ public class ExternalMaterialization {
     static Connection conn = null;
     
     static final String SQL_matViewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesMatView')";
+    static final String SQL_matViewsStatus = "EXEC SYSADMIN.matViewsStatus()";
  
     static final String SQL_matViewStatus_ = "EXEC matViewStatus_('StocksMatModel', 'stockPricesMatView')";
     
@@ -37,6 +38,7 @@ public class ExternalMaterialization {
     static final String SQL_SYS_Properties = "SELECT * FROM SYS.Properties";
     static final String SQL_SYS_Tables = "SELECT * FROM SYS.Tables";
     
+    static final String SQL_SYS_StoredProcedures = "SELECT * FROM SYS.Procedures";
     
     public static void main(String[] args) throws Exception {
 
@@ -78,14 +80,25 @@ public class ExternalMaterialization {
 //        execute(conn, SQL_GET_UID, false);
 //        execute(conn, SQL_MAT_TABLE, false);
 //        
-//        execute(conn, SQL_SYS_Properties, false);
+//        execute(conn, "SELECT \"Value\" from SYS.Properties WHERE Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE' LIMIT 1", false);
+//        execute(conn, "SELECT * FROM Sys.Tables WHERE isMaterialized = true AND IsSystem = false", false);
 //        execute(conn, SQL_SYS_Tables, false);
         
-        Thread.sleep(5000);
+//        execute(conn, "EXEC matViewsStatus()", false);
+        
+        Thread.sleep(2000);
+        
+//        unitTest();
 //        
-        execute(conn, SQL_matViewStatus, false);
+//        execute(conn, SQL_matViewStatus, false);
+        
+//        execute(conn, "select * from Accounts.status", false);
+        
+//        execute(conn, "EXEC matViewsStatus()", false);
         
 //        execute(conn, SQL_matViewStatus_, false);
+        
+        execute(conn, SQL_matViewsStatus, false);
 
         
 //        for(;;){
@@ -94,6 +107,12 @@ public class ExternalMaterialization {
 //            Thread.sleep(60000);
 //            
 //        }
+        conn.close();
+    }
+
+    static void unitTest() throws Exception {
+
+        execute(conn, SQL_SYS_StoredProcedures, false);
     }
 
 }

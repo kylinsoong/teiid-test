@@ -27,6 +27,7 @@ public class InternalMaterialization {
     static Connection conn = null;
     
     static final String SQL_matViewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesInterMatView')";
+    static final String SQL_matViewsStatus = "EXEC SYSADMIN.matViewsStatus()";
     
     static final String SQL_refreshMatView = "EXEC SYSADMIN.refreshMatView('StocksMatModel.stockPricesInterMatView', true)";
     
@@ -76,9 +77,16 @@ public class InternalMaterialization {
 //        execute(conn, SQL_GET_UID, false);
 //        execute(conn, SQL_MAT_STATUS_TABLE, false);
         
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         
-        execute(conn, SQL_matViewStatus, false);
+//        execute(conn, SQL_matViewsStatus, false);
+        
+//        execute(conn, "select * from sysadmin.matviews", false);
+//        execute(conn, "EXEC matViewsStatus()", false);
+        
+        execute(conn, SQL_matViewsStatus, false);
+        
+//        execute(conn, SQL_matViewStatus_, false);
         
         conn.close();
         

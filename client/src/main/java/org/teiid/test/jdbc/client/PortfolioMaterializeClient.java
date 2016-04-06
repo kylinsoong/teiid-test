@@ -17,6 +17,7 @@ public class PortfolioMaterializeClient {
     static String sql_mat = "SELECT * FROM stockPricesMatView";
     static String sql_status = "select * from sysadmin.matviews";
     static String sql_viewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesMatView')";
+    static String sql_viewsStatus = "EXEC SYSADMIN.matViewsStatus()";
     
     static final String SQL_GET_UID = "SELECT UID FROM Sys.Tables WHERE VDBName = 'PortfolioMaterialize' AND SchemaName = 'StocksMatModel' AND Name = 'stockPricesMatView'";
     static final String SQL_MAT_TABLE = "SELECT \"Value\" from SYS.Properties WHERE UID = 'tid:5cb132cf1822-0f07a905-00000001' AND Name = 'MATERIALIZED_TABLE'";
@@ -26,13 +27,24 @@ public class PortfolioMaterializeClient {
 	public static void main(String[] args) throws Exception {
 
 		Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
-//		execute(conn, sql_mat, false);
-		execute(conn, SQL_GET_UID, false);
-		execute(conn, SQL_MAT_TABLE, false);
-		execute(conn, SQL_SYS_Properties, false);
+		execute(conn, sql_mat, false);
+//		execute(conn, SQL_GET_UID, false);
+//		execute(conn, SQL_MAT_TABLE, false);
+//		execute(conn, SQL_SYS_Properties, false);
 //		execute(conn, sql_viewStatus, false);
 //		executeCallable(conn);
-//		execute(conn, sql_status, true);
+		
+		// query status table
+//		execute(conn, "select * from Accounts.status", false);
+		
+//		execute(conn, "SELECT Name FROM VirtualDatabases", false);
+//		execute(conn, "SELECT convert(Version, integer) FROM VirtualDatabases", false);
+//		execute(conn, "SELECT * FROM SYS.Properties", false);
+		execute(conn, sql_viewStatus, false);
+		
+		execute(conn, sql_viewsStatus, false);
+		
+		conn.close();
 	}
 
     static void executeCallable(Connection conn) throws SQLException {
