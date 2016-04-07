@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="MatViewH2VDB" version="1">
+	<description>Teiid Perf VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<model name="TestMat" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		CREATE VIEW SAMPLEMATVIEW (
+		id varchar,
+		a varchar,
+		b varchar,
+		c varchar
+		) OPTIONS (materialized true,
+		    UPDATABLE 'TRUE',
+			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
+            "teiid_rel:MATVIEW_PREFER_MEMEORY" 'true',
+            "teiid_rel:MATVIEW_TTL" 30000,
+            "teiid_rel:MATVIEW_UPDATABLE" 'true', 
+            "teiid_rel:MATVIEW_SCOPE" 'VDB'
+		)
+		AS
+		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
+		]]>
+		</metadata>
+	</model>
+</vdb>
