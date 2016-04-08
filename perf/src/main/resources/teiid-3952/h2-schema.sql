@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS SampleTable;
 
-CREATE TABLE SampleTable(id CHAR(4), a CHAR(16), b CHAR(40), c CHAR(40));
+CREATE TABLE SampleTable(id CHAR(4), a CHAR(16), b CHAR(40), c CHAR(40), PRIMARY KEY (id));
 
 
 INSERT INTO SampleTable (id, a, b, c) VALUES ('100', 'a0', 'b0', 'c0');

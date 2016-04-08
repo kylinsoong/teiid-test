@@ -15,7 +15,8 @@
 		id varchar,
 		a varchar,
 		b varchar,
-		c varchar
+		c varchar,
+		PRIMARY KEY (id)
 		) OPTIONS (materialized true,
 		    UPDATABLE 'TRUE',
 			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 

@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 import org.h2.tools.RunScript;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
-import org.teiid.test.teiid3480.InternalMaterialization;
 import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
@@ -52,9 +51,34 @@ public class TEIID3952Reproduce {
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
         
-        reproduce_1(ds.getConnection());
+//        reproduce_1(ds.getConnection());
+        
+        reproduce_2(ds.getConnection());
         
         conn.close();
+    }
+
+    /**
+     * 
+     * 1) select a row from the materialized table
+     * 2) update a field in a row in the materialized view
+     * 3) issue EXEC SYSADMIN.refreshMatViewRow(...) using primary key for the row that has been changed
+     * 4) select that row (value unchanged) - now I can see the changed data
+     * 
+     */
+    static void reproduce_2(Connection dsConn) throws Exception {
+
+        execute(dsConn, "SELECT * FROM SampleTable WHERE id = '100'", false);
+        
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW WHERE id = '100'", false);
+        
+        execute(conn, "UPDATE SAMPLEMATVIEW SET a = 'aaa' WHERE id = '100'", false);
+        
+        execute(conn, "EXEC SYSADMIN.refreshMatViewRow('TestMat.SAMPLEMATVIEW', '100')", false);
+        
+        execute(dsConn, "SELECT * FROM SampleTable WHERE id = '100'", false);
+        
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW WHERE id = '100'", false);
     }
 
     /**
