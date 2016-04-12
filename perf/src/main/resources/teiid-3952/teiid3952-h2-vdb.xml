@@ -21,8 +21,7 @@
 		    UPDATABLE 'TRUE',
 			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
             "teiid_rel:MATVIEW_PREFER_MEMEORY" 'true',
-            "teiid_rel:MATVIEW_TTL" 30000,
-            "teiid_rel:MATVIEW_UPDATABLE" 'true', 
+            "teiid_rel:MATVIEW_UPDATABLE" 'false', 
             "teiid_rel:MATVIEW_SCOPE" 'VDB'
 		)
 		AS

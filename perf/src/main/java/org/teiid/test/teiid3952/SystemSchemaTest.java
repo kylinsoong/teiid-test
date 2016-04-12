@@ -44,6 +44,7 @@ public class SystemSchemaTest {
         
         EmbeddedConfiguration config = new EmbeddedConfiguration();
         config.setTransactionManager(EmbeddedHelper.getTransactionManager());
+        config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
         server.deployVDB(TEIID3952Reproduce.class.getClassLoader().getResourceAsStream("teiid-3952/systemschema-vdb.xml"));
@@ -52,9 +53,10 @@ public class SystemSchemaTest {
         conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
         
 //        test_sysadmin_foreign_tables();
-        test_sysadmin_foreign_procedures();
-        
+//        test_sysadmin_foreign_procedures();
 //        test_sys_foreign_tables();
+        
+        execute(conn, "SELECT * FROM SYSADMIN.MatViews", false);
                 
         conn.close();
     }

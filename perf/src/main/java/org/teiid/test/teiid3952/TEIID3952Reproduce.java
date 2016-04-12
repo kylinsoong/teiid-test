@@ -26,7 +26,7 @@ public class TEIID3952Reproduce {
     
     public static void main(String[] args) throws Exception {
 
-        EmbeddedHelper.enableLogger(Level.OFF);
+        EmbeddedHelper.enableLogger(Level.ALL);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3952Reproduce.class.getClassLoader().getResourceAsStream("teiid-3952/h2-schema.sql")));
@@ -44,6 +44,7 @@ public class TEIID3952Reproduce {
         
         EmbeddedConfiguration config = new EmbeddedConfiguration();
         config.setTransactionManager(EmbeddedHelper.getTransactionManager());
+        config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
         server.deployVDB(TEIID3952Reproduce.class.getClassLoader().getResourceAsStream("teiid-3952/teiid3952-h2-vdb.xml"));
@@ -53,9 +54,17 @@ public class TEIID3952Reproduce {
         
 //        reproduce_1(ds.getConnection());
         
-        reproduce_2(ds.getConnection());
+//        reproduce_2(ds.getConnection());
+        
+        test_mat_1();
         
         conn.close();
+    }
+
+    static void test_mat_1() throws Exception {
+
+        execute(conn, "UPDATE SAMPLEMATVIEW SET a = 'aaa' WHERE id = '100'", false);
+        
     }
 
     /**
