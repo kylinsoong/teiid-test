@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>teiid-test-transaction</artifactId>
+    <groupId>org.jboss.teiid.test</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+    <name>Teiid Test Transaction</name>
+    <description>Teiid Test Transaction</description>
+	
+    <properties>
+        <version.teiid>9.0.0.Beta2-SNAPSHOT</version.teiid>
+        <version.ironjacamar>1.2.5.Final</version.ironjacamar>
+    </properties>
+
+    <dependencies>
+    
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId> 
+            <artifactId>mariadb-java-client</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        
+    
+    <!--  
+        <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid-admin</artifactId>
+            <version>${version.teiid}</version>
+        </dependency>
+        -->
+        
+        <!-- Debug Related -->
+
+    </dependencies>
+	
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

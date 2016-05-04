@@ -6,6 +6,8 @@ import static org.teiid.test.jdbc.client.JDBCUtils.getDriverConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PortfolioMaterializeClient {
 	
@@ -27,7 +29,7 @@ public class PortfolioMaterializeClient {
 	public static void main(String[] args) throws Exception {
 
 		Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
-		execute(conn, sql_mat, false);
+//		execute(conn, sql_mat, false);
 //		execute(conn, SQL_GET_UID, false);
 //		execute(conn, SQL_MAT_TABLE, false);
 //		execute(conn, SQL_SYS_Properties, false);
@@ -40,12 +42,36 @@ public class PortfolioMaterializeClient {
 //		execute(conn, "SELECT Name FROM VirtualDatabases", false);
 //		execute(conn, "SELECT convert(Version, integer) FROM VirtualDatabases", false);
 //		execute(conn, "SELECT * FROM SYS.Properties", false);
-		execute(conn, sql_viewStatus, false);
+//		execute(conn, sql_viewStatus, false);
 		
-		execute(conn, sql_viewsStatus, false);
+//		execute(conn, sql_viewsStatus, false);
+		
+		String sql = "SELECT DISTINCT \"Value\" FROM SYS.Properties WHERE Name = '{http://www.teiid.org/ext/relational/2012}MATVIEW_STATUS_TABLE'";
+		List<String> statusTables = new ArrayList<>();
+		statusTables.add("Accounts.status");
+		statusTables.add("Accounts.status_1");
+		execute(conn, formQuerySql(statusTables), false);
 		
 		conn.close();
 	}
+	
+	static String formQuerySql(List<String> tables) {
+        
+        String COLUMNS = "SELECT VDBName, SchemaName, Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality FROM";
+        String UNION = "UNION";
+        String BLANK = " ";
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append(COLUMNS).append(BLANK);
+        sb.append("SYSADMIN.MatViews").append(BLANK);
+        for(String table : tables){
+            sb.append(UNION).append(BLANK);
+            sb.append(COLUMNS).append(BLANK);
+            sb.append(table).append(BLANK);
+        }
+        
+        return sb.toString();
+    }
 
     static void executeCallable(Connection conn) throws SQLException {
 

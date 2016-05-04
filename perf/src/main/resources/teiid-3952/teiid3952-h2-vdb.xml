@@ -21,11 +21,18 @@
 		    UPDATABLE 'TRUE',
 			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
             "teiid_rel:MATVIEW_PREFER_MEMEORY" 'true',
-            "teiid_rel:MATVIEW_UPDATABLE" 'false', 
+            "teiid_rel:MATVIEW_TTL" 30000,
+            "teiid_rel:MATVIEW_UPDATABLE" 'true', 
             "teiid_rel:MATVIEW_SCOPE" 'VDB'
 		)
 		AS
 		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
+		
+		CREATE TRIGGER ON SAMPLEMATVIEW INSTEAD OF UPDATE AS
+		    FOR EACH ROW
+		    BEGIN ATOMIC
+		    UPDATE Accounts.SampleTable SET a = 'aaa' WHERE id = '100';
+		    END
 		]]>
 		</metadata>
 	</model>

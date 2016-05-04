@@ -52,11 +52,13 @@ public class TEIID3952Reproduce {
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
         
+        Thread.sleep(3000);
+        
 //        reproduce_1(ds.getConnection());
         
 //        reproduce_2(ds.getConnection());
         
-        test_mat_1();
+//        test_mat_1();
         
         conn.close();
     }
@@ -64,7 +66,7 @@ public class TEIID3952Reproduce {
     static void test_mat_1() throws Exception {
 
         execute(conn, "UPDATE SAMPLEMATVIEW SET a = 'aaa' WHERE id = '100'", false);
-        
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW WHERE id = '100'", false);
     }
 
     /**

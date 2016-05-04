@@ -38,7 +38,7 @@ public class InternalMaterialization {
     
     public static void main(String[] args) throws Exception {
         
-        EmbeddedHelper.enableLogger(Level.OFF);
+        EmbeddedHelper.enableLogger(Level.ALL);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(InternalMaterialization.class.getClassLoader().getResourceAsStream("teiid-3840/customer-schema.sql")));

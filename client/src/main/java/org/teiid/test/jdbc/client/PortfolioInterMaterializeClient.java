@@ -15,16 +15,27 @@ public class PortfolioInterMaterializeClient {
     static String sql_mat = "SELECT * FROM stockPricesInterMatView";
     static String sql_status = "select * from sysadmin.matviews";
     static String sql_viewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesInterMatView')";
-    static String sql_viewsStatus = "EXEC SYSADMIN.matViewsStatus()";
 
     public static void main(String[] args) throws Exception {
 
         Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+        
+//        basicQuery(conn);
+        
+        refreshMatView(conn);
+        
+        conn.close();
+    }
+
+    static void refreshMatView(Connection conn) throws Exception {
+        execute(conn, "", false);
+    }
+
+    static void basicQuery(Connection conn) throws Exception {
+
         execute(conn, sql_mat, false);
         execute(conn, sql_status, false);
         execute(conn, sql_viewStatus, false);
-        execute(conn, sql_viewsStatus, false);
-        conn.close();
     }
 
 }
