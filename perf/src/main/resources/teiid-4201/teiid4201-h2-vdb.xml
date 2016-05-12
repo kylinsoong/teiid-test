@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="apm_public" version="1">
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="public">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+</vdb>

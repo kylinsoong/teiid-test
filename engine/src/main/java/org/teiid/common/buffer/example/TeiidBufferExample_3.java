@@ -11,7 +11,7 @@ public class TeiidBufferExample_3 {
 
         TupleBatch batch = new TupleBatch(1, Arrays.asList(Arrays.asList(100, "IBM"), Arrays.asList(101, "DELL"), Arrays.asList(102, "HPQ")));
         batch.setTerminationFlag(true);
-        long sourceRow = 1;
+        int sourceRow = 1;
         while (true){
             if(batch.getRowCount() > 0 && sourceRow <= batch.getEndRow()){
                 List<?> tuple = batch.getTuple(sourceRow);

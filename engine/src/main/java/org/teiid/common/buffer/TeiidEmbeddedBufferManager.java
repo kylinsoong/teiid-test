@@ -10,7 +10,6 @@ import org.teiid.common.buffer.BufferManager.TupleSourceType;
 import org.teiid.core.TeiidComponentException;
 import org.teiid.core.types.DataTypeManager;
 import org.teiid.dqp.service.BufferService;
-import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.sql.symbol.ElementSymbol;
 import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.services.BufferServiceImpl;
@@ -29,8 +28,6 @@ public class TeiidEmbeddedBufferManager {
 
 	public static void main(String[] args) throws TeiidComponentException {
 		
-		EmbeddedHelper.enableLogger(Level.ALL);
-
 		/**
 		 * 1. BufferManagerImpl is initiated in EmbeddedServer's start() method
 		 */

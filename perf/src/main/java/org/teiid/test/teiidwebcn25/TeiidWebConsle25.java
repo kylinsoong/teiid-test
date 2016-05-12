@@ -76,7 +76,7 @@ public class TeiidWebConsle25 {
     }
     
     static void changedProcedureTest() throws Exception{ 
-        execute(conn, "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesMatView', true)", false);
+//        execute(conn, "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesMatView', true)", false);
         execute(conn, "EXEC SYSADMIN.loadMatView('StocksInterMatModel', 'stockPricesInterMatView', true)", false);
     }
 
@@ -121,6 +121,8 @@ public class TeiidWebConsle25 {
         loadMatViewProcedure();
         
         procedureTest();
+        
+        changedProcedureTest();
         
         conn.close();
     }

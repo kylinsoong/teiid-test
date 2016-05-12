@@ -15,8 +15,8 @@ import org.teiid.dqp.internal.process.SessionAwareCache.CacheID;
 import org.teiid.metadata.FunctionMethod.Determinism;
 import org.teiid.query.parser.ParseInfo;
 import org.teiid.query.sql.symbol.ElementSymbol;
-import org.teiid.query.test.TestHelper;
 import org.teiid.runtime.EmbeddedConfiguration;
+import org.teiid.test.util.TestHelper;
 
 public class BufferManagerExample {
 

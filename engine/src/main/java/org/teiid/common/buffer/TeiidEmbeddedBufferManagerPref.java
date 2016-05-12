@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 import org.teiid.common.buffer.impl.BufferManagerImpl;
 import org.teiid.core.TeiidComponentException;
 import org.teiid.dqp.service.BufferService;
-import org.teiid.example.EmbeddedHelper;
 import org.teiid.services.BufferServiceImpl;
 
 public class TeiidEmbeddedBufferManagerPref {
@@ -20,8 +18,6 @@ public class TeiidEmbeddedBufferManagerPref {
 	static final int SIZE = 3000;
 
 	public static void main(String[] args) throws TeiidComponentException, InterruptedException {
-
-		EmbeddedHelper.enableLogger(Level.ALL);
 		
 		BufferService bs = getBufferService();
 		

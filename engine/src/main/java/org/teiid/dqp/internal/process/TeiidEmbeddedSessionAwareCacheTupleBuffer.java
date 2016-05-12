@@ -4,7 +4,6 @@ import static org.teiid.metadata.FunctionMethod.Determinism.DETERMINISTIC;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.logging.Level;
 
 import org.teiid.common.buffer.TeiidEmbeddedBufferManager;
 import org.teiid.common.buffer.TupleBatch;
@@ -12,7 +11,6 @@ import org.teiid.common.buffer.TupleBuffer;
 import org.teiid.core.TeiidComponentException;
 import org.teiid.dqp.internal.process.SessionAwareCache.CacheID;
 import org.teiid.dqp.service.BufferService;
-import org.teiid.example.EmbeddedHelper;
 import org.teiid.query.parser.ParseInfo;
 import org.teiid.runtime.EmbeddedConfiguration;
 
@@ -21,8 +19,6 @@ public class TeiidEmbeddedSessionAwareCacheTupleBuffer {
 	static CacheID cid ;
 
 	public static void main(String[] args) throws TeiidComponentException {
-
-		EmbeddedHelper.enableLogger(Level.ALL);
 		
 		EmbeddedConfiguration config = new EmbeddedConfiguration();
 		

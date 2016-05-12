@@ -2,14 +2,11 @@ package org.teiid.common.buffer.test;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.logging.Level;
 
 import org.teiid.common.buffer.FileStore;
-import org.teiid.common.buffer.impl.FileStorageManager;
 import org.teiid.common.buffer.impl.MemoryStorageManager;
 import org.teiid.common.buffer.impl.SplittableStorageManager;
 import org.teiid.core.TeiidComponentException;
-import org.teiid.example.EmbeddedHelper;
 
 public class SplittableStorageManagerTest {
 	
@@ -17,8 +14,6 @@ public class SplittableStorageManagerTest {
 
 	public static void main(String[] args) throws TeiidComponentException, IOException {
 		
-		EmbeddedHelper.enableLogger(Level.ALL);
-
 		testCreatesSpillFiles();
 	}
 

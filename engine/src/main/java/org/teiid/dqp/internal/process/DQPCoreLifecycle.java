@@ -1,8 +1,8 @@
 package org.teiid.dqp.internal.process;
 
-import static org.teiid.query.test.TestHelper.exampleRequestMessage;
-import static org.teiid.query.test.TestHelper.getTransactionManager;
-import static org.teiid.query.test.TestHelper.dumpMsg;
+import static org.teiid.test.util.TestHelper.exampleRequestMessage;
+import static org.teiid.test.util.TestHelper.getTransactionManager;
+import static org.teiid.test.util.TestHelper.dumpMsg;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

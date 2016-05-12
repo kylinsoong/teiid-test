@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="MatViewH2VDB" version="1">
+	<description>Teiid Perf VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<!--  -->
+	<model name="TestInterMat" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		CREATE VIEW SAMPLEMATVIEW (
+		id varchar,
+		a varchar,
+		b varchar,
+		c varchar,
+		PRIMARY KEY (id)
+		) OPTIONS (materialized true,
+		    UPDATABLE 'TRUE',
+			"teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
+            "teiid_rel:MATVIEW_PREFER_MEMEORY" 'true',
+            "teiid_rel:MATVIEW_TTL" 30000,
+            "teiid_rel:MATVIEW_UPDATABLE" 'true', 
+            "teiid_rel:MATVIEW_SCOPE" 'VDB'
+		)
+		AS
+		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
+		
+		
+		]]>
+		</metadata>
+	</model>
+	
+	
+	<model name="TestExterMat" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		CREATE VIEW SAMPLEEXTERMATVIEW (
+		id varchar,
+		a varchar,
+		b varchar,
+		c varchar,
+		PRIMARY KEY (id)
+		) OPTIONS (MATERIALIZED 'TRUE', UPDATABLE 'TRUE',         
+               MATERIALIZED_TABLE 'Accounts.SampleTable_mat', 
+               "teiid_rel:MATVIEW_TTL" 30000,
+               "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute accounts.native(''truncate table SampleTable_staging'');',
+               "teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT"  'execute accounts.native(''ALTER TABLE SampleTable_mat RENAME TO h2_stock_mat_temp'');execute accounts.native(''ALTER TABLE mat_stock_staging RENAME TO SampleTable_mat'');execute accounts.native(''ALTER TABLE h2_stock_mat_temp RENAME TO mat_stock_staging'');', 
+               "teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''SAMPLEEXTERMATVIEW'' AND schemaname = ''TestExterMat''',
+               "teiid_rel:MATERIALIZED_STAGE_TABLE" 'Accounts.SampleTable_staging',
+               "teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
+               "teiid_rel:MATVIEW_STATUS_TABLE" 'Accounts.status', 
+               "teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
+               "teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION'
+		)
+		AS
+		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
+		
+		
+		]]>
+		</metadata>
+	</model>
+	
+</vdb>

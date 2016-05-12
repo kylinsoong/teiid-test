@@ -10,14 +10,11 @@ import org.teiid.core.TeiidComponentException;
 import org.teiid.core.TeiidProcessingException;
 import org.teiid.core.types.DataTypeManager;
 import org.teiid.query.sql.symbol.ElementSymbol;
-import org.teiid.query.test.TestHelper;
 
 public class TupleSourceTupleBufferTest {
 
 	public static void main(String[] args) throws TeiidComponentException, TeiidProcessingException {
-		
-		TestHelper.enableLogger();
-		
+				
 		test_1();
 		
 		test_2();

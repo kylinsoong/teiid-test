@@ -5,14 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.logging.Level;
 
 import org.teiid.common.buffer.FileStore;
 import org.teiid.common.buffer.FileStore.FileStoreOutputStream;
 import org.teiid.common.buffer.impl.FileStorageManager;
 import org.teiid.common.buffer.impl.SplittableStorageManager;
 import org.teiid.core.TeiidComponentException;
-import org.teiid.example.EmbeddedHelper;
 
 public class FileStorageManagerTest {
 	
@@ -22,7 +20,6 @@ public class FileStorageManagerTest {
 
 	public static void main(String[] args) throws TeiidComponentException, IOException {
 		
-		EmbeddedHelper.enableLogger(Level.ALL);
 
 //		testInit();
 //		
