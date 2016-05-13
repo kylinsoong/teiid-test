@@ -12,30 +12,29 @@ public class PortfolioInterMaterializeClient {
     private static final String JDBC_USER = "teiidUser";
     private static final String JDBC_PASS = "password1!";
     
-    static String sql_mat = "SELECT * FROM stockPricesInterMatView";
-    static String sql_status = "select * from sysadmin.matviews";
-    static String sql_viewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesInterMatView')";
+    static String SQL_MATVIEW = "SELECT * FROM stockPricesInterMatView";
 
+    static String SQL_MATVIEW_STATUS = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesInterMatView')";
+
+    static String SQL_MATVIEW_REFRESH = "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesInterMatView', true)";
+    
     public static void main(String[] args) throws Exception {
 
         Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
         
-//        basicQuery(conn);
+        // Query Mat View
+        execute(conn, SQL_MATVIEW, false);
         
-        refreshMatView(conn);
+        // Query Mat View Status
+        execute(conn, SQL_MATVIEW_STATUS, false);
+        
+        // Refresh Mat View
+        execute(conn, SQL_MATVIEW_REFRESH, false);
+        execute(conn, SQL_MATVIEW_STATUS, false);
         
         conn.close();
     }
 
-    static void refreshMatView(Connection conn) throws Exception {
-        execute(conn, "", false);
-    }
 
-    static void basicQuery(Connection conn) throws Exception {
-
-        execute(conn, sql_mat, false);
-        execute(conn, sql_status, false);
-        execute(conn, sql_viewStatus, false);
-    }
 
 }
