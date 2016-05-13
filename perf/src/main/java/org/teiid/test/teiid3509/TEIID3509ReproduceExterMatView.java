@@ -19,14 +19,20 @@ import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class TEIID3509Reproduce {
+public class TEIID3509ReproduceExterMatView {
 
     static EmbeddedServer server = null;
     static Connection conn = null;
     
+    static final String SQL_MAT_QUERY = "SELECT * FROM SAMPLEEXTERMATVIEW";
+    
+    static final String SQL_MAT_STATUS = "EXEC SYSADMIN.matViewStatus('TestExterMat', 'SAMPLEEXTERMATVIEW')";
+    
+    static final String SQL_MAT_REFRESH = "EXEC SYSADMIN.loadMatView('TestExterMat', 'SAMPLEEXTERMATVIEW', true)";
+    
     public static void main(String[] args) throws Exception {
 
-        EmbeddedHelper.enableLogger(Level.INFO);
+        EmbeddedHelper.enableLogger(Level.ALL);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3509Reproduce.class.getClassLoader().getResourceAsStream("teiid-3509/h2-schema.sql")));
@@ -46,34 +52,17 @@ public class TEIID3509Reproduce {
         config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
-        server.deployVDB(TEIID3509Reproduce.class.getClassLoader().getResourceAsStream("teiid-3509/teiid3509-h2-mat-vdb.xml"));
+        server.deployVDB(TEIID3509Reproduce.class.getClassLoader().getResourceAsStream("teiid-3509/teiid3509-h2-exter-mat-vdb.xml"));
         
         Properties info = new Properties();
-        conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
+        conn = server.getDriver().connect("jdbc:teiid:ExternalMatViewH2VDB", info);
         
         Thread.sleep(3000);
 
-//        status_query(conn);
-        
-//        testInternal();
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestExterMat', 'SAMPLEEXTERMATVIEW')", false);
-//        execute(conn, "EXEC SYSADMIN.loadMatView('TestExterMat', 'SAMPLEEXTERMATVIEW', true)", false);
+        execute(conn, SQL_MAT_QUERY, false);
+//        execute(conn, SQL_MAT_STATUS, false);
+//        execute(conn, SQL_MAT_REFRESH, false);
         
         conn.close();
     }
-
-    static void testInternal() throws Exception {
-
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-        execute(conn, "EXEC SYSADMIN.loadMatView('TestInterMat', 'SAMPLEMATVIEW', true)", false);
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-    }
-
-    static void status_query(Connection conn) throws Exception {
-
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-        
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestExterMat', 'SAMPLEEXTERMATVIEW')", false);
-    }
-
 }

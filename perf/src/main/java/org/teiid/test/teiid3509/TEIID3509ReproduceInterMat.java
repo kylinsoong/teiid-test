@@ -19,10 +19,14 @@ import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class TEIID3509Reproduce {
-
+public class TEIID3509ReproduceInterMat {
+    
     static EmbeddedServer server = null;
     static Connection conn = null;
+    
+    static final String SQL_MAT_STATUS = "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')";
+    
+    static final String SQL_MAT_REFRESH = "EXEC SYSADMIN.loadMatView('TestInterMat', 'SAMPLEMATVIEW', true)";
     
     public static void main(String[] args) throws Exception {
 
@@ -46,34 +50,18 @@ public class TEIID3509Reproduce {
         config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
-        server.deployVDB(TEIID3509Reproduce.class.getClassLoader().getResourceAsStream("teiid-3509/teiid3509-h2-mat-vdb.xml"));
+        server.deployVDB(TEIID3509Reproduce.class.getClassLoader().getResourceAsStream("teiid-3509/teiid3509-h2-inter-mat-vdb.xml"));
         
         Properties info = new Properties();
-        conn = server.getDriver().connect("jdbc:teiid:MatViewH2VDB", info);
+        conn = server.getDriver().connect("jdbc:teiid:InternalMatViewH2VDB", info);
         
         Thread.sleep(3000);
 
-//        status_query(conn);
-        
-//        testInternal();
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestExterMat', 'SAMPLEEXTERMATVIEW')", false);
-//        execute(conn, "EXEC SYSADMIN.loadMatView('TestExterMat', 'SAMPLEEXTERMATVIEW', true)", false);
+        execute(conn, SQL_MAT_STATUS, false);
+        execute(conn, SQL_MAT_REFRESH, false);
+        execute(conn, SQL_MAT_STATUS, false);
         
         conn.close();
-    }
-
-    static void testInternal() throws Exception {
-
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-        execute(conn, "EXEC SYSADMIN.loadMatView('TestInterMat', 'SAMPLEMATVIEW', true)", false);
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-    }
-
-    static void status_query(Connection conn) throws Exception {
-
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestInterMat', 'SAMPLEMATVIEW')", false);
-        
-        execute(conn, "EXEC SYSADMIN.matViewStatus('TestExterMat', 'SAMPLEEXTERMATVIEW')", false);
     }
 
 }

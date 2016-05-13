@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="MatViewH2VDB" version="1">
+	<description>Teiid System Schema VDB</description>
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<model name="Accounts">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="mysql-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+	<model name="TestExterMat" type="VIRTUAL">
+		<metadata type="DDL"><![CDATA[
+		
+		CREATE VIEW SAMPLEEXTERMATVIEW (
+		id varchar,
+		a varchar,
+		b varchar,
+		c varchar,
+		PRIMARY KEY (id)
+		)
+		AS
+		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
+		
+		
+		]]>
+		</metadata>
+	</model>
+	
+	
+	<model name="TmpModel" type="VIRTUAL">
+                <metadata type="DDL"><![CDATA[
+           
+CREATE VIRTUAL PROCEDURE testProcLoad(IN schemaName string NOT NULL, IN viewName string NOT NULL, IN invalidate boolean NOT NULL DEFAULT 'false') RETURNS integer 
+AS
+BEGIN
+        DECLARE string vdbName = (SELECT Name FROM VirtualDatabases);
+        DECLARE integer vdbVersion = (SELECT convert(Version, integer) FROM VirtualDatabases);
+        DECLARE string uid = (SELECT UID FROM Sys.Tables WHERE VDBName = VARIABLES.vdbName AND SchemaName = testProcLoad.schemaName AND Name = testProcLoad.viewName);
+        DECLARE string status = 'CHECK';
+        DECLARE integer rowsUpdated = 0;
+        DECLARE string crit;
+        DECLARE integer lineCount = 0;
+        DECLARE integer index = 0;
+
+
+        IF (uid IS NULL)
+        BEGIN
+                RAISE SQLEXCEPTION 'The view not found';
+        END
+        
+        EXECUTE logMsg(context=>'org.ksoong.test.uid', level=>'ERROR', msg=>uid);
+        
+        DECLARE boolean isMaterialized = (SELECT IsMaterialized FROM SYS.Tables WHERE UID = VARIABLES.uid);
+
+        IF (NOT isMaterialized)
+        BEGIN
+            EXECUTE logMsg(context=>'org.ksoong.test.110', level=>'ERROR', msg=>'The view is not declared as Materialized View in Metadata');
+        END
+        
+        DECLARE string statusTable = 'Accounts.status';
+        
+        DECLARE string beforeLoadScript = 'execute accounts.native(''truncate table SampleTable_staging'');';       
+        DECLARE string loadScript = null;
+        DECLARE string afterLoadScript = 'execute accounts.native(''ALTER TABLE SampleTable_mat RENAME TO h2_stock_mat_temp'');execute accounts.native(''ALTER TABLE mat_stock_staging RENAME TO SampleTable_mat'');execute accounts.native(''ALTER TABLE h2_stock_mat_temp RENAME TO mat_stock_staging'');';
+        DECLARE integer ttl = 30000;
+        DECLARE string matViewStageTable = 'Accounts.SampleTable_staging';
+        DECLARE string scope = 'NONE';
+        DECLARE string matViewTable = 'SampleTable_mat';
+        DECLARE string targetSchemaName = 'Accounts';
+        DECLARE string action = 'THROW_EXCEPTION';
+        DECLARE boolean implicitLoadScript = false;
+        
+        EXECUTE logMsg(context=>'org.ksoong.test.beforeLoadScript', level=>'ERROR', msg=>beforeLoadScript);
+        EXECUTE logMsg(context=>'org.ksoong.test.loadScript', level=>'ERROR', msg=>loadScript);
+        EXECUTE logMsg(context=>'org.ksoong.test.afterLoadScript', level=>'ERROR', msg=>afterLoadScript);
+        EXECUTE logMsg(context=>'org.ksoong.test.ttl', level=>'ERROR', msg=>ttl);
+        EXECUTE logMsg(context=>'org.ksoong.test.matViewStageTable', level=>'ERROR', msg=>matViewStageTable);
+        EXECUTE logMsg(context=>'org.ksoong.test.scope', level=>'ERROR', msg=>scope);
+        EXECUTE logMsg(context=>'org.ksoong.test.matViewTable', level=>'ERROR', msg=>matViewTable);
+        EXECUTE logMsg(context=>'org.ksoong.test.targetSchemaName', level=>'ERROR', msg=>targetSchemaName);
+        EXECUTE logMsg(context=>'org.ksoong.test.action', level=>'ERROR', msg=>action);
+        EXECUTE logMsg(context=>'org.ksoong.test.implicitLoadScript', level=>'ERROR', msg=>implicitLoadScript);
+        
+        VARIABLES.crit = ' WHERE VDBName = DVARS.vdbName AND VDBVersion = DVARS.vdbVersion AND schemaName = DVARS.schemaName AND Name = DVARS.viewName';
+        DECLARE string updateStmt = 'UPDATE ' || VARIABLES.statusTable || ' SET LoadNumber = DVARS.LoadNumber, LoadState = DVARS.LoadState, valid = DVARS.valid, Updated = DVARS.updated, Cardinality = DVARS.cardinality' ||  crit;
+        
+        EXECUTE logMsg(context=>'org.ksoong.test.crit', level=>'ERROR', msg=>crit);
+        EXECUTE logMsg(context=>'org.ksoong.test.updateStmt', level=>'ERROR', msg=>updateStmt);
+        
+        EXECUTE IMMEDIATE 'SELECT Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber FROM ' || VARIABLES.statusTable || crit AS Name string, TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long INTO #load USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testProcLoad.viewName;
+        DECLARE string previousRow = (SELECT Name FROM #load);
+        
+        IF (previousRow is null)
+        BEGIN
+            EXECUTE logMsg(context=>'org.ksoong.test.100', level=>'ERROR', msg=>'previousRow is null');
+            EXECUTE IMMEDIATE 'INSERT INTO '|| VARIABLES.statusTable ||' (VDBName, VDBVersion, SchemaName, Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber) values (DVARS.vdbName, DVARS.vdbVersion, DVARS.schemaName, DVARS.viewName, DVARS.TargetSchemaName, DVARS.matViewTable, DVARS.valid, DVARS.loadStatus, DVARS.updated, -1, 1)' USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, targetSchemaName = VARIABLES.targetSchemaName, viewName = testProcLoad.viewName, valid=false, loadStatus='LOADING', matViewTable=matViewTable, updated = now();
+            VARIABLES.status = 'LOAD';
+            EXCEPTION e
+            DELETE FROM #load;
+            EXECUTE logMsg(context=>'org.teiid.MATVIEWS', level=>'WARN', msg=>e.exception);
+            EXECUTE IMMEDIATE 'SELECT Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber FROM ' || VARIABLES.statusTable || crit AS Name string, TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long INTO #load USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testProcLoad.viewName;
+        END
+        
+        DECLARE long VARIABLES.loadNumber = 1;
+        DECLARE boolean VARIABLES.valid = false;
+        
+        IF (VARIABLES.status = 'LOAD')
+        BEGIN ATOMIC
+            IF (VARIABLES.loadScript IS null)
+            BEGIN
+                VARIABLES.loadScript = 'INSERT INTO ' || matViewStageTable || ' SELECT * FROM ' || schemaName || '.' || viewName || ' OPTION NOCACHE ' || schemaName || '.' || viewName;
+                VARIABLES.implicitLoadScript = true;
+                EXECUTE logMsg(context=>'org.ksoong.test.loadScript', level=>'ERROR', msg=>loadScript); 
+            END
+            
+            IF (VARIABLES.beforeLoadScript IS NOT null)
+            BEGIN
+                VARIABLES.index = 1;
+                declare string[] strings = tokenize(VARIABLES.beforeLoadScript, ';');
+                VARIABLES.lineCount = array_length(strings);
+                WHILE (index <= lineCount)
+                BEGIN
+                    EXECUTE IMMEDIATE array_get(strings, index);
+                    index = index +1;
+                END
+                EXECUTE logMsg(context=>'org.ksoong.test.index', level=>'ERROR', msg=>index);
+            END
+            
+            VARIABLES.index = 1;
+            declare string[] strings = tokenize(VARIABLES.loadScript, ';');
+            VARIABLES.lineCount = array_length(strings);
+            WHILE (index <= lineCount)
+            BEGIN
+                EXECUTE IMMEDIATE array_get(strings, index);
+                index = index +1;
+            END
+            
+            IF (VARIABLES.implicitLoadScript)
+            BEGIN
+               rowsUpdated = VARIABLES.rowcount;
+               EXECUTE logMsg(context=>'org.ksoong.test.rowsUpdated', level=>'ERROR', msg=>rowsUpdated); 
+            END
+            
+            IF (VARIABLES.afterLoadScript IS NOT null)
+            BEGIN
+                VARIABLES.index = 1;
+                strings = tokenize(VARIABLES.afterLoadScript, ';');
+                VARIABLES.lineCount = array_length(strings);
+                WHILE (index <= lineCount)
+                BEGIN
+                    EXECUTE IMMEDIATE array_get(strings, index);
+                    index = index +1;
+                END
+            END
+            
+            EXECUTE IMMEDIATE updateStmt || ' AND loadNumber = DVARS.loadNumber' USING  loadNumber = VARIABLES.loadNumber, vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testProcLoad.viewName, updated = now(), LoadState = 'LOADED', valid = true, cardinality = VARIABLES.rowsUpdated;
+            
+            VARIABLES.status = 'DONE';
+            EXCEPTION e
+            EXECUTE IMMEDIATE updateStmt || ' AND loadNumber = DVARS.loadNumber' USING  loadNumber = VARIABLES.loadNumber, vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testProcLoad.viewName, updated = now(), LoadState = 'FAILED_LOAD', valid = VARIABLES.valid AND NOT invalidate, cardinality = -1;
+            VARIABLES.status = 'FAILED';
+            VARIABLES.rowsUpdated = -3;
+            EXECUTE logMsg(context=>'org.teiid.MATVIEWS', level=>'WARN', msg=>e.exception);
+        END
+        
+END                
+                
+CREATE VIRTUAL PROCEDURE testProc(IN schemaName string NOT NULL, IN viewName string NOT NULL) RETURNS TABLE (TargetSchemaName varchar(50), TargetName varchar(50), Valid boolean, LoadState varchar(25), Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25)) AS
+BEGIN
+        DECLARE string vdbName = (SELECT Name FROM VirtualDatabases);
+        DECLARE integer vdbVersion = (SELECT convert(Version, integer) FROM VirtualDatabases);
+        
+        DECLARE string uid = (SELECT UID FROM SYS.Tables WHERE VDBName = VARIABLES.vdbName AND SchemaName = testProc.schemaName AND Name = testProc.viewName);
+
+        IF (uid IS NULL)
+        BEGIN
+                RAISE SQLEXCEPTION 'The view not found';
+        END
+        
+        EXECUTE logMsg(context=>'org.ksoong.test.100', level=>'ERROR', msg=>uid);
+        
+        DECLARE boolean isMaterialized = (SELECT IsMaterialized FROM SYS.Tables WHERE UID = VARIABLES.uid);
+
+        IF (NOT isMaterialized)
+        BEGIN
+            EXECUTE logMsg(context=>'org.ksoong.test.110', level=>'ERROR', msg=>'The view is not declared as Materialized View in Metadata');
+        END
+        
+        DECLARE string statusTable = 'Accounts.status';
+        DECLARE string action = 'THROW_EXCEPTION';
+        
+        DECLARE string crit = ' WHERE VDBName = DVARS.vdbName AND VDBVersion = DVARS.vdbVersion AND schemaName = DVARS.schemaName AND Name = DVARS.viewName';
+                
+        
+        EXECUTE logMsg(context=>'org.ksoong.test.100', level=>'ERROR', msg=>crit);
+        
+        EXECUTE IMMEDIATE 'SELECT TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber, VARIABLES.action FROM ' || VARIABLES.statusTable || crit AS TargetSchemaName string, TargetName string, Valid boolean, LoadState string, Updated timestamp, Cardinality long, LoadNumber long, OnErrorAction varchar(25) USING vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = testProc.schemaName, viewName = testProc.viewName;
+END
+        ]]>
+                </metadata>
+        </model>
+	
+	
+</vdb>
