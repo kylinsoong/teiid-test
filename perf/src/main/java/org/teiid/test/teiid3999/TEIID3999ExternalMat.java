@@ -1,4 +1,4 @@
-package org.teiid.test.teiid3509;
+package org.teiid.test.teiid3999;
 
 import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
@@ -19,7 +19,7 @@ import org.teiid.runtime.EmbeddedServer;
 import org.teiid.test.util.EmbeddedHelper;
 import org.teiid.translator.jdbc.h2.H2ExecutionFactory;
 
-public class TEIID3509ReproduceExterMatView {
+public class TEIID3999ExternalMat {
 
     static EmbeddedServer server = null;
     static Connection conn = null;
@@ -42,7 +42,7 @@ public class TEIID3509ReproduceExterMatView {
         EmbeddedHelper.enableLogger(Level.WARNING);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
-        RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3509ReproduceExterMatView.class.getClassLoader().getResourceAsStream("teiid-3509/h2-schema.sql")));
+        RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3999ExternalMat.class.getClassLoader().getResourceAsStream("teiid-3999/h2-schema.sql")));
         
         
         server = new EmbeddedServer();
@@ -59,7 +59,7 @@ public class TEIID3509ReproduceExterMatView {
         config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
-        server.deployVDB(TEIID3509ReproduceExterMatView.class.getClassLoader().getResourceAsStream("teiid-3509/teiid3509-h2-exter-mat-vdb.xml"));
+        server.deployVDB(TEIID3999ExternalMat.class.getClassLoader().getResourceAsStream("teiid-3999/teiid3999-h2-exter-mat-vdb.xml"));
         
         Properties info = new Properties();
         conn = server.getDriver().connect("jdbc:teiid:ExternalMatViewH2VDB", info);
@@ -67,21 +67,8 @@ public class TEIID3509ReproduceExterMatView {
         Thread.sleep(3000);
 
         execute(conn, SQL_MAT_QUERY, false);
-        
-        
-//        execute(conn, SQL_MAT_STATUS, false);
-//        execute(conn, SQL_MAT_REFRESH, false);
-        
-        execute(conn, SQL_SampleTable_UPDATE_102, false);
-        execute(conn, SQL_MAT_QUERY, false);
-        execute(conn, SQL_MAT_updateMatView, false);
-        execute(conn, SQL_MAT_QUERY, false);
-        
-//        execute(conn, "SELECT (id, a, b) AS pkArray FROM TestExterMat.SAMPLEEXTERMATVIEW WHERE id = '102'", false);
-        
-//        execute(conn, "EXEC testupdateMatView('TestExterMat', 'SAMPLEEXTERMATVIEW', 'id = ''102''')", false);
-//        execute(conn, "EXEC testupdateMatView('TestExterMat', 'SAMPLEEXTERMATVIEW', 'id = ''102''')", false);
-        
+            
         conn.close();
     }
+
 }

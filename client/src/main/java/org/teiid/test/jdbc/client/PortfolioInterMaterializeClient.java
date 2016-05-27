@@ -15,8 +15,12 @@ public class PortfolioInterMaterializeClient {
     static String SQL_MATVIEW = "SELECT * FROM stockPricesInterMatView";
 
     static String SQL_MATVIEW_STATUS = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesInterMatView')";
-
+    
     static String SQL_MATVIEW_REFRESH = "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesInterMatView', true)";
+    
+    //An alternative ways to refresh, update, query status   
+    static String SQL_MATVIEW_Query = "SELECT * FROM SYSADMIN.MatViews WHERE SchemaName = 'StocksMatModel' AND Name = 'stockPricesInterMatView'";
+    static String SQL_MATVIEW_refreshMatView = "EXEC SYSADMIN.refreshMatView('StocksMatModel.stockPricesInterMatView', true)";
     
     public static void main(String[] args) throws Exception {
 
@@ -30,8 +34,13 @@ public class PortfolioInterMaterializeClient {
         
         // Refresh Mat View
         execute(conn, SQL_MATVIEW_REFRESH, false);
-        execute(conn, SQL_MATVIEW_STATUS, false);
         
+        // Update Mat View
+        
+        //An alternative ways to refresh, update, query status
+        execute(conn, SQL_MATVIEW_Query, false);
+        execute(conn, SQL_MATVIEW_refreshMatView, false);
+                
         conn.close();
     }
 

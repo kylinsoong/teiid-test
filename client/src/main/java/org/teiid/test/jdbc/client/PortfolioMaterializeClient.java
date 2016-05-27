@@ -15,9 +15,11 @@ public class PortfolioMaterializeClient {
     
     static String SQL_MATVIEW = "SELECT * FROM stockPricesMatView";
     
-    static String SQL_MATVIEW_STATUS = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesMatView')";
+    static String SQL_MATVIEW_matViewStatus = "EXEC SYSADMIN.matViewStatus('StocksMatModel', 'stockPricesMatView')";
     
-    static String SQL_MATVIEW_REFRESH = "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesMatView', true)";
+    static String SQL_MATVIEW_loadMatView = "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesMatView', true)";
+    
+    static String SQL_MATVIEW_updateMatView = "EXEC SYSADMIN.loadMatView('StocksMatModel', 'stockPricesMatView', 'product_id = 1002')";
     
 	public static void main(String[] args) throws Exception {
 
@@ -27,10 +29,13 @@ public class PortfolioMaterializeClient {
 		execute(conn, SQL_MATVIEW, false);
 		
 		// Query Mat View Status
-		execute(conn, SQL_MATVIEW_STATUS, false);
+		execute(conn, SQL_MATVIEW_matViewStatus, false);
 		
 		// Refresh Mat View
-		execute(conn, SQL_MATVIEW_REFRESH, false);
+		execute(conn, SQL_MATVIEW_loadMatView, false);
+		
+		// Update Mat View
+		execute(conn, SQL_MATVIEW_updateMatView, false);
 		
 		conn.close();
 	}
