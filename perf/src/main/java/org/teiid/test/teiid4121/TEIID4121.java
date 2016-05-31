@@ -23,10 +23,10 @@ public class TEIID4121 {
 
     static EmbeddedServer server = null;
     static Connection conn = null;
-    
-    static final String SQL_QUERY_ALL = "SELECT id, a, b, c FROM SAMPLEMATVIEW";
-    
-    static final String SQL_MAT_STATUS = "EXEC SYSADMIN.matViewStatus('SampleModel', 'SAMPLEMATVIEW')";
+
+    static String timetoken() {
+        return "" + System.nanoTime();
+    }
     
     public static void main(String[] args) throws Exception {
 
@@ -57,11 +57,116 @@ public class TEIID4121 {
         
         Thread.sleep(3000);
         
-        execute(conn, SQL_QUERY_ALL, false);
+        execute(conn, "exec SYSADMIN.matViewStatus('SampleModel', 'SAMPLEMATVIEW')", false);
+//        
+//        execute(conn, "", false);
         
-        execute(conn, SQL_MAT_STATUS, false);
+//        test_nocache();
+//        test_nocache_2();
+        
+//        test_loadMatView();
+        
+//        test_loadMatView_2();
         
         conn.close();
+    }
+
+    static void test_loadMatView_2() throws Exception {
+
+//        execute(conn, "SELECT * FROM MatViews", false);
+//        execute(conn, "SELECT * FROM SAMPLEMATVIEW", false);
+        
+//        execute(conn, "SELECT * FROM SampleTable", false);
+//        execute(conn, "SELECT * FROM SampleTable_mat", false);
+//        execute(conn, "SELECT * FROM SampleTable_staging", false);
+//        execute(conn, "SELECT * FROM status", false);
+        
+//        execute(conn, "SELECT * FROM SampleTable", false);
+//        execute(conn, "execute accounts.native('truncate table SampleTable')", false);
+//        execute(conn, "SELECT * FROM SampleTable", false);
+        
+//        execute(conn, "UPDATE SampleTable SET c = '" + timetoken() + "' WHERE id = '102'", false);
+//        execute(conn, "SELECT * FROM SampleModel.SAMPLEMATVIEW OPTION NOCACHE", false);
+//        execute(conn, "SELECT * FROM SampleModel.SAMPLEMATVIEW OPTION NOCACHE SampleModel.SAMPLEMATVIEW", false);
+//        execute(conn, "INSERT INTO SampleTable_staging SELECT * FROM SampleModel.SAMPLEMATVIEW OPTION NOCACHE SampleModel.SAMPLEMATVIEW", false);
+//        execute(conn, "SELECT * FROM SampleTable_staging", false);
+        
+        execute(conn, "EXEC testloadMatView('SampleModel', 'SAMPLEMATVIEW')", false);
+        execute(conn, "SELECT * FROM status", false);
+        Thread.sleep( 10 * 1000);
+        execute(conn, "EXEC testloadMatView('SampleModel', 'SAMPLEMATVIEW', true)", false);
+        
+//        execute(conn, "SELECT * FROM SampleTable", false);
+//        execute(conn, "SELECT * FROM SampleTable_mat", false);
+//        execute(conn, "SELECT * FROM SampleTable_staging", false);
+        execute(conn, "SELECT * FROM status", false);
+    }
+
+    static void test_nocache_2() throws Exception {
+
+        Thread.sleep(3000);
+        
+        execute(conn, "UPDATE SampleTable SET c = '" + timetoken() + "' WHERE id = '102'", false);
+        execute(conn, "SELECT * FROM SampleTable", false);
+        execute(conn, "SELECT * FROM SampleTable_mat", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW OPTION NOCACHE SAMPLEMATVIEW", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW OPTION NOCACHE", false);
+        
+    }
+
+    static void test_nocache() throws Exception {
+        
+        Thread.sleep(3000);
+        
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW", false);
+        execute(conn, "UPDATE SampleTable_mat SET c = '" + timetoken() + "' WHERE id = '102'", false);
+        execute(conn, "SELECT * FROM SampleTable_mat", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW", false);
+        execute(conn, "SELECT * FROM SampleTable", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW OPTION NOCACHE SAMPLEMATVIEW", false);
+        execute(conn, "SELECT * FROM SAMPLEMATVIEW OPTION NOCACHE", false);
+    }
+
+    static void test_loadMatView() throws Exception {
+
+        // 1. Check whether View is exist, if not exist throw example
+        execute(conn, "SELECT UID FROM Sys.Tables WHERE VDBName = 'TEIID4121H2VDB' AND SchemaName = 'SampleModel' AND Name = 'SAMPLEMATVIEW'", false);
+    
+        // 2. Check whether View is Materialized, if not exist throw example
+        execute(conn, "SELECT IsMaterialized FROM SYS.Tables WHERE UID = 'tid:563d8a97e0d9-c947fefb-00000001'", false);
+        
+        String statusTable = "status"; // MATVIEW_STATUS_TABLE
+        String beforeLoadScript = "execute accounts.native('truncate table SampleTable_staging');"; // MATVIEW_BEFORE_LOAD_SCRIPT
+        String loadScript = ""; //MATVIEW_LOAD_SCRIPT
+        String afterLoadScript = "execute accounts.native('ALTER TABLE SampleTable_mat RENAME TO SampleTable_mat_temp');execute accounts.native('ALTER TABLE SampleTable_staging RENAME TO SampleTable_mat');execute accounts.native('ALTER TABLE SampleTable_mat_temp RENAME TO SampleTable_staging');";//MATVIEW_AFTER_LOAD_SCRIPT
+        Integer ttl = 60000; //MATVIEW_TTL
+        String matViewStageTable = "Accounts.SampleTable_staging";//MATERIALIZED_STAGE_TABLE
+        String scope = "NONE";//MATVIEW_SHARE_SCOPE
+        
+        String matViewTable = "SAMPLETABLE_MAT";
+        String targetSchemaName = "Accounts";
+        
+        String crit_none = "WHERE VDBName = 'TEIID4121H2VDB' AND VDBVersion = '1' AND SchemaName = 'SampleModel' AND Name = 'SAMPLEMATVIEW'";
+        String crit_vdb = "WHERE VDBName = 'TEIID4121H2VDB' AND SchemaName = 'SampleModel' AND Name = 'SAMPLEMATVIEW'";
+        String crit_schema = "WHERE SchemaName = 'SampleModel' AND Name = 'SAMPLEMATVIEW'";
+        
+        String updateStmt = "UPDATE status";
+        
+        String status = "CHECK";
+        
+        // 3. If status Table is empty, insert initial value to status table
+        //     Valid -> false
+        //     LoadState -> LOADING
+        //     Updated -> now()
+        //     Cardinality -> -1
+        //     LoadNumber -> 1
+        execute(conn, "INSERT INTO status (VDBName, VDBVersion, SchemaName, Name, TargetSchemaName, TargetName, Valid, LoadState, Updated, Cardinality, LoadNumber) values ('TEIID4121H2VDB', '1', 'SampleModel', 'SAMPLEMATVIEW', 'Accounts', 'SAMPLETABLE_MAT', false, 'LOADING', now(), -1, 1)", false);
+        
+        // 4. Insert View's content to stage table
+        execute(conn, "INSERT INTO SampleTable_staging SELECT * FROM SampleModel.SAMPLEMATVIEW OPTION NOCACHE SampleModel.SAMPLEMATVIEW", false);
+        
+        execute(conn, "SELECT * FROM SampleTable_staging", false);
     }
 
 

@@ -7,7 +7,7 @@ public class Constants {
     public static final int GB = 1<<30;
     
     public static final String H2_JDBC_DRIVER = "org.h2.Driver";
-    public static final String H2_JDBC_URL = "jdbc:h2:file:target/teiid-perf-ds;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1";
+    public static final String H2_JDBC_URL = "jdbc:h2:file:target/teiid-perf-ds-1;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1";
     public static final String H2_JDBC_USER = "sa";
     public static final String H2_JDBC_PASS = "sa";
     

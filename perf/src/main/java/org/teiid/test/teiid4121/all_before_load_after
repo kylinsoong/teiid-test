@@ -1,50 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<vdb name="TEIID4121H2VDB" version="1">
-
-	<description>https://issues.jboss.org/browse/TEIID-4121</description>
+	<!-- MATVIEW_BEFORE_LOAD_SCRIPT, MATVIEW_LOAD_SCRIPT, MATVIEW_AFTER_LOAD_SCRIPT all defined
 	
-	<property name="UseConnectorMetadata" value="true" />
-	<model name="Accounts">
-		<property name="importer.useFullSchemaName" value="false" />
-		<source name="h2-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
-	</model>
-	
-	<model name="SampleModel" type="VIRTUAL">
-		<metadata type="DDL"><![CDATA[
-		
-		CREATE VIEW SAMPLEMATVIEW (
-		  id varchar,
-		  a varchar,
-		  b varchar,
-		  c varchar,
-		  PRIMARY KEY (id, a, b)
-		) OPTIONS (MATERIALIZED 'TRUE', UPDATABLE 'TRUE',         
-               MATERIALIZED_TABLE 'Accounts.SampleTable_mat', 
-               "teiid_rel:MATVIEW_TTL" 360000,
-               "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute accounts.native(''truncate table SampleTable_staging'');',
-               "teiid_rel:MATVIEW_AFTER_LOAD_SCRIPT"  'execute accounts.native(''ALTER TABLE SampleTable_mat RENAME TO SampleTable_mat_temp'');execute accounts.native(''ALTER TABLE SampleTable_staging RENAME TO SampleTable_mat'');execute accounts.native(''ALTER TABLE SampleTable_mat_temp RENAME TO SampleTable_staging'');', 
-               "teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''SAMPLEMATVIEW'' AND schemaname = ''SampleModel''',
-               "teiid_rel:MATERIALIZED_STAGE_TABLE" 'SampleTable_staging',
-               "teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
-               "teiid_rel:MATVIEW_STATUS_TABLE" 'status', 
-               "teiid_rel:MATVIEW_SHARE_SCOPE" 'NONE',
-               "teiid_rel:MATVIEW_ONERROR_ACTION" 'THROW_EXCEPTION'
-		)
-		AS
-		SELECT A.id, A.a, A.b, A.c FROM Accounts.SampleTable AS A;
-		
-		
-		]]>
-		</metadata>
-	</model>
-	
-	<!-- 
-	"teiid_rel:MATVIEW_LOAD_SCRIPT" 'execute accounts.native(''select now()'');',
-	 -->
-	
-	<model name="SampleModel_Procedure" type="VIRTUAL">
-		<metadata type="DDL"><![CDATA[
-		
 CREATE VIRTUAL PROCEDURE testloadMatView(IN schemaName string NOT NULL, IN viewName string NOT NULL, IN invalidate boolean NOT NULL DEFAULT 'false') RETURNS integer
 AS
 BEGIN
@@ -106,30 +61,7 @@ BEGIN
     
     IF (VARIABLES.status = 'CHECK')
     BEGIN
-        LOOP ON (SELECT valid, updated, loadstate, cardinality, loadnumber FROM #load) AS matcursor
-        BEGIN
-            IF (not matcursor.valid OR (matcursor.valid AND TIMESTAMPDIFF(SQL_TSI_SECOND, matcursor.updated, now()) > (ttl/1000)) OR invalidate OR loadstate = 'NEEDS_LOADING'  OR loadstate = 'FAILED_LOAD')
-            BEGIN
-                EXECUTE IMMEDIATE updateStmt || ' AND loadNumber = ' || matcursor.loadNumber USING loadNumber = matcursor.loadNumber + 1, vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testloadMatView.viewName, updated = now(), LoadState = 'LOADING', valid = matcursor.valid AND NOT invalidate, cardinality = matcursor.cardinality;
-                DECLARE integer updated = VARIABLES.ROWCOUNT;
-                IF (updated = 0)
-                BEGIN
-                    VARIABLES.status = 'DONE';
-                    VARIABLES.rowsUpdated = -1;
-                END ELSE BEGIN
-                    VARIABLES.status = 'LOAD';
-                    VARIABLES.loadNumber = matcursor.loadNumber + 1;
-                    VARIABLES.valid = matcursor.valid;
-                END
-            END ELSE BEGIN
-                VARIABLES.rowsUpdated = -2;
-                VARIABLES.status = 'DONE';	
-            END
-            EXECUTE logMsg('WARN', 'org.teiid.test.loadMatView', updateStmt);
-             EXECUTE logMsg('WARN', 'org.teiid.test.loadMatView', status);
-             EXECUTE logMsg('WARN', 'org.teiid.test.loadMatView', updated);
-          
-        END
+        EXECUTE logMsg('WARN', 'org.teiid.test.loadMatView', 'TODO--');
     END
     
     IF(VARIABLES.status = 'LOAD')
@@ -153,8 +85,6 @@ BEGIN
             END
         END
         
-        
-        
         VARIABLES.index = 1;
         declare string[] strings = tokenize(VARIABLES.loadScript, ';');
         VARIABLES.lineCount = array_length(strings);
@@ -163,8 +93,6 @@ BEGIN
            EXECUTE IMMEDIATE array_get(strings, index);
            index = index +1;
         END
-        
-        
         
         IF (VARIABLES.implicitLoadScript)
         BEGIN
@@ -175,8 +103,6 @@ BEGIN
            EXECUTE IMMEDIATE 'SELECT count(*) as rowCount FROM ' || targetSchemaName || '.' || matViewTable AS rowCount integer INTO #load_count;
            rowsUpdated = (SELECT rowCount FROM #load_count);
         END
-        
-        
         
         IF (VARIABLES.afterLoadScript IS NOT null)
         BEGIN
@@ -190,7 +116,6 @@ BEGIN
             END
             
         END
-           
         
         EXECUTE IMMEDIATE updateStmt || ' AND loadNumber = DVARS.loadNumber' USING  loadNumber = VARIABLES.loadNumber, vdbName = VARIABLES.vdbName, vdbVersion = VARIABLES.vdbVersion, schemaName = schemaName, viewName = testloadMatView.viewName, updated = now(), LoadState = 'LOADED', valid = true, cardinality = VARIABLES.rowsUpdated;   
         VARIABLES.status = 'DONE';
@@ -200,19 +125,13 @@ BEGIN
         VARIABLES.rowsUpdated = -3;
         EXECUTE logMsg(context=>'org.teiid.MATVIEWS', level=>'WARN', msg=>e.exception);
     END
-   
+    
+    
+    EXECUTE logMsg('WARN', 'org.teiid.test.loadMatView', rowsUpdated);
+    
     
     RETURN  rowsUpdated;
 
 END
-		
-		
-		]]>
-		</metadata>
-	</model>
 	
-	
-
-	
-	
-</vdb>
+	 -->
