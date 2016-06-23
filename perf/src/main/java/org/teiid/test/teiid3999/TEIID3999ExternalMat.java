@@ -39,7 +39,7 @@ public class TEIID3999ExternalMat {
     
     public static void main(String[] args) throws Exception {
 
-        EmbeddedHelper.enableLogger(Level.WARNING);
+        EmbeddedHelper.enableLogger(Level.ALL);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3999ExternalMat.class.getClassLoader().getResourceAsStream("teiid-3999/h2-schema.sql")));
@@ -67,6 +67,10 @@ public class TEIID3999ExternalMat {
         Thread.sleep(3000);
 
         execute(conn, SQL_MAT_QUERY, false);
+        
+//        execute(conn, "execute accounts.native('truncate table SampleTable_staging');", false);
+//        execute(conn, "INSERT INTO SampleTable_staging SELECT * FROM TestExterMat.SAMPLEEXTERMATVIEW option nocache TestExterMat.SAMPLEEXTERMATVIEW", false);
+//        execute(conn, "DELETE FROM Accounts.status WHERE Name=''SAMPLEEXTERMATVIEW'' AND schemaname = ''TestExterMat'", false);
             
         conn.close();
     }

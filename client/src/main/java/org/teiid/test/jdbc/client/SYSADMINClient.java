@@ -1,13 +1,10 @@
 package org.teiid.test.jdbc.client;
 
-import static org.teiid.test.jdbc.client.JDBCUtils.execute;
 import static org.teiid.test.jdbc.client.JDBCUtils.getDriverConnection;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 /**
  * 

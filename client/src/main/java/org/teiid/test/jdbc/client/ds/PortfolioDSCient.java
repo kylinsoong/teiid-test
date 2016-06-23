@@ -2,14 +2,11 @@ package org.teiid.test.jdbc.client.ds;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.sql.XAConnection;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
-import javax.transaction.xa.Xid;
 
-import org.teiid.client.xa.XidImpl;
 import org.teiid.jdbc.TeiidDataSource;
 
 public class PortfolioDSCient {

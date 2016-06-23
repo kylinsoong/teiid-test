@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="TEIID3617" version="1">
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<property name="authentication-max-sessions-allowed-per-user" value="anonymous=7" />
+	
+	<model name="public">
+		<property name="importer.useFullSchemaName" value="false" />
+		<source name="h2-connector" translator-name="translator-h2" connection-jndi-name="java:/accounts-ds" />
+	</model>
+	
+</vdb>

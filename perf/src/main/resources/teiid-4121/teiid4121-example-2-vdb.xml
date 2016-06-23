@@ -20,8 +20,8 @@
 		  PRIMARY KEY (id, a, b)
 		) OPTIONS (MATERIALIZED 'TRUE', UPDATABLE 'TRUE',         
                MATERIALIZED_TABLE 'Accounts.SampleTable_mat', 
-               "teiid_rel:MATVIEW_TTL" 5000,
-               "teiid_rel:MATVIEW_LOAD_SCRIPT" 'execute accounts.native(''insert into SampleTable_mat select * from SAMPLEMATVIEW option nocache SAMPLEMATVIEW'');',
+               "teiid_rel:MATVIEW_BEFORE_LOAD_SCRIPT" 'execute accounts.native(''truncate table SampleTable_mat'');',
+               "teiid_rel:MATVIEW_LOAD_SCRIPT" 'INSERT INTO SampleTable_mat SELECT * FROM SampleModel.SAMPLEMATVIEW OPTION NOCACHE SampleModel.SAMPLEMATVIEW',
                "teiid_rel:ON_VDB_DROP_SCRIPT" 'DELETE FROM Accounts.status WHERE Name=''SAMPLEMATVIEW'' AND schemaname = ''SampleModel''',
                "teiid_rel:ALLOW_MATVIEW_MANAGEMENT" 'true', 
                "teiid_rel:MATVIEW_STATUS_TABLE" 'status', 
