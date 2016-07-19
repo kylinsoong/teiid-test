@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="TEIID3617_1" version="1">
+	
+	<property name="UseConnectorMetadata" value="true" />
+	<property name="max-sessions-allowed-per-user" value="user1=12;user2=25" />
+	
+</vdb>

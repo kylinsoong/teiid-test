@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ironjacamar>
+    <connection-definitions>
+        <connection-definition class-name="org.teiid.resource.adapter.file.FileManagedConnectionFactory" jndi-name="java:/marketdata-file" enabled="true" use-java-context="true" pool-name="fileDS">
+            <config-property name="ParentDirectory">
+                /home/kylin/server/teiid-9.0.0.Final/teiidfiles/data
+            </config-property>
+            <config-property name="AllowParentPaths">
+                true
+            </config-property>
+        </connection-definition>
+    </connection-definitions>
+</ironjacamar>

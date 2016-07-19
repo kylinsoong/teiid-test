@@ -26,7 +26,7 @@ public class TEIID4203Reproduce {
 
     public static void main(String[] args) throws Exception {
 
-        EmbeddedHelper.enableLogger(Level.INFO);
+        EmbeddedHelper.enableLogger(Level.ALL);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID4203Reproduce.class.getClassLoader().getResourceAsStream("teiid-4203/h2-schema.sql")));
@@ -52,9 +52,9 @@ public class TEIID4203Reproduce {
         
         
 //        execute(conn, "EXEC testProc('TestExterMat', 'SAMPLEEXTERMATVIEW')", false);
-        execute(conn, "EXEC testProcLoad('TestExterMat', 'SAMPLEEXTERMATVIEW', true)", false);
+//        execute(conn, "EXEC testProcLoad('TestExterMat', 'SAMPLEEXTERMATVIEW', true)", false);
         
-//        execute(conn, "SELECT * FROM status", false);
+        execute(conn, "SELECT * FROM status", false);
                 
         conn.close();
     }

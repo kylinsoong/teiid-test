@@ -1,6 +1,6 @@
 package org.teiid.test.teiid3617;
 
-import static org.teiid.test.util.JDBCUtils.getDriverConnection;
+import static org.teiid.test.util.JDBCUtils.*;
 
 import java.sql.Connection;
 

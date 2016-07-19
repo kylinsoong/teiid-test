@@ -8,6 +8,8 @@ import static org.teiid.test.util.JDBCUtils.execute;
 
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -26,7 +28,7 @@ public class TEIID3398Reproduce {
 
     public static void main(String[] args) throws Exception {
 
-        EmbeddedHelper.enableLogger(Level.WARNING);
+        EmbeddedHelper.enableLogger(Level.INFO);
         
         DataSource ds = EmbeddedHelper.newDataSource(H2_JDBC_DRIVER, H2_JDBC_URL, H2_JDBC_USER, H2_JDBC_PASS);
         RunScript.execute(ds.getConnection(), new InputStreamReader(TEIID3398Reproduce.class.getClassLoader().getResourceAsStream("teiid-3398/h2-schema.sql")));
@@ -49,9 +51,18 @@ public class TEIID3398Reproduce {
         
         Properties info = new Properties();
         info.setProperty("FetchSize", "2");
-        conn = server.getDriver().connect("jdbc:teiid:TeiidSizingApplication", info);
+        conn = server.getDriver().connect("jdbc:teiid:TEIID-3398", info);
         
-        execute(conn, "SELECT * FROM share_market_data", true);
+        List<Connection> list = new ArrayList<>();
+        list.add(server.getDriver().connect("jdbc:teiid:TEIID-3398", info));
+        list.add(server.getDriver().connect("jdbc:teiid:TEIID-3398", info));
+        list.add(server.getDriver().connect("jdbc:teiid:TEIID-3398", info));
+        
+        System.out.println(server.getAdmin().getSessions());
+        
+        Thread.sleep(Long.MAX_VALUE);
+        
+//        execute(conn, "SELECT * FROM share_market_data", true);
         
     }
 

@@ -4,7 +4,6 @@ import static org.teiid.test.Constants.H2_JDBC_DRIVER;
 import static org.teiid.test.Constants.H2_JDBC_PASS;
 import static org.teiid.test.Constants.H2_JDBC_URL;
 import static org.teiid.test.Constants.H2_JDBC_USER;
-import static org.teiid.test.util.JDBCUtils.execute;
 
 import java.io.InputStreamReader;
 import java.sql.Connection;
@@ -44,7 +43,7 @@ public class TEIID3617Reproduce {
         server.addConnectionFactory("java:/accounts-ds", ds);
         
         EmbeddedConfiguration config = new EmbeddedConfiguration();
-        config.setAuthenticationProperties("anonymous=3");
+//        config.setAuthenticationProperties("anonymous=3");
         config.setTimeSliceInMilli(Integer.MAX_VALUE);
         server.start(config);
                 
@@ -66,13 +65,18 @@ public class TEIID3617Reproduce {
         for(Connection conn : list) {
             conn.close();
         }
-        
+    
         list.add(server.getDriver().connect("jdbc:teiid:TEIID3617", info));
         list.add(server.getDriver().connect("jdbc:teiid:TEIID3617", info));
         list.add(server.getDriver().connect("jdbc:teiid:TEIID3617", info));
-        
-        if(list.size() != 7) {
-            throw new Exception("list size should be 7");
+        try {
+            list.add(server.getDriver().connect("jdbc:teiid:TEIID3617", info));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+//        
+        if(list.size() != 6) {
+            throw new Exception("list size should be 6");
         }
         
 //        execute(conn, "SELECT * FROM share_market_data", true);

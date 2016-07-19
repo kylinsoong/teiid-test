@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<vdb name="TeiidSizingApplication" version="1">
+<vdb name="TEIID-3398" version="1">
 	
 	<property name="UseConnectorMetadata" value="true" />
 	<model name="public">

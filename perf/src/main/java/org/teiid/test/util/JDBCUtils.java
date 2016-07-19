@@ -31,6 +31,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 public class JDBCUtils {
@@ -39,6 +40,11 @@ public class JDBCUtils {
 		Class.forName(driver);
 		return DriverManager.getConnection(url, user, pass); 
 	}
+	
+	public static Connection getDriverConnection(String driver, String url, Properties info ) throws Exception {
+        Class.forName(driver);
+        return DriverManager.getConnection(url, info); 
+    }
 
 	public static void close(Connection conn) throws SQLException {
 		close(null, null, conn);
