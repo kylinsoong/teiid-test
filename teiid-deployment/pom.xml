@@ -15,7 +15,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
- 
+
+<!-- 
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -27,7 +28,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+    -->
 
     <dependencies>
         <!-- 
@@ -38,6 +39,11 @@
 	    </dependency>
 	     -->
 	    
+	    <dependency>
+	        <groupId>org.wildfly.swarm</groupId>
+            <artifactId>wildfly-swarm-fraction-plugin</artifactId>
+            <version>30</version>
+	    </dependency>
     </dependencies>
 
     <build>
