@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wildfly</groupId>
-    <artifactId>teiid-test-teiid-deployment</artifactId>
+    <artifactId>teiid-test-mvn-debug</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>WildFly Swarm Data source Deployment</name>
-    <description>WildFly Swarm Data source Deployment</description>
+    <name>Maven Plugin Debug</name>
+    <description>Maven Plugin Debug</description>
    
     <properties>
         <version.wildfly-swarm>2016.7-SNAPSHOT</version.wildfly-swarm>
@@ -17,30 +17,25 @@
     </properties>
 
     <dependencies>
-        
+
+	   
 	    <dependency>
 	        <groupId>org.wildfly.swarm</groupId>
-	        <artifactId>teiid</artifactId>
-		    <version>${version.wildfly-swarm}</version>
+            <artifactId>wildfly-swarm-fraction-plugin</artifactId>
+            <version>30</version>
 	    </dependency>
-	    
+	   <!--  -->
+	   <!-- 
 	    <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${version.h2}</version>
-        </dependency>
-	     
-	   <!--     
-	    <dependency>
-            <groupId>org.jboss.modules</groupId>
-            <artifactId>jboss-modules</artifactId>
-            <version>1.5.1.Final</version>
-        </dependency>
-        -->
+	        <groupId>org.wildfly.build</groupId>
+            <artifactId>wildfly-feature-pack-build-maven-plugin</artifactId>
+            <version>1.1.3.Final</version>
+	    </dependency>
+	    -->
+
     </dependencies>
 
     <build>
-        <finalName>teiid-deployment</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,21 +47,6 @@
                     <showDeprecation>false</showDeprecation>
                     <showWarnings>false</showWarnings>
                 </configuration>
-            </plugin>
-	        <plugin>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>${version.wildfly-swarm}</version>
-                <configuration>
-                    <mainClass>org.teiid.test.swarm.Main</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
