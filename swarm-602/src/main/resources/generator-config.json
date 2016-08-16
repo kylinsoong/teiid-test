@@ -1,0 +1,11 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 9990,
+    "user": "admin",
+    "pass": "password1!"
+  },
+  "generatorTargets": [
+      "/subsystem=teiid"
+  ]
+}

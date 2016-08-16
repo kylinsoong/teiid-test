@@ -1,0 +1,21 @@
+
+== How to generate config pojo?
+
+=== 1. Start Teiid Server
+
+To start the server, open a command line and navigate to the root directory of the Teiid server and run:
+
+[source,java]
+----
+$ ./bin/add-user.sh admin password1! // for create admin user
+$ ./bin/standalone.sh // For Linux
+----
+
+=== 2. Execute generate-sources commands
+
+To start the generate-sources command, open a command line and navigate to the root directory of the `config-api` source code and run:
+
+[source,java]
+----
+$ mvn generate-sources -Pconfig
+----
