@@ -9,7 +9,7 @@
     <description>WildFly Swarm Data source Deployment</description>
    
     <properties>
-        <version.wildfly-swarm>1.0.1-SNAPSHOT</version.wildfly-swarm>
+        <version.wildfly-swarm>2016.8.1</version.wildfly-swarm>
         <version.h2>1.4.187</version.h2>
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -40,7 +40,7 @@
 	    <dependency>
 	        <groupId>org.wildfly.swarm</groupId>
 	        <artifactId>datasources</artifactId>
-	        <version>2016.7-SNAPSHOT</version>
+	        <version>${version.wildfly-swarm}</version>
 	    </dependency>
 	    <dependency>
             <groupId>com.h2database</groupId>
@@ -74,7 +74,7 @@
 	        <plugin>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
-                <version>2016.7-SNAPSHOT</version>
+                <version>${version.wildfly-swarm}</version>
                 <configuration>
                     <mainClass>org.teiid.test.swarm.Main</mainClass>
                 </configuration>
