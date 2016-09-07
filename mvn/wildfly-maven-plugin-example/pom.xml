@@ -27,22 +27,34 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.wildfly.swarm.teiid</groupId>
-                <artifactId>teiid-maven-plugin</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-		<configuration>
-                    <version>9.1.0.Alpha2</version>
-                </configuration>
-		<executions>
-		  <execution>
-                    <id>generate-resources</id>
-	            <phase>generate-resources</phase>
-		    <goals>
-		      <goal>modules-generator</goal>
-		    </goals>
-                  </execution>
-		</executions>
-            </plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.0.2.Final</version>
+        <executions>
+          <execution>
+            <id>start</id>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <groupId>org.jboss.teiid</groupId>
+              <artifactId>teiid</artifactId>
+              <version>9.1.0.Alpha2</version>
+              <classifier>wildfly-server</classifier>
+              <packaging>zip</packaging>
+              <server-config>standalone-teiid.xml</server-config>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <goals>
+              <goal>shutdown</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+      </plugin>
         </plugins>
     </build>
 
