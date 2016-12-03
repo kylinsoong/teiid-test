@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="Portfolio" version="1">
+
+    <description>The Portfolio VDB</description>
+    
+    <model name="Accounts">
+        <!-- 
+          JDBC Import settings 
+          
+          importer.useFullSchemaName directs the importer to drop the source 
+          schema from the Teiid object name, so that the Teiid fully qualified name
+          will be in the form of <model name>.<table name>
+        -->
+        <property name="importer.useFullSchemaName" value="false"/>
+
+         <!--
+            This connector is defined to reference the H2 localDS" 
+          -->
+        <source name="mysql-connector" translator-name="translator-mysql" connection-jndi-name="java:/accounts-ds"/>
+    </model>
+    
+    <model name="TEST" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+        
+        CREATE VIEW TESTVIEW (
+            id integer
+        )
+        AS 
+        SELECT A.b FROM Accounts.smallints AS A;
+
+                 
+        ]]> </metadata>
+    </model>
+    
+
+</vdb>

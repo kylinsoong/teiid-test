@@ -9,7 +9,7 @@
     <description>WildFly Swarm Data source Deployment</description>
    
     <properties>
-        <version.wildfly-swarm>2016.9-SNAPSHOT</version.wildfly-swarm>
+        <version.wildfly-swarm>2016.8.1</version.wildfly-swarm>
         <version.weld-api>3.0.Alpha19</version.weld-api>
         <version.weld>3.0.0.Alpha16</version.weld>
         <version.h2>1.4.187</version.h2>
@@ -22,12 +22,24 @@
     <dependencies>
     
         <dependency>
+	        <groupId>org.wildfly</groupId>
+	        <artifactId>wildfly-connector</artifactId>
+		    <version>10.0.0.Final</version>
+	    </dependency>
+        
+    <!--
+    
+    <dependency>
+	        <groupId>org.wildfly.swarm</groupId>
+	        <artifactId>wildfly-swarm-plugin</artifactId>
+		    <version>${version.wildfly-swarm}</version>
+	    </dependency>
+    
+    <dependency>
             <groupId>org.wildfly.build</groupId>
             <artifactId>wildfly-feature-pack-build-maven-plugin</artifactId>
             <version>1.1.6.Final</version>
         </dependency>
-        
-    <!--
     
     <dependency>
             <groupId>org.wildfly.build</groupId>

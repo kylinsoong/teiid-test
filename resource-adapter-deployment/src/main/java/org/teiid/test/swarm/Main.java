@@ -1,31 +1,23 @@
 package org.teiid.test.swarm;
 
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Paths;
+import org.wildfly.swarm.Swarm;
+import org.wildfly.swarm.resource.adapters.ResourceAdapterFraction;
 
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
-import org.wildfly.swarm.container.Container;
-import org.wildfly.swarm.jaxrs.JAXRSArchive;
-import org.wildfly.swarm.resource.adapters.RARArchive;
-
-/**
- * http://localhost:8080/
- * @author kylin
- *
- */
 public class Main {
 
     public static void main(String[] args) throws Exception {    	
         
-        Container container = new Container();
+        Swarm swarm = new Swarm();
                 
-        container.start();
+        swarm.fraction(new ResourceAdapterFraction()
+                .resourceAdapter("fileQS", rac -> rac.module("org.jboss.teiid.resource-adapter.file")
+                        .connectionDefinitions("fileQS", cdc -> cdc.className("org.teiid.resource.adapter.file.FileManagedConnectionFactory")
+                                .jndiName("java:/marketdata-file")
+                                .configProperties("ParentDirectory", cpc -> cpc.value("/home/kylin/work"))
+                                .configProperties("AllowParentPaths", cpc -> cpc.value("true")))));
         
-        RARArchive raArchive = ShrinkWrap.create(RARArchive.class);
-        raArchive.resourceAdapter(new ClassLoaderAsset("ironjacamar.xml", Main.class.getClassLoader()));
-        container.deploy(raArchive);
+//        swarm.fraction(new ResourceAdapterFraction().resourceAdapter("file", rac -> rac.module("org.jboss.teiid.resource-adapter.file")));
+        swarm.start();
         
 //        JAXRSArchive appDeployment = ShrinkWrap.create(JAXRSArchive.class);
 //        appDeployment.addResource(MyResource.class);

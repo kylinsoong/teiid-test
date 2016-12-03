@@ -2,13 +2,13 @@ package org.teiid.test.teiid4311;
 
 import java.io.IOException;
 
-import org.jboss.as.cli.CliInitializationException;
-import org.jboss.as.cli.CommandContext;
-import org.jboss.as.cli.CommandContextFactory;
-import org.jboss.as.cli.CommandFormatException;
-import org.jboss.as.cli.operation.impl.DefaultOperationRequestBuilder;
-import org.jboss.as.controller.client.ModelControllerClient;
-import org.jboss.dmr.ModelNode;
+//import org.jboss.as.cli.CliInitializationException;
+//import org.jboss.as.cli.CommandContext;
+//import org.jboss.as.cli.CommandContextFactory;
+//import org.jboss.as.cli.CommandFormatException;
+//import org.jboss.as.cli.operation.impl.DefaultOperationRequestBuilder;
+//import org.jboss.as.controller.client.ModelControllerClient;
+//import org.jboss.dmr.ModelNode;
 
 public class ModelControllerClientTest {
     
@@ -19,18 +19,18 @@ public class ModelControllerClientTest {
     static String READ_ATTRIBUTE = "/subsystem=datasources/jdbc-driver=h2:read-attribute(name=driver-xa-datasource-class-name)";
     
     
-    public static void main(String[] args) throws IOException, CliInitializationException, CommandFormatException {
+    public static void main(String[] args) {
 
-        ModelControllerClient client = ModelControllerClient.Factory.create("localhost", 9990);
-        
-        DefaultOperationRequestBuilder builder = new DefaultOperationRequestBuilder();
-        builder.addProperty("name", "testXADS");
-        
-        
-        builder.setOperationName("xa-data-source add");
-        
-        CommandContext ctx = CommandContextFactory.getInstance().newCommandContext();
-        ctx.bindClient(client);
+//        ModelControllerClient client = ModelControllerClient.Factory.create("localhost", 9990);
+//        
+//        DefaultOperationRequestBuilder builder = new DefaultOperationRequestBuilder();
+//        builder.addProperty("name", "testXADS");
+//        
+//        
+//        builder.setOperationName("xa-data-source add");
+//        
+//        CommandContext ctx = CommandContextFactory.getInstance().newCommandContext();
+//        ctx.bindClient(client);
         
 //        System.out.println(ADD_XA_DATASOURCE + ":\n" + ctx.buildRequest(ADD_XA_DATASOURCE));
 //        System.out.println(ADD_DATASOURCE + ":\n" + ctx.buildRequest(ADD_DATASOURCE));
@@ -38,14 +38,14 @@ public class ModelControllerClientTest {
 //        System.out.println(RA_READ_CHILDREN_NAMES + ":\n" + ctx.buildRequest(RA_READ_CHILDREN_NAMES));
 //        System.out.println(READ_ATTRIBUTE + ":\n" + ctx.buildRequest(READ_ATTRIBUTE));
         
-        ModelNode node = ctx.buildRequest(ADD_XA_DATASOURCE);
-        System.out.println(node.get("steps").getType());
-        System.out.println(node.get("steps").get(0).getType());
+//        ModelNode node = ctx.buildRequest(ADD_XA_DATASOURCE);
+//        System.out.println(node.get("steps").getType());
+//        System.out.println(node.get("steps").get(0).getType());
         
         
 //        ModelNode result = client.execute(builder.buildRequest());            
 //        System.out.println(result);
-        client.close();
+//        client.close();
         
     }
 

@@ -12,13 +12,16 @@ public class PortfolioSwarmCient {
     private static final String JDBC_USER = "teiidUser";
     private static final String JDBC_PASS = "password1!";
     
-    static String SQL_QUERY_1 = "SELECT * FROM product";
 
     public static void main(String[] args) throws Exception {
         
         Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
         
-        execute(conn, SQL_QUERY_1, false);
+        execute(conn, "SELECT * FROM SYSADMIN.MatViews", false);
+        
+//        execute(conn, "SELECT * FROM PRODUCT", true); 
+        
+        execute(conn, "SELECT * FROM SampleTable", true);
 
     }
 

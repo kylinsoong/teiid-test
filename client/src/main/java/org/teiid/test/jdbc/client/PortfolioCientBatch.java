@@ -1,31 +1,35 @@
 package org.teiid.test.jdbc.client;
 
-import static org.teiid.test.jdbc.client.JDBCUtils.getDriverConnection;
+import java.util.Arrays;
 
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PortfolioCientBatch {
     
-    private static final String JDBC_DRIVER = "org.teiid.jdbc.TeiidDriver";
-    private static final String JDBC_URL = "jdbc:teiid:Portfolio@mm://localhost:31000;version=1";
-    private static final String JDBC_USER = "teiidUser";
-    private static final String JDBC_PASS = "password1!";
 
     public static void main(String[] args) throws Exception {
-        
-        List<Connection> list = new ArrayList<>();
+                
+        Thread[] threads = new Thread[10];
         
         for(int i = 0 ; i < 10 ; i ++) {
-            list.add(getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS));
+            threads[i] = new Thread(() -> {
+                for(int j = 0 ; j < 1000 ; j ++) {
+                    try {
+                        PortfolioCient.main(args);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }); 
         }
         
-        Thread.sleep(1000 * 60);
-
-        for(Connection conn : list) {
-            conn.close();
-        }
+        Arrays.stream(threads).forEach(t -> t.start());
+        
+        Arrays.stream(threads).forEach(t -> {
+            try {
+                t.join();
+            } catch (Exception e) {
+            }
+        });
     }
 
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="Portfolio" version="1">
+
+    <description>The Portfolio VDB</description>
+    
+    <model name="Customers">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="hbase-connector" translator-name="translator-hbase" connection-jndi-name="java:/hbaseDS"/>
+    </model>
+    
+
+</vdb>

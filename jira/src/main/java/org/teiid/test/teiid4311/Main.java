@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.teiid.adminapi.Admin;
 import org.teiid.adminapi.AdminException;
-import org.teiid.adminapi.jboss.AdminFactory;
+//import org.teiid.adminapi.jboss.AdminFactory;
 
 public class Main {
     
@@ -34,14 +34,14 @@ public class Main {
 
     public static void main(String[] args) throws AdminException {
 
-        Admin admin = AdminFactory.getInstance().createAdmin("localhost", 9990, "admin", "password1!".toCharArray());
-                
-        admin.createDataSource(xadsName, "h2-no-xa", xaprops);
-        admin.createDataSource(xadsName, "h2-xa", xaprops);
-        
-        System.out.println(admin.getDataSourceNames());
-        
-        System.exit(0);
+//        Admin admin = AdminFactory.getInstance().createAdmin("localhost", 9990, "admin", "password1!".toCharArray());
+//                
+//        admin.createDataSource(xadsName, "h2-no-xa", xaprops);
+//        admin.createDataSource(xadsName, "h2-xa", xaprops);
+//        
+//        System.out.println(admin.getDataSourceNames());
+//        
+//        System.exit(0);
     }
 
 }

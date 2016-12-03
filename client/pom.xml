@@ -10,7 +10,7 @@
 	<description>Teiid Test JDBC Client</description>
 	
 	<properties>
-		<version.teiid>9.0.0.Final</version.teiid>
+		<version.teiid>9.2.0.Alpha2-SNAPSHOT</version.teiid>
 	</properties>
 
 	<dependencies>
