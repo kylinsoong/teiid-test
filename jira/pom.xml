@@ -11,7 +11,7 @@
 
     <properties>
         <version.teiid>9.2.0.Alpha2-SNAPSHOT</version.teiid>
-        <version.org.arrahtec>6.1.7</version.org.arrahtec>
+        <version.org.arrahtec>6.1.9</version.org.arrahtec>
         <version.com.h2database>1.4.187</version.com.h2database>
         <mysql.connector.version>5.1.39</mysql.connector.version>
         <version.narayana>5.0.4.Final</version.narayana>
@@ -19,6 +19,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>1.8.5</version>
+        </dependency>
         <dependency>
             <groupId>org.jboss.teiid</groupId>
             <artifactId>teiid-runtime</artifactId>
@@ -81,7 +86,12 @@
             </exclusions>
         </dependency>
         
-        
+        <dependency>
+        <groupId>org.arrahtec</groupId>
+        <artifactId>osdq-core</artifactId>
+        <version>${version.org.arrahtec}</version>
+    </dependency>
+    
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

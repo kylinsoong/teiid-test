@@ -8,6 +8,7 @@ import javax.resource.ResourceException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.jboss.vfs.VFS;
 import org.jboss.vfs.VirtualFile;
+import org.jboss.vfs.VirtualFileFilter;
 
 public class TestFtpVFS {
 
@@ -20,14 +21,37 @@ public class TestFtpVFS {
         factory.setUsername("kylin"); //$NON-NLS-1$
         factory.setPassword("redhat"); //$NON-NLS-1$
         
-        FTPClient client = factory.createClient();
+        FTPClient ftpClient = factory.createClient();
         
-        FtpFileSystem ftpFileSystem = new FtpFileSystem(client);
-        VirtualFile remoteDir = VFS.getChild("/home/kylin/vsftpd");
-        VFS.mount(remoteDir, ftpFileSystem);
-        VirtualFile test = remoteDir.getChild("marketdata-price.txt");
+        FtpFileSystem ftpFileSystem = new FtpFileSystem(ftpClient);
+        VirtualFile mountPoint = VFS.getChild("/home/kylin/vsftpd");
+        VFS.mount(mountPoint, ftpFileSystem);
+//        VirtualFile test = mountPoint.getChild("marketdata-price.txt");
+//        
+//        System.out.println(test.getPhysicalFile().getAbsolutePath());
+//        System.out.println(test.getPhysicalFile());
         
-        System.out.println(test.asFileURI());
+//        VirtualFile marketdata = VFS.getChild("/home/kylin/vsftpd/marketdata-price.txt");
+//        marketdata.isDirectory();
+//        marketdata.isFile();
+//        marketdata.getSize();
+//        marketdata.getLastModified();
+//        marketdata.openStream();
+        
+//        VirtualFile marketdata = VFS.getChild("/home/kylin/vsftpd/marketdata-price.csv");
+        ftpClient.completePendingCommand();
+        System.out.println(VFS.getChild("/home/kylin/vsftpd/marketdata-price.txt").openStream());
+        System.out.println(VFS.getChild("/home/kylin/vsftpd/marketdata-price1.txt").openStream());
+//        
+//        marketdata = VFS.getChild("/home/kylin/vsftpd/marketdata-price.csv");
+//        System.out.println(marketdata.delete());
+//        
+//        System.out.println(mountPoint.getChildrenRecursively(new VirtualFileFilter(){
+//
+//            @Override
+//            public boolean accepts(VirtualFile file) {
+//                return file.getName().endsWith(".txt");
+//            }}));
     }
 
 }
