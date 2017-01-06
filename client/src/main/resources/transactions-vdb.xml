@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="TransactionsExamplesVDB" version="1">
+
+    <description>The Transactions Test VDB</description>
+    
+    <model name="MariaDBSchema">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="mariadb-connector-1" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBDS"/>
+    </model>
+    
+    <model name="MariaDBXASchema">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="mariadb-connector-2" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBXADS"/>
+    </model>
+    
+    <translator name="translator-mariadb" type="mysql5">
+        <property name="SupportsNativeQueries" value="true"/>
+    </translator>
+
+</vdb>

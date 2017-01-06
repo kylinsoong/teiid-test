@@ -10,7 +10,8 @@
 	<description>Teiid Test JDBC Client</description>
 	
 	<properties>
-		<version.teiid>9.2.0.Alpha2-SNAPSHOT</version.teiid>
+		<version.teiid>9.2.0.Alpha3-SNAPSHOT</version.teiid>
+		<mysql.connector.version>5.1.39</mysql.connector.version>
 	</properties>
 
 	<dependencies>
@@ -25,6 +26,11 @@
             <version>${version.teiid}</version>
             <classifier>jdbc</classifier>
 		</dependency>
+		<dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>1.5.5</version>
+        </dependency>
 	</dependencies>
 	
 	<build>

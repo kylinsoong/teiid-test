@@ -1,0 +1,29 @@
+# Add Driver Module
+module add --name=org.mariadb.jdbc --resources=mariadb-java-client-1.5.5.jar --dependencies=javax.api,javax.transaction.api
+
+# Add Driver
+if (outcome != success) of /subsystem=datasources/jdbc-driver=mariadb:read-resource
+    /subsystem=datasources/jdbc-driver=mariadb:add(driver-name=mariadb, driver-module-name=org.mariadb.jdbc, driver-class-name=org.mariadb.jdbc.Driver)
+end-if
+
+if (outcome != success) of /subsystem=datasources/jdbc-driver=mariadb-xa:read-resource
+    /subsystem=datasources/jdbc-driver=mariadb-xa:add(driver-name=mariadb-xa, driver-module-name=org.mariadb.jdbc, driver-xa-datasource-class-name=org.mariadb.jdbc.MariaDbDataSource)
+end-if
+
+# Add Data Source
+if (outcome != success) of /subsystem=datasources/data-source=MariaDBDS:read-resource
+    /subsystem=datasources/data-source=MariaDBDS:add(driver-name=mariadb, jndi-name=java:jboss/datasources/MariaDBDS, connection-url=jdbc:mariadb://10.66.192.120:3306/teiid, user-name=teiid_user, password=teiid_pass, enabled=true, use-java-context=true, min-pool-size=5, max-pool-size=30)
+end-if
+
+if (outcome != success) of /subsystem=datasources/xa-data-source=MariaDBXADS:read-resource
+    xa-data-source add --name=MariaDBXADS --driver-name=mariadb-xa --jndi-name=java:jboss/datasources/MariaDBXADS --user-name=teiid_user --password=teiid_pass --use-java-context=true --xa-datasource-properties=[DatabaseName=>teiid, PortNumber=>3306, ServerName=>10.66.192.120]
+end-if
+
+# Verify adding
+if (outcome == success) of /subsystem=datasources/data-source=MariaDBDS:read-resource
+    /subsystem=datasources/data-source=MariaDBDS:test-connection-in-pool()
+end-if
+
+if (outcome == success) of /subsystem=datasources/xa-data-source=MariaDBXADS:read-resource
+    /subsystem=datasources/xa-data-source=MariaDBXADS:test-connection-in-pool()
+end-if

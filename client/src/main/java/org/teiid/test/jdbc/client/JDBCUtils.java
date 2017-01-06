@@ -31,6 +31,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import org.teiid.test.jdbc.client.util.TableRenderer;
@@ -41,6 +42,11 @@ public class JDBCUtils {
 		Class.forName(driver);
 		return DriverManager.getConnection(url, user, pass); 
 	}
+	
+	public static Connection getDriverConnection(String driver, String url, Properties connectionProps) throws Exception {
+        Class.forName(driver);
+        return DriverManager.getConnection(url, connectionProps); 
+    }
 
 	public static void close(Connection conn) throws SQLException {
 		close(null, null, conn);
