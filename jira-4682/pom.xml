@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.teiid.test</groupId>
-    <artifactId>teiid-test-jira</artifactId>
+    <artifactId>teiid-test-jira-4682</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -10,20 +10,14 @@
     <description>Teiid Test JIRA</description>
 
     <properties>
-        <version.teiid>9.3.0.Alpha1-SNAPSHOT</version.teiid>
-        <version.org.arrahtec>6.1.9</version.org.arrahtec>
-        <version.com.h2database>1.4.187</version.com.h2database>
-        <mysql.connector.version>5.1.39</mysql.connector.version>
+    <!-- 8.12.5.redhat-8  -->
+        <version.teiid>9.2.0.Beta2-SNAPSHOT</version.teiid>
         <version.narayana>5.0.4.Final</version.narayana>
         <version.ironjacamar>1.0.30.Final-redhat-1</version.ironjacamar>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>1.8.5</version>
-        </dependency>
+        
         <dependency>
             <groupId>org.jboss.teiid</groupId>
             <artifactId>teiid-runtime</artifactId>
@@ -36,6 +30,20 @@
         </dependency>
         
         <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid-engine</artifactId>
+            <version>${version.teiid}</version>
+        </dependency>
+        
+        <!--  
+        <dependency>
+            <groupId>org.jboss.teiid</groupId>
+            <artifactId>teiid-jboss-integration</artifactId>
+            <version>${version.teiid}</version>
+        </dependency>
+        -->
+        
+        <dependency>
             <groupId>org.jboss.teiid.connectors</groupId>
             <artifactId>translator-jdbc</artifactId>
             <version>${version.teiid}</version>
@@ -46,37 +54,7 @@
             <artifactId>translator-prestodb</artifactId>
             <version>${version.teiid}</version>
         </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>translator-phoenix</artifactId>
-            <version>${version.teiid}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>connector-file</artifactId>
-            <version>${version.teiid}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>translator-file</artifactId>
-            <version>${version.teiid}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>connector-couchbase</artifactId>
-            <version>${version.teiid}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>translator-couchbase</artifactId>
-            <version>${version.teiid}</version>
-        </dependency>
-        
+
         <dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>narayana-jta</artifactId>
@@ -105,45 +83,9 @@
         </dependency>
         
         <dependency>
-        <groupId>org.arrahtec</groupId>
-        <artifactId>osdq-core</artifactId>
-        <version>${version.org.arrahtec}</version>
-    </dependency>
-    
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${version.com.h2database}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.5</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-vfs</artifactId>
-             <version>3.2.12.Final</version>
-        </dependency>
-        
-        <dependency>
             <groupId>com.facebook.presto</groupId>
             <artifactId>presto-jdbc</artifactId>
             <version>0.162</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>jaxrs-api</artifactId>
-            <version>3.0.12.Final</version>
         </dependency>
 
     </dependencies>

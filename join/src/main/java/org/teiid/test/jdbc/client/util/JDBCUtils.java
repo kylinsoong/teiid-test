@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301 USA.
  */
-package org.teiid.test.jdbc.client;
+package org.teiid.test.jdbc.client.util;
 
 import java.io.Reader;
 import java.sql.Clob;
@@ -33,8 +33,6 @@ import java.sql.Types;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-
-import org.teiid.test.jdbc.client.util.TableRenderer;
 
 public class JDBCUtils {
 	

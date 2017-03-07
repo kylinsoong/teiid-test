@@ -21,7 +21,7 @@ public class LocalTransactions {
     private static final String JDBC_USER = "teiidUser";
     private static final String JDBC_PASS = "password1!";
     
-    static String SQL_QUERY_COUNT = "SELECT COUNT(id) AS TOTAL_SKILLS FROM MariaDBSchema.skills";
+    static String SQL_QUERY_COUNT = "SELECT COUNT(id) AS TOTAL_SKILLS FROM MariaDB1Schema.skills";
     
 	public static void main(String[] args) throws Exception {
 
@@ -47,7 +47,7 @@ public class LocalTransactions {
 	    
 	    try {
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO MariaDBSchema.skills(id, name) VALUES(4, 'teiid')");
+            stmt.executeUpdate("INSERT INTO MariaDB1Schema.skills(id, name) VALUES(4, 'teiid')");
             stmt.close();
             count("before add commit", SQL_QUERY_COUNT);
             conn.commit();
@@ -59,7 +59,7 @@ public class LocalTransactions {
         
         try {
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("DELETE FROM MariaDBSchema.skills WHERE id = 4");
+            stmt.executeUpdate("DELETE FROM MariaDB1Schema.skills WHERE id = 4");
             stmt.close();
             count("before delete commit", SQL_QUERY_COUNT);
             conn.commit();
@@ -83,7 +83,7 @@ public class LocalTransactions {
 
         try {
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("INSERT INTO MariaDBSchema.skills(id, name) VALUES(4, 'teiid')");
+            stmt.executeUpdate("INSERT INTO MariaDB1Schema.skills(id, name) VALUES(4, 'teiid')");
             stmt.close();
             count("before add commit", SQL_QUERY_COUNT);
             conn.commit();
@@ -95,7 +95,7 @@ public class LocalTransactions {
         
         try {
             Statement stmt = conn.createStatement();
-            stmt.executeUpdate("DELETE FROM MariaDBSchema.skills WHERE id = 4");
+            stmt.executeUpdate("DELETE FROM MariaDB1Schema.skills WHERE id = 4");
             stmt.close();
             count("before delete commit", SQL_QUERY_COUNT);
             conn.commit();

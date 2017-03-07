@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="Portfolio" version="1">
+
+    <model name="prestoSource">
+
+        <property name="importer.useFullSchemaName" value="true"/>
+
+        <source name="presto-connector" translator-name="translator-presto" connection-jndi-name="java:/accounts-ds"/>
+    </model>
+
+</vdb>

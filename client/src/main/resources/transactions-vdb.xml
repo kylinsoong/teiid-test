@@ -3,14 +3,24 @@
 
     <description>The Transactions Test VDB</description>
     
-    <model name="MariaDBSchema">
+    <model name="MariaDB1Schema">
         <property name="importer.useFullSchemaName" value="false"/>
-        <source name="mariadb-connector-1" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBDS"/>
+        <source name="mariadb-connector-1" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBDS1"/>
     </model>
     
-    <model name="MariaDBXASchema">
+    <model name="MariaDBXA1Schema">
         <property name="importer.useFullSchemaName" value="false"/>
-        <source name="mariadb-connector-2" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBXADS"/>
+        <source name="mariadb-connector-2" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBXADS1"/>
+    </model>
+    
+    <model name="MariaDB2Schema">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="mariadb-connector-3" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBDS2"/>
+    </model>
+    
+    <model name="MariaDBXA2Schema">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="mariadb-connector-4" translator-name="translator-mariadb" connection-jndi-name="java:jboss/datasources/MariaDBXADS2"/>
     </model>
     
     <translator name="translator-mariadb" type="mysql5">

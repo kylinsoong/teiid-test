@@ -11,19 +11,35 @@ if (outcome != success) of /subsystem=datasources/jdbc-driver=mariadb-xa:read-re
 end-if
 
 # Add Data Source
-if (outcome != success) of /subsystem=datasources/data-source=MariaDBDS:read-resource
-    /subsystem=datasources/data-source=MariaDBDS:add(driver-name=mariadb, jndi-name=java:jboss/datasources/MariaDBDS, connection-url=jdbc:mariadb://10.66.192.120:3306/teiid, user-name=teiid_user, password=teiid_pass, enabled=true, use-java-context=true, min-pool-size=5, max-pool-size=30)
+if (outcome != success) of /subsystem=datasources/data-source=MariaDBDS1:read-resource
+    /subsystem=datasources/data-source=MariaDBDS1:add(driver-name=mariadb, jndi-name=java:jboss/datasources/MariaDBDS1, connection-url=jdbc:mariadb://10.66.192.120:3306/teiid, user-name=teiid_user, password=teiid_pass, enabled=true, use-java-context=true, min-pool-size=5, max-pool-size=30)
 end-if
 
-if (outcome != success) of /subsystem=datasources/xa-data-source=MariaDBXADS:read-resource
-    xa-data-source add --name=MariaDBXADS --driver-name=mariadb-xa --jndi-name=java:jboss/datasources/MariaDBXADS --user-name=teiid_user --password=teiid_pass --use-java-context=true --xa-datasource-properties=[DatabaseName=>teiid, PortNumber=>3306, ServerName=>10.66.192.120]
+if (outcome != success) of /subsystem=datasources/xa-data-source=MariaDBXADS1:read-resource
+    xa-data-source add --name=MariaDBXADS1 --driver-name=mariadb-xa --jndi-name=java:jboss/datasources/MariaDBXADS1 --user-name=teiid_user --password=teiid_pass --use-java-context=true --xa-datasource-properties=[DatabaseName=>teiid, PortNumber=>3306, ServerName=>10.66.192.120]
+end-if
+
+if (outcome != success) of /subsystem=datasources/data-source=MariaDBDS2:read-resource
+    /subsystem=datasources/data-source=MariaDBDS2:add(driver-name=mariadb, jndi-name=java:jboss/datasources/MariaDBDS2, connection-url=jdbc:mariadb://localhost:3306/teiid, user-name=teiid_user, password=teiid_pass, enabled=true, use-java-context=true, min-pool-size=5, max-pool-size=30)
+end-if
+
+if (outcome != success) of /subsystem=datasources/xa-data-source=MariaDBXADS2:read-resource
+    xa-data-source add --name=MariaDBXADS2 --driver-name=mariadb-xa --jndi-name=java:jboss/datasources/MariaDBXADS2 --user-name=teiid_user --password=teiid_pass --use-java-context=true --xa-datasource-properties=[DatabaseName=>teiid, PortNumber=>3306, ServerName=>localhost]
 end-if
 
 # Verify adding
-if (outcome == success) of /subsystem=datasources/data-source=MariaDBDS:read-resource
-    /subsystem=datasources/data-source=MariaDBDS:test-connection-in-pool()
+if (outcome == success) of /subsystem=datasources/data-source=MariaDBDS1:read-resource
+    /subsystem=datasources/data-source=MariaDBDS1:test-connection-in-pool()
 end-if
 
-if (outcome == success) of /subsystem=datasources/xa-data-source=MariaDBXADS:read-resource
-    /subsystem=datasources/xa-data-source=MariaDBXADS:test-connection-in-pool()
+if (outcome == success) of /subsystem=datasources/xa-data-source=MariaDBXADS1:read-resource
+    /subsystem=datasources/xa-data-source=MariaDBXADS1:test-connection-in-pool()
+end-if
+
+if (outcome == success) of /subsystem=datasources/data-source=MariaDBDS2:read-resource
+    /subsystem=datasources/data-source=MariaDBDS2:test-connection-in-pool()
+end-if
+
+if (outcome == success) of /subsystem=datasources/xa-data-source=MariaDBXADS2:read-resource
+    /subsystem=datasources/xa-data-source=MariaDBXADS2:test-connection-in-pool()
 end-if

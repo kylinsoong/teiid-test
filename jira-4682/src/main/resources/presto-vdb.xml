@@ -1,0 +1,970 @@
+<vdb name="PrestoDB" version="1">
+    <model name="Source" type="PHYSICAL">
+        <source name="Source" connection-jndi-name="java:/prestoDS" translator-name="prestodb"/>
+        <metadata type="DDL">
+            <![CDATA[
+CREATE FOREIGN TABLE SmallA (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'smalla');
+CREATE FOREIGN TABLE SmallB (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'smallb');
+CREATE FOREIGN TABLE MediumA (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'mediuma');
+CREATE FOREIGN TABLE MediumB (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'mediumb');
+CREATE FOREIGN TABLE LargeA (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'largea');
+CREATE FOREIGN TABLE LargeB (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'largeb');
+CREATE FOREIGN TABLE HugeA (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'hugea');
+CREATE FOREIGN TABLE HugeB (IntKey integer PRIMARY KEY OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intkey'),
+    StringKey string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringkey'),
+    IntNum integer OPTIONS (NATIVE_TYPE 'integer', NAMEINSOURCE 'intnum'),
+    StringNum string OPTIONS (NATIVE_TYPE 'varchar(10)', NAMEINSOURCE 'stringnum'),
+    FloatNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'floatnum'),
+    LongNum long OPTIONS (NATIVE_TYPE 'bigint', NAMEINSOURCE 'longnum'),
+    DoubleNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'doublenum'),
+    ByteNum double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bytenum'),
+    DateValue date OPTIONS (NATIVE_TYPE 'date', NAMEINSOURCE 'datevalue'),
+    TimeValue time OPTIONS (NATIVE_TYPE 'time', NAMEINSOURCE 'timevalue'),
+    TimestampValue timestamp OPTIONS (NATIVE_TYPE 'timestamp', NAMEINSOURCE 'timestampvalue'),
+    BooleanValue boolean OPTIONS (NATIVE_TYPE 'boolean', NAMEINSOURCE 'booleanvalue'),
+    CharValue char(1) OPTIONS (NATIVE_TYPE 'char(1)', NAMEINSOURCE 'charvalue'),
+    ShortValue short OPTIONS (NATIVE_TYPE 'smallint', NAMEINSOURCE 'shortvalue'),
+    BigIntegerValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigintegervalue'),
+    BigDecimalValue double OPTIONS (NATIVE_TYPE 'double', NAMEINSOURCE 'bigdecimalvalue'),
+    ObjectValue string OPTIONS (NATIVE_TYPE 'varchar(65535', NAMEINSOURCE 'objectvalue')) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE', NAMEINSOURCE 'hugeb');
+            ]]>
+        </metadata>
+    </model>
+    <model name="BQT1" type="VIRTUAL">
+        <metadata type="DDL">
+            <![CDATA[
+CREATE VIEW SmallA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.smalla;
+
+CREATE VIEW SmallB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.smallb;
+
+CREATE VIEW MediumA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.mediuma;
+
+CREATE VIEW MediumB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.mediumb;
+
+CREATE VIEW LargeA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.largea;
+
+CREATE VIEW LargeB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.largeb;
+
+CREATE VIEW HugeA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.hugea;
+
+CREATE VIEW HugeB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.hugeb;
+            ]]>
+        </metadata>
+    </model>
+    <model name="BQT2" type="VIRTUAL">
+        <metadata type="DDL">
+            <![CDATA[
+CREATE VIEW SmallA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.smalla;
+
+CREATE VIEW SmallB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.smallb;
+
+CREATE VIEW MediumA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.mediuma;
+
+CREATE VIEW MediumB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.mediumb;
+
+CREATE VIEW LargeA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.largea;
+
+CREATE VIEW LargeB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.largeb;
+
+CREATE VIEW HugeA (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.hugea;
+
+CREATE VIEW HugeB (IntKey integer PRIMARY KEY,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+  SELECT IntKey, StringKey, IntNum, 
+    StringNum, convert(FloatNum, float) AS FloatNum, LongNum, DoubleNum,
+    convert(ByteNum, byte) AS ByteNum, DateValue, TimeValue, TimestampValue,
+    BooleanValue, CharValue, ShortValue, convert(BigIntegerValue, biginteger) AS BigIntegerValue,
+    convert(BigDecimalValue, bigdecimal) AS BigDecimalValue, convert(ObjectValue, object) AS ObjectValue
+  FROM Source.hugeb;
+            ]]>
+        </metadata>
+    </model>
+    <model name="VirtProcs" type="VIRTUAL">
+        <metadata type="DDL">
+            <![CDATA[
+CREATE VIRTUAL PROCEDURE CountAllSmalla() RETURNS (SmallA_Count integer) AS
+    BEGIN
+        SELECT COUNT(*) AS SmallA_Count FROM BQT1.SmallA;
+    END;
+CREATE VIRTUAL PROCEDURE AllSmallA() RETURNS (INTKEY integer NOT NULL, STRINGNUM string) AS
+    BEGIN
+        SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringNum FROM BQT1.SmallA;
+    END;
+CREATE VIRTUAL PROCEDURE CountSmallA_Between(lo integer, hi integer, inclusive boolean) RETURNS (SmallA_Count integer) AS
+    BEGIN
+        IF(VIRTPROCS.COUNTSMALLA_BETWEEN.LO > VIRTPROCS.COUNTSMALLA_BETWEEN.HI)
+            BEGIN ERROR 'The lower number must actually be lower than the high number. Equal is OK, too.'; END
+        ELSE 
+            BEGIN
+                IF(VIRTPROCS.COUNTSMALLA_BETWEEN.INCLUSIVE = TRUE)
+                    BEGIN
+                        SELECT COUNT(*) AS SmallA_Count FROM BQT1.SMALLA WHERE (BQT1.SmallA.IntKey >= VIRTPROCS.COUNTSMALLA_BETWEEN.LO) AND (BQT1.SmallA.IntKey <= VIRTPROCS.COUNTSMALLA_BETWEEN.HI);
+                    END
+                ELSE
+                    BEGIN
+                        SELECT COUNT(*) AS SmallA_Count FROM BQT1.SMALLA WHERE (BQT1.SmallA.IntKey > VIRTPROCS.COUNTSMALLA_BETWEEN.LO) AND (BQT1.SmallA.IntKey < VIRTPROCS.COUNTSMALLA_BETWEEN.HI);
+                    END
+            END
+    END;
+CREATE VIRTUAL PROCEDURE SmallA_Between(lo integer, hi integer, inclusive boolean) RETURNS (INTKEY integer NOT NULL, STRINGNUM string) AS
+    BEGIN
+        IF(VIRTPROCS.SMALLA_BETWEEN.LO > VIRTPROCS.SMALLA_BETWEEN.HI)
+            BEGIN ERROR 'The lower number must actually be lower than (or equal to, but this is goofy) the high number.'; END
+        ELSE
+            BEGIN
+                IF(VIRTPROCS.SMALLA_BETWEEN.INCLUSIVE = TRUE)
+                    BEGIN
+                        SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringNum FROM BQT1.SmallA WHERE (BQT1.SmallA.IntKey >= VIRTPROCS.SMALLA_BETWEEN.LO) AND (BQT1.SmallA.IntKey <= VIRTPROCS.SMALLA_BETWEEN.HI);
+                    END
+                ELSE
+                    BEGIN
+                        SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringNum FROM BQT1.SmallA WHERE (BQT1.SmallA.IntKey > VIRTPROCS.SMALLA_BETWEEN.LO) AND (BQT1.SmallA.IntKey < VIRTPROCS.SMALLA_BETWEEN.HI);
+                    END
+            END
+    END;
+CREATE VIRTUAL PROCEDURE Date_n_Time(keyIn integer) RETURNS (DnT string) AS
+    BEGIN
+        SELECT ((BQT1.SmallA.DateValue || ' --datetime-- ') || BQT1.SmallA.TimeValue) AS DnT FROM BQT1.SmallA WHERE BQT1.SmallA.IntKey = VIRTPROCS.DATE_N_TIME.KEYIN;
+    END;
+CREATE VIEW vDate_n_Time(DNT string,
+    IntKey_in integer)
+  AS
+    SELECT VirtProcs.Date_n_Time.DnT AS DNT, VirtProcs.Date_n_Time.keyIn AS IntKey_in FROM VirtProcs.Date_n_Time;
+            ]]>
+        </metadata>
+    </model>
+    <model name="VQT" type="VIRTUAL">
+        <metadata type="DDL">
+            <![CDATA[
+CREATE VIEW Mapping1 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT * FROM BQT1.SmallA;
+CREATE VIEW Mapping2 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT BQT1.SmallA.* FROM BQT1.SmallA;
+CREATE VIEW Mapping3 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT * FROM BQT1.SmallA AS X;
+CREATE VIEW Mapping4 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT X.* FROM BQT1.SmallA AS X;
+
+CREATE VIEW Expr1 (StringNum string, expr string)
+  AS SELECT BQT1.SmallA.StringNum, 'val' FROM BQT1.SmallA;
+CREATE VIEW Expr2 (StringNum string, E string)
+  AS SELECT BQT1.SmallA.StringNum, 'val' AS E FROM BQT1.SmallA;
+CREATE VIEW Expr3 (expr string)
+  AS SELECT concat(BQT1.SmallA.StringNum, 'val') FROM BQT1.SmallA;
+CREATE VIEW Expr4 (E string)
+  AS SELECT concat(BQT1.SmallA.StringNum, 'val') AS E FROM BQT1.SmallA;
+CREATE VIEW Expr5 (E string)
+  AS SELECT concat(BQT1.SmallA.StringNum, BQT1.SmallA.StringKey) AS E FROM BQT1.SmallA;
+CREATE VIEW Expr6 (StringNum string, expr string)
+  AS SELECT BQT1.SmallA.StringNum, null FROM BQT1.SmallA;
+CREATE VIEW Expr7 (StringNum string, E string)
+  AS SELECT BQT1.SmallA.StringNum, null AS E FROM BQT1.SmallA;
+
+CREATE VIEW Order1 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey, BQT1.SmallA.IntNum,
+        BQT1.SmallA.StringNum, BQT1.SmallA.FloatNum, BQT1.SmallA.LongNum,
+        BQT1.SmallA.DoubleNum, BQT1.SmallA.ByteNum, BQT1.SmallA.DateValue,
+        BQT1.SmallA.TimeValue, BQT1.SmallA.TimestampValue, BQT1.SmallA.BooleanValue,
+        BQT1.SmallA.CharValue, BQT1.SmallA.ShortValue, BQT1.SmallA.BigIntegerValue,
+        BQT1.SmallA.BigDecimalValue, BQT1.SmallA.ObjectValue
+    FROM BQT1.SmallA ORDER BY IntKey;
+CREATE VIEW Order2 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object) OPTIONS (CARDINALITY 50, UPDATABLE 'TRUE')
+  AS
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey, BQT1.SmallA.IntNum,
+        BQT1.SmallA.StringNum, BQT1.SmallA.FloatNum, BQT1.SmallA.LongNum,
+        BQT1.SmallA.DoubleNum, BQT1.SmallA.ByteNum, BQT1.SmallA.DateValue,
+        BQT1.SmallA.TimeValue, BQT1.SmallA.TimestampValue, BQT1.SmallA.BooleanValue,
+        BQT1.SmallA.CharValue, BQT1.SmallA.ShortValue, BQT1.SmallA.BigIntegerValue,
+        BQT1.SmallA.BigDecimalValue, BQT1.SmallA.ObjectValue
+    FROM BQT1.SmallA ORDER BY StringNum, IntKey DESC;
+CREATE VIEW Order3 (E string)
+  AS SELECT concat(BQT1.SmallA.StringNum, 'val') AS E FROM BQT1.SmallA ORDER BY E;
+CREATE VIEW Order4 (StringNum string)
+  AS SELECT DISTINCT BQT1.SmallA.StringNum FROM BQT1.SmallA;
+CREATE VIEW Order5 (StringNum string)
+  AS SELECT DISTINCT BQT1.SmallA.StringNum FROM BQT1.SmallA ORDER BY StringNum;
+
+CREATE VIEW Agg1 (StringNum string)
+  AS SELECT BQT1.SmallA.StringNum FROM BQT1.SmallA GROUP BY BQT1.SmallA.StringNum;
+CREATE VIEW Agg2 (StringNum string)
+  AS SELECT BQT1.SmallA.StringNum FROM BQT1.SmallA GROUP BY BQT1.SmallA.StringNum HAVING BQT1.SmallA.StringNum = '1';
+CREATE VIEW Agg3 (count integer)
+  AS SELECT COUNT(*) FROM BQT1.SmallA;
+CREATE VIEW Agg4 (min string, sum long, avg bigdecimal)
+  AS SELECT MIN(BQT1.SmallA.StringNum), SUM(BQT1.SmallA.IntKey), AVG(BQT1.SmallA.BigDecimalValue) FROM BQT1.SmallA GROUP BY BQT1.SmallA.StringNum;
+
+CREATE VIEW U1 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object)
+  AS 
+    SELECT * FROM BQT1.SmallA 
+    UNION ALL
+    SELECT BQT1.SmallB.IntKey, BQT1.SmallB.StringKey, BQT1.SmallB.IntNum, BQT1.SmallB.StringNum,
+        BQT1.SmallB.FloatNum, BQT1.SmallB.LongNum, BQT1.SmallB.DoubleNum, BQT1.SmallB.ByteNum,
+        BQT1.SmallB.DateValue, BQT1.SmallB.TimeValue, BQT1.SmallB.TimestampValue, BQT1.SmallB.BooleanValue,
+        BQT1.SmallB.CharValue, BQT1.SmallB.ShortValue, BQT1.SmallB.BigIntegerValue, BQT1.SmallB.BigDecimalValue,
+        BQT1.SmallB.ObjectValue
+    FROM BQT1.SmallB;
+CREATE VIEW U2 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal)
+  AS
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey, BQT1.SmallA.IntNum, BQT1.SmallA.StringNum,
+        BQT1.SmallA.FloatNum, BQT1.SmallA.LongNum, BQT1.SmallA.DoubleNum, BQT1.SmallA.ByteNum,
+        BQT1.SmallA.DateValue, BQT1.SmallA.TimeValue, BQT1.SmallA.TimestampValue, BQT1.SmallA.BooleanValue,
+        BQT1.SmallA.CharValue, BQT1.SmallA.ShortValue, BQT1.SmallA.BigIntegerValue, BQT1.SmallA.BigDecimalValue
+    FROM BQT1.SmallA
+    UNION
+    SELECT BQT1.SmallB.IntKey, BQT1.SmallB.StringKey, BQT1.SmallB.IntNum, BQT1.SmallB.StringNum,
+        BQT1.SmallB.FloatNum, BQT1.SmallB.LongNum, BQT1.SmallB.DoubleNum, BQT1.SmallB.ByteNum,
+        BQT1.SmallB.DateValue, BQT1.SmallB.TimeValue, BQT1.SmallB.TimestampValue, BQT1.SmallB.BooleanValue,
+        BQT1.SmallB.CharValue, BQT1.SmallB.ShortValue, BQT1.SmallB.BigIntegerValue, BQT1.SmallB.BigDecimalValue
+    FROM BQT1.SmallB;
+CREATE VIEW U3 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object)
+  AS
+    (
+    SELECT * FROM BQT1.SmallA
+        UNION ALL
+        SELECT * FROM BQT1.SmallB
+    )
+    UNION ALL
+    SELECT * FROM BQT1.SmallA;
+CREATE VIEW U4 (A integer,
+    B string,
+    C float)
+  AS
+    SELECT BQT1.SmallA.IntNum AS A, BQT1.SmallA.StringNum AS B, BQT1.SmallA.FloatNum AS C
+    FROM BQT1.SmallA
+    UNION ALL
+    SELECT BQT1.SmallB.IntNum, BQT1.SmallB.StringNum, BQT1.SmallB.FloatNum
+    FROM BQT1.SmallB;
+CREATE VIEW U5 (IntNum integer,
+    DoubleNum double,
+    Source string)
+  AS
+    SELECT BQT1.SmallA.IntNum, BQT1.SmallA.DoubleNum, 'SmallA' AS Source
+    FROM BQT1.SmallA
+    UNION
+    SELECT BQT1.SmallB.IntNum, BQT1.SmallB.DoubleNum, 'SmallB'
+    FROM BQT1.SmallB;
+CREATE VIEW U6 (StringCol string,
+    IntCol integer)
+  AS
+    SELECT CONVERT(BQT1.SmallA.IntNum, string) AS StringCol, BQT1.SmallA.IntNum AS IntCol
+    FROM BQT1.SmallA
+    UNION ALL
+    SELECT BQT1.SmallB.StringNum, CONVERT(BQT1.SmallB.StringNum, integer)
+    FROM BQT1.SmallB;
+CREATE VIEW U7 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object)
+  AS
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey, BQT1.SmallA.IntNum, BQT1.SmallA.StringNum,
+        BQT1.SmallA.FloatNum, BQT1.SmallA.LongNum, BQT1.SmallA.DoubleNum, BQT1.SmallA.ByteNum,
+        BQT1.SmallA.DateValue, BQT1.SmallA.TimeValue, BQT1.SmallA.TimestampValue, BQT1.SmallA.BooleanValue,
+        BQT1.SmallA.CharValue, BQT1.SmallA.ShortValue, BQT1.SmallA.BigIntegerValue, BQT1.SmallA.BigDecimalValue,
+        BQT1.SmallA.ObjectValue
+    FROM BQT1.SmallA
+    UNION ALL
+    SELECT * FROM BQT1.SmallB ORDER BY IntKey;
+CREATE VIEW U8 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal)
+  AS
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey, BQT1.SmallA.IntNum, BQT1.SmallA.StringNum,
+        BQT1.SmallA.FloatNum, BQT1.SmallA.LongNum, BQT1.SmallA.DoubleNum, BQT1.SmallA.ByteNum,
+        BQT1.SmallA.DateValue, BQT1.SmallA.TimeValue, BQT1.SmallA.TimestampValue, BQT1.SmallA.BooleanValue,
+        BQT1.SmallA.CharValue, BQT1.SmallA.ShortValue, BQT1.SmallA.BigIntegerValue, BQT1.SmallA.BigDecimalValue
+    FROM BQT1.SmallA
+    UNION
+    SELECT BQT1.SmallB.IntKey, BQT1.SmallB.StringKey, BQT1.SmallB.IntNum, BQT1.SmallB.StringNum,
+        BQT1.SmallB.FloatNum, BQT1.SmallB.LongNum, BQT1.SmallB.DoubleNum, BQT1.SmallB.ByteNum,
+        BQT1.SmallB.DateValue, BQT1.SmallB.TimeValue, BQT1.SmallB.TimestampValue, BQT1.SmallB.BooleanValue,
+        BQT1.SmallB.CharValue, BQT1.SmallB.ShortValue, BQT1.SmallB.BigIntegerValue, BQT1.SmallB.BigDecimalValue
+    FROM BQT1.SmallB ORDER BY IntKey;
+CREATE VIEW U9 (A integer,
+    B string,
+    C float)
+  AS
+    SELECT BQT1.SmallA.IntNum AS A, BQT1.SmallA.StringNum AS B, BQT1.SmallA.FloatNum AS C
+    FROM BQT1.SmallA
+    UNION ALL
+    SELECT BQT1.SmallB.IntNum AS A, BQT1.SmallB.StringNum AS B, BQT1.SmallB.FloatNum AS C
+    FROM BQT1.SmallB ORDER BY B, A;
+CREATE VIEW U10 (IntKey integer,
+    StringKey string,
+    IntNum integer,
+    StringNum string,
+    FloatNum float,
+    LongNum long,
+    DoubleNum double,
+    ByteNum byte,
+    DateValue date,
+    TimeValue time,
+    TimestampValue timestamp,
+    BooleanValue boolean,
+    CharValue char,
+    ShortValue short,
+    BigIntegerValue biginteger,
+    BigDecimalValue bigdecimal,
+    ObjectValue object)
+  AS
+    SELECT * FROM BQT1.SmallA WHERE BQT1.SmallA.IntKey <= 50
+    UNION ALL
+    SELECT * FROM BQT1.SmallB WHERE BQT1.SmallB.IntKey > 50;
+CREATE VIEW U11 (IntKey integer,
+    StringKey string)
+  AS
+    SELECT VQT.U1.IntKey, VQT.U1.StringKey
+    FROM VQT.U1
+    UNION ALL
+    SELECT BQT1.SmallA.IntKey, BQT1.SmallA.StringKey
+    FROM BQT1.SmallA;
+            ]]>
+        </metadata>
+    </model>
+</vdb>
