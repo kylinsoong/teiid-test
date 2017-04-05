@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="JoinExamplesVDB" version="1">
+
+    <description>The SQL Join Test VDB</description>
+    
+    <model name="MariaDB">
+        <property name="importer.useFullSchemaName" value="false"/>
+        <source name="mariadb-connector" translator-name="translator-mariadb" connection-jndi-name="java:/MariaDBDS"/>
+    </model>
+
+</vdb>

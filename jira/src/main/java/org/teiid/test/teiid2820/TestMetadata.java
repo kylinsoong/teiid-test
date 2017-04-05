@@ -8,6 +8,7 @@ import javax.resource.ResourceException;
 import org.teiid.couchbase.CouchbaseConnection;
 import org.teiid.metadata.Datatype;
 import org.teiid.metadata.MetadataFactory;
+import org.teiid.query.metadata.DDLStringVisitor;
 import org.teiid.query.metadata.SystemMetadata;
 import org.teiid.resource.adapter.couchbase.CouchbaseManagedConnectionFactory;
 import org.teiid.translator.TranslatorException;
@@ -19,7 +20,8 @@ public class TestMetadata {
         
         CouchbaseManagedConnectionFactory mcf = new CouchbaseManagedConnectionFactory();
         mcf.setConnectionString("10.66.192.120"); //$NON-NLS-1$
-        mcf.setKeyspace("default"); //$NON-NLS-1$
+        mcf.setKeyspace("test"); //$NON-NLS-1$
+        mcf.setNamespace("default");
         return mcf.createConnectionFactory().getConnection();
     }
 
@@ -28,8 +30,14 @@ public class TestMetadata {
         Map<String, Datatype> datatypes = SystemMetadata.getInstance().getRuntimeTypeMap();
         MetadataFactory mf = new MetadataFactory("vdb", 1, "couchbase", datatypes, new Properties(), null);
         CouchbaseConnection conn = sample();
-        new CouchbaseMetadataProcessor().process(mf, conn);
+        CouchbaseMetadataProcessor mp = new CouchbaseMetadataProcessor();
+        mp.setTypeNameList("`test`:`type`,`beer-sample`:`type`,` travel-sample`:`type`");
+        mp.process(mf, conn);
         conn.close();
+        
+        String metadataDDL = DDLStringVisitor.getDDLString(mf.getSchema(), null, null);
+        
+        System.out.println(metadataDDL);
     }
 
 }

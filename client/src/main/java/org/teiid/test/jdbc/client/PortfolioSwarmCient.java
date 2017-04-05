@@ -1,7 +1,6 @@
 package org.teiid.test.jdbc.client;
 
-import static org.teiid.test.jdbc.client.JDBCUtils.execute;
-import static org.teiid.test.jdbc.client.JDBCUtils.getDriverConnection;
+import static org.teiid.test.jdbc.client.JDBCUtils.*;
 
 import java.sql.Connection;
 
@@ -19,9 +18,13 @@ public class PortfolioSwarmCient {
         
         execute(conn, "SELECT * FROM SYSADMIN.MatViews", false);
         
-//        execute(conn, "SELECT * FROM PRODUCT", true); 
+//        execute(conn, "SELECT * FROM SampleTable", false);
         
-        execute(conn, "SELECT * FROM SampleTable", true);
+        execute(conn, "SELECT * FROM PRODUCT", false); 
+        execute(conn, "SELECT * FROM StockPrices", false); 
+        execute(conn, "SELECT * FROM Stock", false); 
+        
+        close(conn);
 
     }
 

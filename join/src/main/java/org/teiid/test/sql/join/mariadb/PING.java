@@ -10,6 +10,10 @@ public class PING {
     private static final String JDBC_URL = "jdbc:mariadb://10.66.192.120:3306/teiid";
     private static final String JDBC_USER = "teiid_user";
     private static final String JDBC_PASS = "teiid_pass";
+    
+    public static Connection newConnection() throws Exception {
+        return getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
+    }
 
     public static void main(String[] args) throws Exception {
 
