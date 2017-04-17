@@ -116,131 +116,90 @@ public class CBWriteResultSet extends CBResultSet {
         LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
         this.m_dmlType = DSIExtJResultSet.DMLType.INSERT;
     }
-  
-
-
-
-
-
-
-
-  public void deleteRow()
-    throws ErrorException
-  {
-/*  210 */     LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
-/*  211 */     String pk = null;
-/*  212 */     for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++)
-    {
-
-/*  215 */       CBTableColumn currentKeyColumn = (CBTableColumn)this.m_keyColumns.get(keyIndex);
-/*  216 */       CBName keySrcName = currentKeyColumn.getSourceName();
-/*  217 */       if ((keySrcName.isSpecialIdentifier()) && (keySrcName.getParentName().isAttribute()))
-      {
-
-/*  220 */         pk = this.m_currentRowData.get(currentKeyColumn.getSelectAlias()).asText();
-      }
-    }
     
-
-/*  225 */     if (this.m_isVirtualTable)
-    {
-/*  227 */       if (null == this.m_deleteInfoMap.get(pk))
-      {
-/*  229 */         this.m_deleteInfoMap.put(pk, new HashMap<>());
-      }
-      
-
-
-
-/*  235 */       String srcKey = "";
-/*  236 */       int indexValue = 0;
-/*  237 */       boolean isAttrArray = false;
-/*  238 */       boolean isSkipRow = false;
-      
-
-/*  241 */       CBName updateAttr = this.m_tableSourceNameList;
-/*  242 */       if (updateAttr.isArrayDimension())
-      {
-/*  244 */         for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++)
-        {
-/*  246 */           CBTableColumn currentKeyColumn = (CBTableColumn)this.m_keyColumns.get(keyIndex);
-          
-/*  248 */           CBName arrayCBName = currentKeyColumn.getSourceName().getParentName();
-/*  249 */           if (updateAttr.isEqual(arrayCBName))
-          {
-
-/*  252 */             indexValue = this.m_currentRowData.get(currentKeyColumn.getSelectAlias()).asInt();
-/*  253 */             isAttrArray = true;
-          }
-        }
-/*  256 */         updateAttr = updateAttr.getParentName();
-      }
-      
-/*  259 */       while (null != updateAttr.getParentName())
-      {
-/*  261 */         if (updateAttr.isAttribute())
-        {
-/*  263 */           if ((srcKey.length() != 0) && (srcKey.charAt(0) == '`'))
-          {
-/*  265 */             srcKey = "." + srcKey;
-          }
-/*  267 */           srcKey = "`" + updateAttr.getAsAttribute().getUnquotedName() + "`" + srcKey;
-        }
-/*  269 */         else if (updateAttr.isArrayDimension())
-        {
-/*  271 */           for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++)
-          {
-/*  273 */             CBTableColumn currentKeyCol = (CBTableColumn)this.m_keyColumns.get(keyIndex);
-            
-/*  275 */             CBName arrayCBName = currentKeyCol.getSourceName().getParentName();
-/*  276 */             if (updateAttr.isEqual(arrayCBName))
-            {
-/*  278 */               Iterator<Map.Entry<CBTableColumn, String>> detectArrayItr = this.m_detectArrayAliasMap.entrySet().iterator();
-              
-/*  280 */               while (detectArrayItr.hasNext())
-              {
-/*  282 */                 Map.Entry<CBTableColumn, String> nextPair = (Map.Entry)detectArrayItr.next();
-/*  283 */                 JsonNode checkingNode = this.m_currentRowData.get((String)nextPair.getValue());
-                
-/*  285 */                 isSkipRow |= !checkingNode.asBoolean();
-              }
-              
-/*  288 */               if ((srcKey.length() != 0) && (srcKey.charAt(0) == '`'))
-              {
-/*  290 */                 srcKey = "." + srcKey;
-              }
-/*  292 */               srcKey = "[" + this.m_currentRowData.get(currentKeyCol.getSelectAlias()) + "]" + srcKey;
+    public void deleteRow() throws ErrorException {
+        
+        LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
+        
+        String pk = null;
+        for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++) {
+            CBTableColumn currentKeyColumn = (CBTableColumn)this.m_keyColumns.get(keyIndex);
+            CBName keySrcName = currentKeyColumn.getSourceName();
+            if ((keySrcName.isSpecialIdentifier()) && (keySrcName.getParentName().isAttribute())) {
+                pk = this.m_currentRowData.get(currentKeyColumn.getSelectAlias()).asText();
             }
-          }
-        }
-/*  296 */         updateAttr = updateAttr.getParentName();
-      }
-/*  298 */       if (!isSkipRow)
-      {
-
-/*  301 */         List<Integer> indexList = (List)((Map)this.m_deleteInfoMap.get(pk)).get(srcKey.toString());
-/*  302 */         if ((null != indexList) && (isAttrArray))
-        {
-/*  304 */           indexList.add(Integer.valueOf(indexValue));
-
-
-
-        }
-/*  309 */         else if (isAttrArray)
-        {
-/*  311 */           indexList = new ArrayList();
-/*  312 */           indexList.add(Integer.valueOf(indexValue));
-/*  313 */           ((Map)this.m_deleteInfoMap.get(pk)).put(srcKey.toString(), indexList);
         }
         
-      }
+        if (this.m_isVirtualTable) {
+            if (null == this.m_deleteInfoMap.get(pk)) {
+                this.m_deleteInfoMap.put(pk, new HashMap<>());
+            }
+            
+            String srcKey = "";
+            int indexValue = 0;
+            boolean isAttrArray = false;
+            boolean isSkipRow = false;
+            
+            CBName updateAttr = this.m_tableSourceNameList;
+            if (updateAttr.isArrayDimension()) {
+                for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++) {
+                    CBTableColumn currentKeyColumn = (CBTableColumn)this.m_keyColumns.get(keyIndex);
+                    CBName arrayCBName = currentKeyColumn.getSourceName().getParentName();
+                    if (updateAttr.isEqual(arrayCBName)) {
+                        indexValue = this.m_currentRowData.get(currentKeyColumn.getSelectAlias()).asInt();
+                        isAttrArray = true;
+                    }
+                }
+                
+                updateAttr = updateAttr.getParentName();
+            }
+            
+            while (null != updateAttr.getParentName()) {
+                if (updateAttr.isAttribute()) {
+                    if ((srcKey.length() != 0) && (srcKey.charAt(0) == '`')) {
+                        srcKey = "." + srcKey;
+                    }
+                    srcKey = "`" + updateAttr.getAsAttribute().getUnquotedName() + "`" + srcKey;
+                } else if (updateAttr.isArrayDimension()) {
+                    
+                    for (int keyIndex = 0; keyIndex < this.m_keyColumns.size(); keyIndex++) {
+                        CBTableColumn currentKeyCol = (CBTableColumn)this.m_keyColumns.get(keyIndex);
+                        CBName arrayCBName = currentKeyCol.getSourceName().getParentName();
+                        if (updateAttr.isEqual(arrayCBName)) {
+                            Iterator<Map.Entry<CBTableColumn, String>> detectArrayItr = this.m_detectArrayAliasMap.entrySet().iterator();
+                            while (detectArrayItr.hasNext()) {
+                                Map.Entry<CBTableColumn, String> nextPair = detectArrayItr.next();
+                                JsonNode checkingNode = this.m_currentRowData.get((String)nextPair.getValue());
+                                isSkipRow |= !checkingNode.asBoolean();
+                            }
+                            
+                            if ((srcKey.length() != 0) && (srcKey.charAt(0) == '`')) {
+                                srcKey = "." + srcKey;
+                            }
+                            
+                            srcKey = "[" + this.m_currentRowData.get(currentKeyCol.getSelectAlias()) + "]" + srcKey;
+                        }
+                    }
+                }
+                
+                updateAttr = updateAttr.getParentName();
+            }
+            
+            if (!isSkipRow) {
+                List<Integer> indexList = this.m_deleteInfoMap.get(pk).get(srcKey.toString());
+                if ((null != indexList) && (isAttrArray)) {
+                    indexList.add(Integer.valueOf(indexValue));
+                } else if (isAttrArray) {
+                    indexList = new ArrayList<>();
+                    indexList.add(Integer.valueOf(indexValue));
+                    this.m_deleteInfoMap.get(pk).put(srcKey.toString(), indexList);
+                }
+            }
+        } else {
+            this.m_deleteInfoMap.put(pk, null);
+        }
+        this.m_dmlType = DSIExtJResultSet.DMLType.DELETE;
     }
-    else
-    {
-/*  320 */       this.m_deleteInfoMap.put(pk, null);
-    }
-/*  322 */     this.m_dmlType = DSIExtJResultSet.DMLType.DELETE;
-  }
   
     public boolean detectArrayDimension() {
         LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
@@ -262,9 +221,8 @@ public class CBWriteResultSet extends CBResultSet {
         
         switch (this.m_dmlType) {
         
-        case DELETE: 
-/*  369 */       if (this.m_isVirtualTable)
-      {
+        case DELETE:
+            if (this.m_isVirtualTable) {
 /*  371 */         StringBuilder deleteQueryBuilder = new StringBuilder();
 /*  372 */         Iterator<Map.Entry<String, Map<String, List<Integer>>>> deleteMapIte = this.m_deleteInfoMap.entrySet().iterator();
         
@@ -494,38 +452,27 @@ public class CBWriteResultSet extends CBResultSet {
 /*  597 */           this.m_dmlQuery = deleteQueryBuilder.toString();
 /*  598 */           execute();
         }
-      }
-      else
-      {
-/*  603 */         StringBuilder deleteQueryBuilder = new StringBuilder();
-/*  604 */         deleteQueryBuilder.append("DELETE FROM `").append(this.m_schemaName).append("`");
-        
-
-
-
-
-/*  610 */         deleteQueryBuilder.append(" USE KEYS [");
-/*  611 */         Iterator<Map.Entry<String, Map<String, List<Integer>>>> delPKItr = this.m_deleteInfoMap.entrySet().iterator();
-        
-/*  613 */         boolean comma = false;
-/*  614 */         while (delPKItr.hasNext())
-        {
-/*  616 */           Map.Entry<String, Map<String, List<Integer>>> pkInfo = (Map.Entry)delPKItr.next();
-/*  617 */           if (comma)
-          {
-/*  619 */             deleteQueryBuilder.append(", ");
-          }
-/*  621 */           comma = true;
-/*  622 */           deleteQueryBuilder.append("'").append((String)pkInfo.getKey()).append("'");
-        }
-        
-
-
-/*  627 */         deleteQueryBuilder.append("]");
-/*  628 */         this.m_dmlQuery = deleteQueryBuilder.toString();
-/*  629 */         execute();
-      }
-/*  631 */       break;
+            } else {
+                StringBuilder deleteQueryBuilder = new StringBuilder();
+                deleteQueryBuilder.append("DELETE FROM `").append(this.m_schemaName).append("`");
+                deleteQueryBuilder.append(" USE KEYS [");
+                
+                Iterator<Map.Entry<String, Map<String, List<Integer>>>> delPKItr = this.m_deleteInfoMap.entrySet().iterator();
+                boolean comma = false;
+                while (delPKItr.hasNext()) {
+                    Map.Entry<String, Map<String, List<Integer>>> pkInfo = delPKItr.next();
+                    if (comma) {
+                        deleteQueryBuilder.append(", ");
+                    }
+                    comma = true;
+                    deleteQueryBuilder.append("'").append((String)pkInfo.getKey()).append("'");
+                }
+                
+                deleteQueryBuilder.append("]");
+                this.m_dmlQuery = deleteQueryBuilder.toString();
+                execute();
+            }
+            break;
     
 
         case INSERT:
@@ -533,7 +480,7 @@ public class CBWriteResultSet extends CBResultSet {
             for (int dataCacheIdx = 0; dataCacheIdx < this.m_dataCache.size(); dataCacheIdx++) {
                 Pair<String, List<CachedDataInfo>> cachePair = this.m_dataCache.get(dataCacheIdx);
                 if (this.m_isVirtualTable) {
-                    String setKey = ((CachedDataInfo)((List)cachePair.value()).get(0)).getKey();
+                    String setKey = cachePair.value().get(0).getKey();
                     insertQueryBuilder.append("UPDATE `").append(this.m_schemaName).append("` USE KEYS ").append((String)cachePair.key()).append(" SET ").append(setKey).append(" = ARRAY_CONCAT(IFMISSINGORNULL(").append(setKey).append(", []) , ").append(((CachedDataInfo)((List)cachePair.value()).get(0)).getValue()).append(") RETURNING META(`").append(this.m_schemaName).append("`).id AS ").append("PK"); 
                 } else {
                     insertQueryBuilder.append("INSERT INTO `").append(this.m_schemaName).append("` (KEY, VALUE) VALUES (").append((String)cachePair.key()).append(", ").append(((CachedDataInfo)((List)cachePair.value()).get(0)).getValue()).append(") RETURNING META(`").append(this.m_schemaName).append("`).id AS ").append("PK");
@@ -568,6 +515,9 @@ public class CBWriteResultSet extends CBResultSet {
                 this.m_dmlQuery = updateQueryBuilder.toString();
                 execute();
             }
+                
+        default:
+            break;
         }
     }
   
@@ -978,6 +928,7 @@ public class CBWriteResultSet extends CBResultSet {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+            break;
             
         case UPDATE: 
             String colName = tempCol.getName();
@@ -1007,6 +958,8 @@ public class CBWriteResultSet extends CBResultSet {
     }
     
     private void execute() throws ErrorException {
+        
+        System.out.println(this.m_dmlQuery);
         
         N1QLRowCountSet dmlResult = this.m_client.executeUpdate(this.m_dmlQuery, null, null);
         

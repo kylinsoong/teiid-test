@@ -15,8 +15,7 @@ public class Sample_5_Query_CustomerOrder {
         "SELECT * FROM Customer",
         "SELECT * FROM Customer_SavedAddresses",
         "SELECT * FROM Oder",
-        "SELECT * FROM Oder_Items",
-        "SELECT * FROM Customer INNER JOIN Oder ON Customer.ID = Oder.CustomerID"
+        "SELECT * FROM Oder_Items"
     };
 
     public static void main(String[] args) throws Exception {
@@ -31,9 +30,12 @@ public class Sample_5_Query_CustomerOrder {
 //            }
 //        });
         
-        execute(conn, "SELECT Name, type  FROM Customer WHERE Name = 'John Doe'");
-//        execute(conn, queries[2]);
+//        execute(conn, "UPDATE Customer SET Name = 'John Doe' WHERE PK = 'customer-5'");
+        
+//        execute(conn, "UPDATE Oder SET CreditCard_CVN = 786 WHERE PK = 'order-2'");
 
+        execute(conn, "UPDATE default_nestedArray_dim2_dim3_dim4 SET default_nestedArray_dim2_dim3_dim4 = 'Hello Teiid' WHERE documentID = 'nestedArray' AND default_nestedArray_idx = 1 AND default_nestedArray_dim2_idx = 1 AND default_nestedArray_dim2_dim3_idx = 1 AND default_nestedArray_dim2_dim3_dim4_idx = 3");
+        
         close(conn);
     }
 

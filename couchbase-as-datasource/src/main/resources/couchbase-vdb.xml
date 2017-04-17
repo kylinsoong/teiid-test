@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="CouchbaseVDB" version="1">
+    <model name="CouchbaseModel">
+        <property name="importer.sampleSize" value="100"/>
+        <property name="importer.typeNameList" value="`test`:`type`,`default`:`type`"/>
+        <source name="couchbase" translator-name="translator-couchbase" connection-jndi-name="java:/couchbaseDS"/>
+    </model>
+
+    <translator name="translator-couchbase" type="couchbase">
+    </translator>
+</vdb>

@@ -38,13 +38,16 @@ public class Sample_4_Query {
 
         Connection conn = getDriverConnection(JDBC4_DRIVER, JDBC_URL_TEST);
         
-        Arrays.asList(queries).forEach(sql -> {
-            try {
-                execute(conn, sql);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+//        Arrays.asList(queries).forEach(sql -> {
+//            try {
+//                execute(conn, sql);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+        
+//        execute(conn, "SELECT * FROM default_nestedArray_dim2_dim3_dim4");
+        execute(conn, "INSERT INTO default_nestedArray_dim2_dim3_dim4 (PK, default_nestedArray_idx, default_nestedArray_dim2_idx, default_nestedArray_dim2_dim3_idx, default_nestedArray_dim2_dim3_dim4_idx, default_nestedArray_dim2_dim3_dim4) VALUES ('nestedArray', 1, 1, 1, 1, 'Hello World')");
         
         close(conn);
     }

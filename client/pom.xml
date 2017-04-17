@@ -10,16 +10,11 @@
 	<description>Teiid Test JDBC Client</description>
 	
 	<properties>
-		<version.teiid>9.3.0.Alpha1-SNAPSHOT</version.teiid>
+		<version.teiid>9.3.0.Alpha3-SNAPSHOT</version.teiid>
 		<mysql.connector.version>5.1.39</mysql.connector.version>
 	</properties>
 
 	<dependencies>
-<!-- 		<dependency>
-            <groupId>org.jboss.teiid</groupId>
-            <artifactId>teiid-admin</artifactId>
-            <version>${version.teiid}</version>
-        </dependency> -->
         <dependency>
             <groupId>org.jboss.teiid</groupId>
             <artifactId>teiid-client</artifactId>

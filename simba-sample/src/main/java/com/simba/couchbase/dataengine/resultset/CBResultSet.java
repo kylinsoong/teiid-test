@@ -362,32 +362,19 @@ public class CBResultSet extends DSIExtJResultSet {
     public boolean isDMLResultSet() {
         return false;
     }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  public boolean moveToNextRow()
-    throws ErrorException
-  {
-/*  717 */     LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
-/*  718 */     if (this.m_currentFetchedRows < this.m_rowCount)
-    {
-/*  720 */       this.m_currentRowData = this.m_allRowDataStructure[this.m_currentFetchedRows];
-/*  721 */       this.m_currentFetchedRows += 1;
-/*  722 */       return true;
+    
+    public boolean moveToNextRow() throws ErrorException {
+        
+        LogUtilities.logFunctionEntrance(this.m_log, new Object[0]);
+        
+        if (this.m_currentFetchedRows < this.m_rowCount) {
+            this.m_currentRowData = this.m_allRowDataStructure[this.m_currentFetchedRows];
+            this.m_currentFetchedRows += 1;
+            return true;
+        }
+        
+        return false;
     }
-/*  724 */     return false;
-  }
   
 
 

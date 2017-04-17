@@ -37,7 +37,7 @@ public class Sample_5_Query_Simple {
 //            }
 //        });
         
-        execute(conn, queries[0]);
+        execute(conn, queries[4]);
         
         close(conn);
     }
