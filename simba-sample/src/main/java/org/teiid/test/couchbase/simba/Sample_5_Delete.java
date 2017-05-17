@@ -21,7 +21,7 @@ public class Sample_5_Delete {
       
 //        execute(conn, "DELETE FROM default_nestedArray_dim2_dim3_dim4 WHERE PK = 'nestedArray' AND default_nestedArray_idx = 2");
         
-        execute(conn, "DELETE FROM default_nestedArray_dim2_dim3_dim4 WHERE PK = 'nestedArray'");
+        execute(conn, "DELETE FROM Customer WHERE PK = 'customer-5' AND ID = 'Customer_10000' AND type = 'Customer'");
         
         
       close(conn);

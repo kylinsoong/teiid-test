@@ -117,13 +117,21 @@ public class JDBCUtils {
 		
 		Statement stmt = null;
 		ResultSet rs = null;
+		ResultSetRenderer renderer = null;
 		
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			new ResultSetRenderer(rs).renderer();
+			renderer = new ResultSetRenderer(rs);
+			renderer.renderer();
 		} finally {
 			close(rs, stmt);
+			if(renderer != null) {
+			    try {
+                    renderer.close();
+                } catch (Exception e) {
+                }
+			}
 		}
 		
 		System.out.println();

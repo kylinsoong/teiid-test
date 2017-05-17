@@ -47,7 +47,10 @@ public class Sample_4_Query {
 //        });
         
 //        execute(conn, "SELECT * FROM default_nestedArray_dim2_dim3_dim4");
-        execute(conn, "INSERT INTO default_nestedArray_dim2_dim3_dim4 (PK, default_nestedArray_idx, default_nestedArray_dim2_idx, default_nestedArray_dim2_dim3_idx, default_nestedArray_dim2_dim3_dim4_idx, default_nestedArray_dim2_dim3_dim4) VALUES ('nestedArray', 1, 1, 1, 1, 'Hello World')");
+//        execute(conn, "INSERT INTO default_nestedArray_dim2_dim3_dim4 (PK, default_nestedArray_idx, default_nestedArray_dim2_idx, default_nestedArray_dim2_dim3_idx, default_nestedArray_dim2_dim3_dim4_idx, default_nestedArray_dim2_dim3_dim4) VALUES ('nestedArray', 1, 1, 1, 1, 'Hello World')");
+        
+        execute(conn, "SELECT * FROM Oder_Items");
+//        execute(conn, "SELECT * FROM Oder_Items WHERE PK = 'order-1' AND Oder_Items_Quantity = 1");
         
         close(conn);
     }
