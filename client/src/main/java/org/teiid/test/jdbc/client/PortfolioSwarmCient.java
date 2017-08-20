@@ -16,12 +16,16 @@ public class PortfolioSwarmCient {
         
         Connection conn = getDriverConnection(JDBC_DRIVER, JDBC_URL, JDBC_USER, JDBC_PASS);
         
-        execute(conn, "SELECT * FROM SYSADMIN.MatViews", false);
+//        execute(conn, "SELECT * FROM SYSADMIN.MatViews", false);
         
 //        execute(conn, "SELECT * FROM SampleTable", false);
         
-        execute(conn, "SELECT * FROM PRODUCT", false); 
-        execute(conn, "SELECT * FROM StockPrices", false); 
+//        execute(conn, "SELECT * FROM PRODUCT", false); 
+//        execute(conn, "SELECT * FROM StockPrices", false); 
+        execute(conn, "SELECT * FROM Accounts.PRODUCT", false); 
+        
+        execute(conn, "SELECT SP.symbol, SP.price FROM (EXEC MarketData.getTextFiles('*.txt')) AS f, TEXTTABLE(f.file COLUMNS symbol string, price bigdecimal HEADER) AS SP", false); 
+        
         execute(conn, "SELECT * FROM Stock", false); 
         
         close(conn);

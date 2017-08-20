@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>teiid-test-jdbc-client</artifactId>
+	<artifactId>test-jdbc-client</artifactId>
 	<groupId>org.jboss.teiid.test</groupId>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -10,14 +10,14 @@
 	<description>Teiid Test JDBC Client</description>
 	
 	<properties>
-		<version.teiid>9.3.0.Alpha3-SNAPSHOT</version.teiid>
-		<mysql.connector.version>5.1.39</mysql.connector.version>
+		<version.teiid>8.12.5.redhat-8</version.teiid>
+		<mysql.connector.version>5.1.35</mysql.connector.version>
 	</properties>
 
 	<dependencies>
         <dependency>
             <groupId>org.jboss.teiid</groupId>
-            <artifactId>teiid-client</artifactId>
+            <artifactId>teiid-jdbc</artifactId>
             <version>${version.teiid}</version>
 		</dependency>
 		<!-- 
@@ -26,15 +26,22 @@
             <artifactId>mariadb-java-client</artifactId>
             <version>1.5.5</version>
         </dependency>
-         -->
+         
+         <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.1.0</version>
+        </dependency>
+        -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.40</version>
+            <version>5.1.35</version>
         </dependency>
 	</dependencies>
 	
 	<build>
+	    <finalName>test-jdbc-client</finalName>
 		<plugins>
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
