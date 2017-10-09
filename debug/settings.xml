@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <profiles>
+    <profile>
+      <repositories>
+        <repository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </pluginRepository>
+      </pluginRepositories>
+      <id>jboss-public-repository</id>
+    </profile>
+    <profile>
+      <repositories>
+        <repository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+          <id>jboss-developer-repository-group</id>
+          <name>JBoss Developer Maven Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
+        </repository>
+      </repositories>
+      <id>jboss-developer-repository</id>
+    </profile>
+    <profile>
+      <repositories>
+        <repository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>jboss-techpreview</id>
+          <name>JBoss Tech Preview</name>
+          <url>https://maven.repository.redhat.com/techpreview/all/</url>
+        </repository>
+      </repositories>
+      <id>jboss-techpreview</id>
+    </profile>
+    <profile>
+      <repositories>
+        <repository>
+          <releases>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>jboss-earlyaccess</id>
+          <name>JBoss Early Access</name>
+          <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+        </repository>
+      </repositories>
+      <id>jboss-earlyaccess</id>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>jboss-public-repository</activeProfile>
+    <activeProfile>jboss-developer-repository</activeProfile>
+    <activeProfile>jboss-techpreview</activeProfile>
+    <activeProfile>jboss-earlyaccess</activeProfile>
+    <activeProfile>removed-by-pme</activeProfile>
+  </activeProfiles>
+</settings>

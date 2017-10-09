@@ -36,7 +36,7 @@
 	        <artifactId>teiid-jboss-integration</artifactId>
 	        <version>${version.teiid}</version>
 	    </dependency>
-	     -->
+	    
 	    <dependency>
 	        <groupId>org.jboss.teiid.connectors</groupId>
 	        <artifactId>translator-jdbc</artifactId>
@@ -49,6 +49,18 @@
 	        <version>${version.teiid}</version>
 	    </dependency>
 	    
+	    <dependency>
+	        <groupId>org.jboss.teiid.connectors</groupId>
+	        <artifactId>connector-infinispan-dsl</artifactId>
+	        <version>${version.teiid}</version>
+	        <exclusions>
+	          <exclusion>
+	            <groupId>org.jboss.teiid.connectors</groupId>
+	            <artifactId>translator-infinispan-dsl</artifactId>
+	          </exclusion>
+	        </exclusions>
+	    </dependency>
+	     -->
     </dependencies>
 
     <build>

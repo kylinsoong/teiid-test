@@ -38,6 +38,11 @@ import org.teiid.test.jdbc.client.util.TableRenderer;
 
 public class JDBCUtils {
 	
+	public static Connection conn(String driver, String url, String user, String pass) throws Exception {
+		Class.forName(driver);
+		return DriverManager.getConnection(url, user, pass); 
+	}
+	
 	public static Connection getDriverConnection(String driver, String url, String user, String pass) throws Exception {
 		Class.forName(driver);
 		return DriverManager.getConnection(url, user, pass); 
